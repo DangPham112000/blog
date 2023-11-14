@@ -1,0 +1,4 @@
+baseURL = 'https://dangpham112000.github.io/'
+languageCode = 'en-us'
+title = 'The Engineer Blogs'
+theme = 'hugo-book'
