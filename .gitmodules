@@ -1,3 +1,7 @@
 [submodule "engineerblog/themes/hugo-book"]
 	path = engineerblog/themes/hugo-book
 	url = https://github.com/alex-shpak/hugo-book
+[submodule "engineerblog/public"]
+	path = engineerblog/public
+	url = https://github.com/DangPham112000/dangpham112000.github.io.git
+	branch = main
