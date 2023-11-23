@@ -7,7 +7,10 @@ type: docs
 
 ## Todo
 
-- findout how to customize heading tag, make song thing colorful
+- make things colorful, findout how to customize
+  - heading tag
+  - adding images
+  - create shortcode
 - create review book site and link to it
 - create more content of this site...
   - git tut

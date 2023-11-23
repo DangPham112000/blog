@@ -1,7 +1,5 @@
 ---
 bookFlatSection: true
-title: helo
+title: TIPs
 weight: 1
 ---
-
-aloasjkdhakjsd
