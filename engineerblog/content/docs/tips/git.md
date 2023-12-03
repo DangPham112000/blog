@@ -1,18 +1,19 @@
 ---
-title: "Git TIP"
+title: "Git"
 weight: 20
 date: 2023-11-15T01:47:46+07:00
 ---
 
-# GIT
+# GIT TIPS
 
 ## Terminology
 
 - `HEAD`: your current local working branch
 - `origin`: the address to your remote git, represent for remote repo
-- tracked file: the file git already had before, so when you edit it, git know this file is modified (`M` files)
-
-- untracked, new file: the file recently add and git don’t know anything about it (`U` files)
+- **tracked file**: the file git already had before, so when you edit it, git know this file is modified (`M` files)\
+  ![track_file](/tips/git/track_file.png)
+- **untracked**, **new file**: the file recently add and git don’t know anything about it (`U` files)\
+  ![untrack_file](/tips/git/untrack_file.png)
 
 ## Commit
 
@@ -27,7 +28,7 @@ These 2 commands can combie into 1
 git commit -am "commit message"
 ```
 
-Note this only work with tracked files
+{{<u Note>}}: this only work with **tracked files**
 
 ## Change previous commit message
 
@@ -37,7 +38,7 @@ Note this only work with tracked files
 git commit --amend -m "new message to replace the previous message"
 ```
 
-Note this `amend` can also simplify by `amen` :))))
+{{<u Note>}}: this `amend` can also simplify by `amen` :))))
 
 ### Rebase reword
 
@@ -45,13 +46,16 @@ Note this `amend` can also simplify by `amen` :))))
 git rebase -i HEAD~1
 ```
 
-[Vim IDE appear and show a latest commit] <br>
-→ type `i` to change into insert mode <br>
-→ change `“pick”` to `“r”` or `“reword”` → means you will change this commit message <br>
-→ press `“escape”` key to out insert mode <br>
-→ type `wq` to save <br>
-→ new vim ide appear to let you change the commit message <br>
-→ change and save <br>
+{{< details title="**Vim IDE appear and show a latest commit**" open=true >}}
+
+1. type `i` to begin insert mode, ready to modify
+2. change `pick` to `r` or `reword` → means you will change this commit message
+3. press `ESC` key to end insert mode
+4. type `:wq` to save
+5. new Vim IDE appear to let you change the commit message
+6. change and save like the early steps
+
+{{< /details >}}
 
 ```
 git push -f
@@ -67,19 +71,19 @@ git checkout correct-branch
 git stash pop
 ```
 
-<u>Note</u> git stash will only bring the changes on `tracked files` to store but don’t worry when checkout to other branch, the `untracked files` will move to there also
+{{<u Note>}}: `git stash` will only bring the changes on **tracked files** to store but don't worry when checkout to other branch, the **untracked files** will move to there also
 
 ## Opps! Commit into local main branch
 
 ### Reset
 
-Solution 1: Erase the current commit and back to the earlier commit
+**Solution 1:** {{<u Erase>}} the current commit and go back to the earlier commit
 
 ```
 git reset --hard HEAD~1
 ```
 
-Solution 2: Bring the current commit to staged change and go back to the earlier commit
+**Solution 2:** {{<u Bring>}} the current commit to **staged change** and go back to the earlier commit
 
 ```
 git reset --soft HEAD~1
@@ -89,7 +93,8 @@ git reset --soft HEAD~1
 
 ### Relocate branch: rebase
 
-[figure] => [figure]
+{{<img src="/tips/git/before_rebase.png" alt="before_rebase" width="330" caption="before rebase">}} ==>
+{{<img src="/tips/git/after_rebase.png" alt="after_rebase" width="330" caption="after rebase">}}
 
 ```
 git checkout master
@@ -98,9 +103,11 @@ git rebase master topic
 git push -f
 ```
 
+{{<u Note>}}: topic branch will have code from `F` and `G` of main branch, but if it conflicts with topic branch, the solution will be the same [here](#relocate-branch-rebase-1)
+
 ### Pull origin
 
-Collect code from master to feature branch. feature branch in this example is topic branch
+Collect code from master to feature branch. Feature branch in this example is topic branch
 
 ```
 git checkout master
@@ -109,7 +116,7 @@ git checkout topic
 git pull origin master
 ```
 
-<u>Note:</u> never tried yet
+{{<u Note>}}: never ever tried it yet
 
 ## Clean up messy commits
 
@@ -117,25 +124,39 @@ git pull origin master
 
 If you have 3 messy commits per 4 commits on your feature branch
 
-[figure] => [figure]
+![messy_branch](/tips/git/messy_branch.png) ![messy_commits](/tips/git/messy_commits.png)
 
 ```
 git rebase -i HEAD~4
 ```
 
-[vim ide appear and show 4 latest commits] <br>
-→ type “i” to change into insert mode <br>
-→ change “pick” to “f” or “fixup” → means you accumulate this 3 commits <br>
-[figure] => [figure] <br>
-→ out insert mode with “escape” key <br>
-→ type “wq” to save <br>
-[figure]
+{{< hint info >}}
+**Vim IDE appear and show 4 latest commits**
+{{< /hint >}}
+
+1. Type `i` to change into insert mode
+2. Change `pick` to `f` or `fixup` → means you accumulate this 3 commits
+
+{{< columns >}} <!-- begin columns block -->
+![pick_commits](/tips/git/pick_commits.png)
+<---> <!-- magic separator, between columns -->
+![fixup_commits](/tips/git/fixup_commits.png)
+{{< /columns >}}
+
+3. Out insert mode with `ESC` key
+4. Type `:wq` to save\
+   ![rebase_success](/tips/git/rebase_success.png)
 
 ```
 git push -f
 ```
 
-Note: this commit will have all changes from 3 previous commits
+| before                                        | after                                             |
+| --------------------------------------------- | ------------------------------------------------- |
+| ![messy_branch](/tips/git/messy_branch.png)   | ![rebased_branch](/tips/git/rebased_branch.png)   |
+| ![messy_commits](/tips/git/messy_commits.png) | ![rebased_commits](/tips/git/rebased_commits.png) |
+
+{{<u Note>}}: the present commit will have all changes from 3 previous commits
 
 ## Delete all local branches except main branch
 
@@ -143,7 +164,7 @@ Note: this commit will have all changes from 3 previous commits
 git branch | grep -v "main" | xargs git branch -D
 ```
 
-Explanation:
+{{<u Explain>}}:
 
 - Get all branches (except for the main) via git branch | grep -v "main" command
 - Select every branch with xargs command
@@ -161,6 +182,14 @@ git fetch
 git checkout feature-branch
 ```
 
+### Force pull
+
+```
+git pull -f
+```
+
+{{<u Note>}}: never ever tried it yet
+
 ## Merge PR but get stuck in conflict
 
 ### Relocate branch: rebase
@@ -172,16 +201,20 @@ checkout feature-branch
 git rebase main feature-branch
 ```
 
-[Conflict appears in IDE]
+{{< hint warning >}}
+**Conflict appears in IDE**\
 → Resolve conflict and save file
+{{< /hint >}}
 
 ```
 git add .
 git rebase --continue
 ```
 
-[vim ide appear to make you confirm change]
+{{< hint info >}}
+**Vim IDE appear to make you confirm change**\
 → `:wq`
+{{< /hint >}}
 
 ```
 git push -f
@@ -207,13 +240,15 @@ git log --graph --decorate
 git config --global --list
 ```
 
-### Configure local repo’s credential when you want it’s different with the global one
+### Configure local repo’s credential
+
+when you want it’s different with the global one
 
 ```
 git config user.name DangPham112000
 git config user.email dangpham112000@gmail.com
 ```
 
-### Switch git user
+### Switch git user tool
 
 https://github.com/geongeorge/Git-User-Switch

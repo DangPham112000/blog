@@ -12,6 +12,12 @@ hugo new site [site-name]
 hugo new content posts/[post-name]
 ```
 
+### run dev
+
+```
+hugo server
+```
+
 ### build hugo
 
 ```
