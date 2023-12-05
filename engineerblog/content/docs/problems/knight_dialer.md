@@ -94,7 +94,7 @@ Kết quả là tổng sống lượng vị trí có thể đến
 - Có thể thấy để dùng được mảng vị trí khả dụng thì n phải >= 2
 - Vậy thì thuật toán cần tìm phải bắt đầu từ 2
 
-{{< details title="**Code**" open=true >}}
+{{<details title="**Code**" open=false >}}
 
 ```javascript
 /**
@@ -134,7 +134,7 @@ var knightDialer = function (n) {
 };
 ```
 
-{{< /details >}}
+{{</details >}}
 
 ## Reference
 
