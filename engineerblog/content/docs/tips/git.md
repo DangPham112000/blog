@@ -17,14 +17,14 @@ date: 2023-11-15T01:47:46+07:00
 
 ## Commit
 
-```
+```sh
 git add .
 git commit -m "commit message"
 ```
 
 These 2 commands can combie into 1
 
-```
+```sh
 git commit -am "commit message"
 ```
 
@@ -34,7 +34,7 @@ git commit -am "commit message"
 
 ### Commit amend
 
-```
+```sh
 git commit --amend -m "new message to replace the previous message"
 ```
 
@@ -42,11 +42,11 @@ git commit --amend -m "new message to replace the previous message"
 
 ### Rebase reword
 
-```
+```sh
 git rebase -i HEAD~1
 ```
 
-{{< details title="**Vim IDE appear and show a latest commit**" open=true >}}
+{{<details title="**Vim IDE appear and show a latest commit**" open=true >}}
 
 1. type `i` to begin insert mode, ready to modify
 2. change `pick` to `r` or `reword` → means you will change this commit message
@@ -55,9 +55,9 @@ git rebase -i HEAD~1
 5. new Vim IDE appear to let you change the commit message
 6. change and save like the early steps
 
-{{< /details >}}
+{{</details >}}
 
-```
+```sh
 git push -f
 ```
 
@@ -65,7 +65,7 @@ git push -f
 
 ### Stash
 
-```
+```sh
 git stash
 git checkout correct-branch
 git stash pop
@@ -79,13 +79,13 @@ git stash pop
 
 **Solution 1:** {{<u Erase>}} the current commit and go back to the earlier commit
 
-```
+```sh
 git reset --hard HEAD~1
 ```
 
 **Solution 2:** {{<u Bring>}} the current commit to **staged change** and go back to the earlier commit
 
-```
+```sh
 git reset --soft HEAD~1
 ```
 
@@ -96,7 +96,7 @@ git reset --soft HEAD~1
 {{<img src="/tips/git/before_rebase.png" alt="before_rebase" width="330" caption="before rebase">}} ==>
 {{<img src="/tips/git/after_rebase.png" alt="after_rebase" width="330" caption="after rebase">}}
 
-```
+```sh
 git checkout master
 git pull
 git rebase master topic
@@ -109,14 +109,14 @@ git push -f
 
 Collect code from master to feature branch. Feature branch in this example is topic branch
 
-```
+```sh
 git checkout master
 git pull
 git checkout topic
 git pull origin master
 ```
 
-{{<u Note>}}: never ever tried it yet
+{{<u Note>}}: {{<hint danger >}} never ever tried it yet {{</hint>}}
 
 ## Clean up messy commits
 
@@ -126,7 +126,7 @@ If you have 3 messy commits per 4 commits on your feature branch
 
 ![messy_branch](/tips/git/messy_branch.png) ![messy_commits](/tips/git/messy_commits.png)
 
-```
+```sh
 git rebase -i HEAD~4
 ```
 
@@ -147,7 +147,7 @@ git rebase -i HEAD~4
 4. Type `:wq` to save\
    ![rebase_success](/tips/git/rebase_success.png)
 
-```
+```sh
 git push -f
 ```
 
@@ -160,22 +160,22 @@ git push -f
 
 ## Delete all local branches except main branch
 
-```
+```sh
 git branch | grep -v "main" | xargs git branch -D
 ```
 
 {{<u Explain>}}:
 
-- Get all branches (except for the main) via git branch | grep -v "main" command
-- Select every branch with xargs command
-- Delete branch with xargs git branch -D
+- Get all branches (except for the main) via `git branch | grep -v "main"` command
+- Select every branch with `xargs` command
+- Delete branch with `git branch -D`
 
 ## Refresh outdated local branch
 
 - If you pull but show some warnings or errors and git show a recommend that is need to type some rebase commands
 - Just checkout to another branch, delete your local conflict branch and then checkout to this branch again to download a latest one in remote repo
 
-```
+```sh
 git checkout dev
 git branch -D feature-branch
 git fetch
@@ -184,51 +184,51 @@ git checkout feature-branch
 
 ### Force pull
 
-```
+```sh
 git pull -f
 ```
 
-{{<u Note>}}: never ever tried it yet
+{{<u Note>}}: {{<hint danger >}} never ever tried it yet {{</hint>}}
 
 ## Merge PR but get stuck in conflict
 
 ### Relocate branch: rebase
 
-```
+```sh
 git checkout main
 git pull
 checkout feature-branch
 git rebase main feature-branch
 ```
 
-{{< hint warning >}}
+{{<hint warning >}}
 **Conflict appears in IDE**\
 → Resolve conflict and save file
-{{< /hint >}}
+{{</hint >}}
 
-```
+```sh
 git add .
 git rebase --continue
 ```
 
-{{< hint info >}}
+{{<hint info >}}
 **Vim IDE appear to make you confirm change**\
 → `:wq`
-{{< /hint >}}
+{{</hint >}}
 
-```
+```sh
 git push -f
 ```
 
 ## Log pretty
 
-```
+```sh
 git log --graph --decorate --oneline
 ```
 
 or
 
-```
+```sh
 git log --graph --decorate
 ```
 
@@ -236,7 +236,7 @@ git log --graph --decorate
 
 ### Show current global credential
 
-```
+```sh
 git config --global --list
 ```
 
@@ -244,7 +244,7 @@ git config --global --list
 
 when you want it’s different with the global one
 
-```
+```sh
 git config user.name DangPham112000
 git config user.email dangpham112000@gmail.com
 ```
