@@ -1,6 +1,6 @@
 ---
 title: "Knight Dialer"
-weight: 20
+weight: 1
 date: 2023-11-15T01:47:46+07:00
 ---
 
@@ -58,7 +58,7 @@ As the answer may be very large, **return the answer modulo** {{< katex >}}10^9 
 
 > Ta nên bắt đầu bằng 1 ví dụ: đẹp nhất là `n = 3`
 
-- Ở lần đầu thì vị trí có thể là tất cả các nút
+- Ở lần đầu thì vị trí là tất cả các nút
 - Ở lần 2 thì cần duyệt qua từ 0 đến 9
   - vị trí 0 sẽ có thể nhảy đến 4 và
   - vị trí 1 sẽ có thể nhảy đến 8 và
@@ -89,14 +89,12 @@ Kết quả là tổng sống lượng vị trí có thể đến
 > Có thể thấy ta có thể tạo 2 mảng
 
 - Mảng số vị trí khả dụng kế tiếp khi ở vị trí i: `[[4, 6], [8, 6], []]`
-- Mảng số cách nhảy khả dụng khi ở vị trí i: `[2, 2, ]`
-  - Có thể thay thế bằng length của mỗi phần tử trong mảng 1 để giảm space consume
 - Có thể thấy để dùng được mảng vị trí khả dụng thì n phải >= 2
-- Vậy thì thuật toán cần tìm phải bắt đầu từ 2
+- Vậy thì thuật toán cần tìm phải bắt đầu ít nhất từ 2
 
 {{<details title="**Code**" open=false >}}
 
-```javascript
+```js
 /**
  * @param {number} n
  * @return {number}
@@ -136,6 +134,165 @@ var knightDialer = function (n) {
 
 {{</details >}}
 
+{{<hint danger >}}
+Xuất hiện lỗi `runtime error`: Cụ thể thì là do `out of memory`
+
+![err_msg](/problems/knight_dialer/err_msg.png)
+
+{{</hint>}}
+
+- Khi thử với các test case nhỏ thì dễ thấy hàm của chúng ta work như mong đợi
+- Nhưng khi thử với số lớn thì sẽ xuất hiện lỗi `out of memory`
+  - Giải thuật chưa tối ưu bộ nhớ ?
+  - Chọn cấu trúc dữ liệu chưa phù hợp ?
+
+## Optimize
+
+### Look back
+
+Cùng nhìn lại cách diễn giải ban đầu:
+
+- n = 1: tất cả các nút\
+  ==> `[[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]`
+- n = 2:
+  - 0 có thể đến 4 và 6
+  - 1 có thể đến 8 và 6
+  - 2 có thể đến 7 và 9
+  - ...\
+    ==> `[[4, 6], [6, 8], [7, 9], [4, 8], [0, 3, 9], [], [0, 1, 7], [2, 6], [1, 3], [2, 4]]`
+- n = 3:
+  - 0 có thể đến 3, 9, 0, 1, 7, 0
+  - 1 có thể đến 1, 3, 1, 7, 0
+  - ...\
+    ==> `[[3, 9, 0, 1, 7, 0], [1, 3, 1, 7, 0], ...]`
+- ...
+
+{{<hint warning >}}
+
+- Dễ thấy n càng cao số phần từ trùng lặp lại trong mảng càng cao
+- Với mỗi phần tử trùng ấy ta lại có cùng một công việc cho chúng
+- Kết quả cần tìm lại là đếm số lượng phần tử của từng mảng
+
+{{</hint>}}
+
+**==> Nếu có thể áp dụng cấu trúc Dictionary sẽ là một phương pháp tối ưu**
+
+### New way
+
+Cách diễn dãi mới
+
+- n = 1\
+  ==> `dic = {0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1}`\
+  ==> `dic = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]`\
+  ==> Nên chọn array vì key chúng ta cần chỉ là các con số từ 0->9
+- n = 2
+  - 0 có thể đến 4 và 6 => `newDic[4] += dic[0]` và `newDic[6] += dic[0]`
+    - `newDic[4] += dic[0]` vì giả sử vị trí 0 đang chứa 2 khả năng, thì 2 khả năng đó đều đi đến được 4
+    - Dùng `newDic` là để trạng thái cũ k bị xáo trộn khi đang duyệt
+  - 1 có thể đến 8 và 6 => `newDic[8] += dic[1]` và `newDic[6] += dic[1]`
+  - ...
+
+{{<details title="**Code**" open=false >}}
+
+```js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var knightDialer = function (n) {
+  const nextPlaces = [
+    [4, 6],
+    [6, 8],
+    [7, 9],
+    [4, 8],
+    [0, 3, 9],
+    [],
+    [0, 1, 7],
+    [2, 6],
+    [1, 3],
+    [2, 4],
+  ];
+
+  if (n === 1) return 10;
+
+  let dic = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+  for (let time = 2; time <= n; time++) {
+    const newDic = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (let place = 0; place <= 9; place++) {
+      for (let i = 0; i < nextPlaces[place].length; i++) {
+        newDic[nextPlaces[place][i]] += dic[place] % (Math.pow(10, 9) + 7);
+      }
+    }
+    dic = newDic;
+  }
+  const totalWays =
+    dic.reduce((acc, item) => acc + item, 0) % (Math.pow(10, 9) + 7);
+  return totalWays;
+};
+```
+
+{{</details >}}
+
+{{<hint info >}}
+![result](/problems/knight_dialer/result.png)
+{{</hint>}}
+
+### Time and space complexity optimize
+
+{{<details title="**Code**" open=false >}}
+
+#### Tiêu chí là ít tính toán lại và tận dụng nhiều hơn
+
+```js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var knightDialer = function (n) {
+  const nextPlaces = [
+    [4, 6],
+    [6, 8],
+    [7, 9],
+    [4, 8],
+    [0, 3, 9],
+    [],
+    [0, 1, 7],
+    [2, 6],
+    [1, 3],
+    [2, 4],
+  ];
+
+  if (n === 1) return 10;
+
+  const mod = Math.pow(10, 9) + 7;
+
+  let dic = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    newDic = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    place,
+    i;
+
+  for (let time = 2; time <= n; time++) {
+    newDic = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (place = 0; place <= 9; place++) {
+      if (place === 5) continue;
+      for (i = 0; i < nextPlaces[place].length; i++) {
+        newDic[nextPlaces[place][i]] += dic[place] % mod;
+      }
+    }
+    dic = newDic;
+  }
+  const totalWays = dic.reduce((acc, item) => acc + item, 0) % mod;
+  return totalWays;
+};
+```
+
+{{</details >}}
+
+{{<hint info >}}
+![optimized_result](/problems/knight_dialer/optimized_result.png)
+{{</hint>}}
+
 ## Reference
 
-- [Leetcode](https://leetcode.com/problems/knight-dialer)
+- Leetcode: [knight dialer](https://leetcode.com/problems/knight-dialer)
