@@ -42,8 +42,8 @@ A unit test case only **pass** when **running alone** but **fail** when **runnin
 
 **Check:**
 
-- Restore after mocking function: `sandbox.restore()` at `afterEach`
-- Reset global variables inner module: create a reset function to reset all variable of module to the initial value
+- {{<u "Restore all mocks after mocking functions" >}}: `sandbox.restore()` or `jest.restoreAllMocks()` at `afterEach`
+- {{<u "Reset global variables inner module" >}}: create a reset function to reset all variable of module to the initial value
 
 ## Mocha - Chai - Sinon sample
 

@@ -67,3 +67,13 @@ Layer 3 - Network - IP
 Layer 2 - Data link - Frames, Mac address Ethernet
 
 Layer 1 - Physical - Electric signals, fiber or radio waves
+
+## TCP/IP Model
+
+Much simpler than OSI just 4 layers
+
+- Application (Layer 5, 6 and 7)
+- Transport (Layer 4)
+- Internet (Layer 3)
+- Data link (Layer 2)
+- Physical layer is not officially covered in the model

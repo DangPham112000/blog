@@ -161,22 +161,312 @@ Multiprocessing uses two or more processors to increase computing power, whereas
 
 ### Code demo
 
-{{<details title="Single thread vs multithreading vs multiprocessing" open=false >}}
+{{<details title="Prepared files" open=false >}}
 **Nodejs**
 
+`k.js`
+
 ```js
-// TBU;
+const CPUS = require("os").cpus();
+const NUM_CPU = CPUS.length;
+const TOTAL_OBJS = 10000000;
+const numWorkers = NUM_CPU;
+const workload = TOTAL_OBJS / numWorkers;
+
+module.exports = {
+  CPUS,
+  NUM_CPU,
+  TOTAL_OBJS,
+  numWorkers,
+  workload,
+};
+```
+
+`_.js`
+
+```js
+const generateRandomName = () => {
+  const names = [
+    "Alice",
+    "Bob",
+    "Charlie",
+    "David",
+    "Eve",
+    "Frank",
+    "Grace",
+    "Henry",
+    "Ivy",
+    "Jack",
+  ];
+  return names[Math.floor(Math.random() * names.length)];
+};
+
+const generateRandomAge = () => {
+  return Math.floor(Math.random() * 100) + 1;
+};
+
+const generateObjects = (count) => {
+  const objects = [];
+  for (let i = 0; i < count; i++) {
+    const object = {
+      name: generateRandomName(),
+      age: generateRandomAge(),
+      createTime: new Date(),
+    };
+    objects.push(object);
+  }
+  return objects;
+};
+
+class Logger {
+  constructor(isEnable) {
+    this.isEnable = !!isEnable;
+  }
+  isDebug = false;
+  logP1(...args) {
+    if (this.isEnable) {
+      console.log(...args);
+    }
+  }
+  debug(...args) {
+    if (this.isDebug && this.isEnable) {
+      console.log(...args);
+    }
+  }
+}
+
+const ts = () => new Date().getTime();
+
+class Monitor {
+  startTime;
+  endTime;
+
+  start() {
+    this.startTime = ts();
+  }
+
+  end() {
+    this.endTime = ts();
+  }
+
+  getTotal() {
+    return this.endTime - this.startTime;
+  }
+}
+
+module.exports = {
+  Logger,
+  Monitor,
+  generateObjects,
+};
+```
+
+`worker.js`
+
+```js
+const { generateObjects, Monitor, Logger } = require("../_");
+const { workerData, parentPort, threadId } = require("worker_threads");
+
+const monitor = new Monitor();
+const logger = new Logger(true);
+
+const { workload, isDebug } = workerData;
+logger.isDebug = isDebug;
+
+logger.debug("Worker", threadId, "of process", process.pid, "is running");
+
+monitor.start();
+const objects = generateObjects(workload);
+monitor.end();
+
+logger.debug(
+  "Worker",
+  threadId,
+  "generated",
+  objects.length,
+  "in",
+  monitor.getTotal(),
+  "ms"
+);
+
+monitor.start();
+parentPort.postMessage(objects);
+monitor.end();
+logger.debug("worker", threadId, "send data in", monitor.getTotal(), "ms");
 ```
 
 {{</details>}}
 {{<nl>}}
+{{<details title="Single thread vs multithreading vs multiprocessing" open=false >}}
+**Nodejs**
+
+`singleThread.js`
+
+```js
+const { TOTAL_OBJS } = require("../k");
+const { generateObjects, Monitor } = require("../_");
+
+const monitor = new Monitor();
+
+monitor.start();
+const obj = generateObjects(TOTAL_OBJS);
+monitor.end();
+
+console.log("Generate", obj.length, "in", monitor.getTotal(), "ms");
+```
+
+`multithread.js`
+
+```js
+const { Worker } = require("worker_threads");
+
+const { numWorkers, workload, TOTAL_OBJS } = require("../k");
+const { Monitor, Logger } = require("../_");
+let generatedObjects = [];
+const monitor = new Monitor();
+const logger = new Logger(true);
+
+// set true to see more logs
+logger.isDebug = true;
+
+function runWorker(workerData) {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker("./worker_threads/worker.js", { workerData });
+
+    logger.debug("Worker", worker.threadId, "is running");
+
+    worker.on("message", (message) => {
+      generatedObjects = generatedObjects.concat(message);
+    });
+
+    worker.on("error", reject);
+    worker.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Worker stopped with exit code ${code}`));
+      }
+    });
+  });
+}
+
+async function generateObjectsWithWorkers() {
+  const workers = [];
+
+  monitor.start();
+  for (let i = 0; i < numWorkers; i++) {
+    const workerData = {
+      workload,
+      isDebug: logger.isDebug,
+    };
+    workers.push(runWorker(workerData));
+  }
+
+  await Promise.all(workers);
+  monitor.end();
+  logger.logP1(
+    "All done!",
+    numWorkers,
+    "workers,",
+    generatedObjects.length,
+    "objects, in",
+    monitor.getTotal(),
+    "ms"
+  );
+}
+
+generateObjectsWithWorkers();
+```
+
+`multiprocess.js`
+
+```js
+const cluster = require("cluster");
+
+const { workload, numWorkers } = require("../k");
+const { Monitor, Logger, generateObjects } = require("../_");
+
+const logger = new Logger(true);
+const monitor = new Monitor();
+
+// set true to see more logs
+logger.isDebug = true;
+
+if (cluster.isMaster) {
+  monitor.start();
+  logger.logP1("Master", process.pid, "is running");
+
+  // Fork slaves
+  for (let i = 0; i < numWorkers; i++) {
+    cluster.fork();
+  }
+
+  // Collect data from slaves
+  let generatedObjects = [];
+  cluster.on("message", (slave, message) => {
+    generatedObjects = generatedObjects.concat(message);
+  });
+
+  //  Wait for all workers to finish logic
+  let slaveOff = 0;
+  cluster.on("disconnect", () => {
+    slaveOff++;
+
+    if (slaveOff === numWorkers) {
+      monitor.end();
+      logger.logP1(
+        "All done!",
+        slaveOff,
+        "slaves, in",
+        monitor.getTotal(),
+        "ms"
+      );
+      // Exit the application
+      process.exit(0);
+    }
+  });
+} else {
+  // Slave process logic
+  logger.debug("Slave", process.pid, "is running");
+
+  let generatedObjects = [];
+
+  // Generate objects in the worker process
+  monitor.start();
+  const objects = generateObjects(workload);
+  monitor.end();
+  generatedObjects = generatedObjects.concat(objects);
+
+  logger.debug(
+    "Generated",
+    objects.length,
+    "objects in slave",
+    process.pid,
+    "in",
+    monitor.getTotal(),
+    "ms"
+  );
+
+  // Send objects to the master process
+  monitor.start();
+  process.send(objects);
+  monitor.end();
+  logger.debug("slave", process.pid, "send data in", monitor.getTotal(), "ms");
+
+  // Disconnect the slave process
+  cluster.worker.disconnect();
+}
+```
+
+{{</details>}}
+
 {{<details title="Time-consuming when not communication together" open=false >}}
 Time-consuming when running multiple threads and multiple processes without communication together meaning each item runs separately and does not share data
 
 **Nodejs**
 
 ```js
-// TBU;
+// TODO: update guideline how it work and how it look (htop)
 ```
 
 {{</details>}}
@@ -186,9 +476,7 @@ Time-consuming when running multiple threads and multiple processes within commu
 
 **Nodejs**
 
-```js
-// TBU;
-```
+// TODO: update guideline how it work and how it look (htop)
 
 {{</details>}}
 
@@ -302,3 +590,4 @@ How does Hyper-Threading work? When Intel® Hyper-Threading Technology is active
 - Scaler: [Difference Between Multicore and Multiprocessor System](https://www.scaler.com/topics/operating-system/difference-between-multicore-and-multiprocessor-system/)
 - Superuser: [What's the difference between a multiprocessor and a multiprocessing system?](https://superuser.com/questions/1297813/whats-the-difference-between-a-multiprocessor-and-a-multiprocessing-system)
 - Superuser: [What's the difference between multicore proccesor and multiproccess system?](https://superuser.com/questions/13107/whats-the-difference-between-multicore-proc-and-multiproc-system?rq=1)
+- Give a thank to ChatGPT dude to support me during a process create multiple supreme demos
