@@ -148,7 +148,7 @@ Xuất hiện lỗi `runtime error`: Cụ thể thì là do `out of memory`
 
 ## Optimize
 
-### Look back
+### Retrospective
 
 Cùng nhìn lại cách diễn giải ban đầu:
 
