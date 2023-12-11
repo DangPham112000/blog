@@ -31,6 +31,106 @@ date: 2023-11-15T01:47:46+07:00
   - No control over instance placement
 - **Capacity Reservations** – reserve capacity in a specific AZ for any duration
 
+## EBS - Elastic Block Store
+
+- **A network drive** you can attach to your instances while they run
+- It allows your instances to persist data, even after their termination
+- They can **only be mounted to one instance** at a time
+- They are **bound to a specific AZ**
+
+Think of them as a “network USB stick”
+
+![ebs](/research/aws_overview/ebs.png)
+
+### Snapshots
+
+- Make a **backup** (snapshot) of your EBS volume at a point in time
+- Can **copy** snapshots **across AZ or Region**
+
+![ebs_snapshots](/research/aws_overview/ebs_snapshots.png)
+
+### Snapshots Features
+
+{{<columns>}}
+
+- **Snapshot Archive**
+  - Move a Snapshot to an ”archive tier” that is 75% cheaper
+  - Takes within 24 to 72 hours for restoring the archive
+- **Recycle Bin for EBS Snapshots**
+  - Setup rules to retain deleted snapshots so you can recover them after an accidental deletion
+  - Specify retention (from 1 day to 1 year)
+
+<--->
+
+![ebs_snapshots_features](/research/aws_overview/ebs_snapshots_features.png)
+
+{{</columns>}}
+
+## EC2 Instance Store
+
+- If you need **a high-performance hardware disk**, use EC2 Instance Store
+- Better I/O performance
+- EC2 Instance Store **lose their storage if they’re stopped** (ephemeral)
+- Good for buffer / cache / scratch data / temporary content
+- Risk of data loss if hardware fails
+- **Backups and Replication are your responsibility**
+
+## EFS - Elastic File System
+
+- Managed NFS (network file system) that **can be mounted on 100s of EC2**
+- EFS works with **Linux** EC2 instances in **multi-AZ**
+- Highly available, scalable, expensive (3x gp2), pay per use, no capacity planning
+
+![efs](/research/aws_overview/efs.png)
+
+### EFS IA - EFS Infrequent Access
+
+- **Storage class** that is **cost-optimized** for **files not accessed every day**
+- EFS will automatically move your files to EFS-IA based on the **last time they were accessed**
+- Enable EFS-IA with a Lifecycle Policy
+
+![efs_ia](/research/aws_overview/efs_ia.png)
+
+## FSx
+
+### for Windows File Server
+
+- A fully managed, highly reliable, and scalable **Windows native shared file system**
+- Built on **Windows File Server**
+- Supports **SMB protocol** & Windows NTFS
+- Integrated with Microsoft Active Directory
+- Can be accessed from AWS or your on-premise infrastructure
+
+![fsx_windows](/research/aws_overview/fsx_windows.png)
+
+### for Lustre
+
+- A fully managed, high-performance, scalable file storage for **High Performance Computing (HPC)**
+- The name Lustre is derived from “Linux” and “cluster”
+- Machine Learning, Analytics, Video Processing, Financial Modeling, …
+
+![fsx_lustre](/research/aws_overview/fsx_lustre.png)
+
+## AMI - Amazon Machine Image
+
+- AMI are a **customization** of an EC2 instance
+- AMI are built for a **specific region** (and can be copied across regions)
+- You can launch EC2 instances from:
+  - **A Public AMI**: AWS provided
+  - **Your own AMI**: you make and maintain them yourself
+  - **An AWS Marketplace AMI**: an AMI someone else made (and potentially sells)
+
+![ami](/research/aws_overview/ami.png)
+
+## EC2 Image Builder
+
+- Used to automate the creation of Virtual Machines or container images\
+  => **Automate the creation, maintain, validate and test EC2 AMIs**
+- Can be run on a schedule (weekly, whenever packages are updated, etc…)
+- Free service (only pay for the underlying resources)
+
+![image_builder](/research/aws_overview/image_builder.png)
+
 ## Monitoring
 
 - **CloudWatch**:
@@ -200,9 +300,58 @@ Then CloudFormation creates those for you, in the **right order**, with the **ex
 
 ## CodeArtifact
 
+- Software packages depend on each other to be built (also called code **dependencies**), and new ones are created
+- Storing and retrieving these dependencies is called **artifact management**
+- **Developers** and **CodeBuild** can then **retrieve dependencies straight from CodeArtifact**
+
 ## CodeStar
+
+- **Unified UI**
+- Set-up CodeCommit, CodePipeline, CodeBuild, CodeDeploy, Elastic Beanstalk, EC2, etc
 
 ## Cloud9
 
-- A cloud IDE
+- A **cloud IDE**
 - Allows for code collaboration in real-time (pair programming)
+
+## SSM - Systems Manager
+
+- Manage your **EC2** and **On-Premises**
+- **{{<u "Hybrid" >}}** AWS service
+
+![ssm](/research/aws_overview/ssm.png)
+
+### Session Manager
+
+{{<columns>}}
+![ssm_session_manager](/research/aws_overview/ssm_session_manager.png)
+
+<--->
+
+- Allows you to **start a secure shell** on your EC2 and on-premises servers
+- **No SSH access, bastion hosts, or SSH keys needed**
+- **No port 22 needed** (better security)
+- Supports Linux, macOS, and Windows
+- Send session log data to S3 or CloudWatch Logs
+  {{</columns>}}
+
+### Parameter Store
+
+{{<columns>}}
+
+![ssm_parameter_store](/research/aws_overview/ssm_parameter_store.png)
+
+<--->
+
+- **Secure storage for configuration and secrets**
+- **API Keys**, passwords, configurations…
+- Serverless, scalable, durable, easy SDK
+- Control access permissions using IAM
+- Version tracking & encryption (optional)
+
+{{</columns>}}
+
+## OpsWorks
+
+- AWS OpsWorks = Managed **Chef & Puppet**
+- Chef & Puppet (2 tools not created by AWS) help you perform server configuration automatically, or repetitive actions
