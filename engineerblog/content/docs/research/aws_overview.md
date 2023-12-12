@@ -111,6 +111,118 @@ Think of them as a “network USB stick”
 
 ![fsx_lustre](/research/aws_overview/fsx_lustre.png)
 
+## S3
+
+- "infinitely scaling" storage
+
+### Buckets
+
+- Allows people to store **objects (files)** in **buckets (directories)**
+- Buckets must have a **globally unique name (across all regions all accounts)**
+- Buckets are defined at the region level
+- Naming convention
+  - No uppercase, No underscore
+  - 3-63 characters long
+  - Not an IP
+  - Must start with lowercase letter or number
+  - Must NOT start with the prefix **xn--**
+  - Must NOT end with the suffix **-s3alias**
+
+### Objects
+
+- Objects (files) have a Key
+- The **{{<hl "blue">}}key{{</hl>}}** is the **FULL** path:
+  - s3://my-bucket/{{<hl "blue">}}my_file.txt{{</hl>}}
+  - s3://my-bucket/{{<hl "blue">}}my_folder1/another_folder/my_file.txt{{</hl>}}
+- The **key** is composed of **{{<hl "orange">}}prefix{{</hl>}} + {{<hl "green">}}object name{{</hl>}}**
+  - s3://my-bucket/{{<hl "orange">}}my_folder1/another_folder/{{</hl>}}{{<hl "green">}}my_file.txt{{</hl>}}
+- There’s no concept of “directories” within buckets\
+  (although the UI will trick you to think otherwise)
+- Just keys with very long names that contain slashes (“/”)
+- Object values are the content of the body:
+  - Max. Object Size is 5TB (5000GB)
+  - If uploading more than 5GB, must use “multi-part upload”
+
+### Security
+
+- **User-Based**
+  - **IAM Policies** – which API calls should be allowed for a specific user from IAM
+- **Resource-Based**
+  - **Bucket Policies** – bucket wide rules from the S3 console - allows cross account
+  - **Object Access Control List (ACL)** – finer grain (can be disabled)
+  - **Bucket Access Control List (ACL)** – less common (can be disabled)
+
+### Static Website Hosting
+
+- S3 can host static websites and have them accessible on the Internet
+- The website URL will be (depending on the region)
+  - **http
+    ://
+    {{<hl "green">}}bucket-name{{</hl>}}
+    .s3-website-{{<hl "red">}}aws-region{{</hl>}}.amazonaws.com**\
+     OR
+  - **http
+    ://
+    {{<hl "green">}}bucket-name{{</hl>}}
+    .s3-website.{{<hl "red">}}aws-region{{</hl>}}.amazonaws.com**
+- If you get a **403 Forbidden error**, make sure the bucket policy allows public reads!
+
+![s3_static_web](/research/aws_overview/s3_static_web.png)
+
+### Versioning
+
+- It is enabled at the **bucket level**
+- It is best practice to version your buckets
+  - Protect against unintended deletes (ability to restore a version)
+  - Easy roll back to previous version
+- Notes:
+  - Any file that is not versioned prior to enabling versioning will have version “null”
+  - Suspending versioning does not delete the previous versions
+
+![s3_versioning](/research/aws_overview/s3_versioning.png)
+
+### Replication
+
+- **Must enable Versioning** in source and destination buckets
+- **Cross-Region Replication (CRR)**
+- **Same-Region Replication (SRR)**
+- Buckets can be in different AWS accounts
+- Copying is asynchronous
+- Must give proper IAM permissions to S3
+- Use cases:
+  - **CRR** – compliance, lower latency access, replication across accounts
+  - **SRR** – log aggregation, live replication between production and test accounts
+
+![s3_replication](/research/aws_overview/s3_replication.png)
+
+### Storage Classes
+
+- Amazon S3 **Standard - General Purpose**
+  - Used for frequently accessed data
+  - Use Cases: Big Data analytics, mobile & gaming applications, content distribution
+- Amazon S3 **Standard-Infrequent Access (IA)**
+  - For data that is less frequently accessed, but requires rapid access when needed
+  - Use cases: Disaster Recovery, backups
+- Amazon S3 **One Zone-Infrequent Access**
+  - For data that is less frequently accessed, but requires rapid access when needed
+  - In a single AZ; data lost when AZ is destroyed
+  - Use Cases: Storing secondary backup copies of on-premise data, or data you can recreate
+- Amazon S3 **Glacier Instant Retrieval**
+  - For data accessed once a quarter
+  - Millisecond retrieval
+- Amazon S3 **Glacier Flexible Retrieval** (formerly Amazon S3 Glacier)
+  - Retrieval: Expedited (1 to 5 minutes), Standard (3 to 5 hours), Bulk (5 to 12 hours) – free
+- Amazon S3 **Glacier Deep Archive**
+  - For long term storage
+  - Retrieval: Standard (12 hours), Bulk (48 hours)
+- Amazon S3 **Intelligent Tiering**\
+   _Moves objects automatically between Access Tiers based on usage_
+  - Frequent Access tier (automatic): default tier
+  - Infrequent Access tier (automatic): objects not accessed for 30 days
+  - Archive Instant Access tier (automatic): objects not accessed for 90 days
+  - Archive Access tier (optional): configurable from 90 days to 700+ days
+  - Deep Archive Access tier (optional): config. from 180 days to 700+ days
+
 ## AMI - Amazon Machine Image
 
 - AMI are a **customization** of an EC2 instance
