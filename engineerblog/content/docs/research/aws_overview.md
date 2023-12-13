@@ -31,6 +31,26 @@ date: 2023-11-15T01:47:46+07:00
   - No control over instance placement
 - **Capacity Reservations** – reserve capacity in a specific AZ for any duration
 
+## AMI - Amazon Machine Image
+
+- AMI are a **customization** of an EC2 instance
+- AMI are built for a **specific region** (and can be copied across regions)
+- You can launch EC2 instances from:
+  - **A Public AMI**: AWS provided
+  - **Your own AMI**: you make and maintain them yourself
+  - **An AWS Marketplace AMI**: an AMI someone else made (and potentially sells)
+
+![ami](/research/aws_overview/ami.png)
+
+## EC2 Image Builder
+
+- Used to automate the creation of Virtual Machines or container images\
+  => **Automate the creation, maintain, validate and test EC2 AMIs**
+- Can be run on a schedule (weekly, whenever packages are updated, etc…)
+- Free service (only pay for the underlying resources)
+
+![image_builder](/research/aws_overview/image_builder.png)
+
 ## EBS - Elastic Block Store
 
 - **A network drive** you can attach to your instances while they run
@@ -223,25 +243,39 @@ Think of them as a “network USB stick”
   - Archive Access tier (optional): configurable from 90 days to 700+ days
   - Deep Archive Access tier (optional): config. from 180 days to 700+ days
 
-## AMI - Amazon Machine Image
+### Encryption
 
-- AMI are a **customization** of an EC2 instance
-- AMI are built for a **specific region** (and can be copied across regions)
-- You can launch EC2 instances from:
-  - **A Public AMI**: AWS provided
-  - **Your own AMI**: you make and maintain them yourself
-  - **An AWS Marketplace AMI**: an AMI someone else made (and potentially sells)
+![s3_encryption](/research/aws_overview/s3_encryption.png)
 
-![ami](/research/aws_overview/ami.png)
+### IAM Access Analyzer
 
-## EC2 Image Builder
+- Ensures that only intended people have access to your S3 buckets
+- Example: publicly accessible bucket, bucket shared with other AWS account…
+- Evaluates S3 Bucket Policies, S3 ACLs, S3 Access Point Policies
+- Powered by IAM Access Analyzer
 
-- Used to automate the creation of Virtual Machines or container images\
-  => **Automate the creation, maintain, validate and test EC2 AMIs**
-- Can be run on a schedule (weekly, whenever packages are updated, etc…)
-- Free service (only pay for the underlying resources)
+### Snow Family
 
-![image_builder](/research/aws_overview/image_builder.png)
+- Highly-secure, portable devices to **collect and process data at the edge, and migrate data into and out of AWS**
+- **Data migration**: Snowcone, Snowball Edge, Snowmobile
+- **Edge computing**: Snowcone, Snowball Edge
+
+![s3_snowfamily](/research/aws_overview/s3_snowfamily.png)
+
+### OpsHub
+
+- A software you install on your computer / laptop
+- To manage your Snow Family Device
+- Transferring files
+- Launch compatible AWS services on your devices (ex: Amazon EC2 instances, AWS DataSync, Network File System (NFS))
+
+### Storage Gateway
+
+- Bridge between on-premise data and cloud data in S3
+- **Hybrid** storage service to **allow on-premises to seamlessly use the AWS Cloud**
+- Use cases: disaster recovery, backup & restore, tiered storage
+
+{{<img src="/research/aws_overview/s3_storage_gateway.png" alt="s3_storage_gateway" width="400">}}
 
 ## Monitoring
 
@@ -374,6 +408,12 @@ Then CloudFormation creates those for you, in the **right order**, with the **ex
 - **Beanstalk = Platform as a Service (PaaS)**
 - Beanstalk is free but you pay for the underlying instances
 - **Just the application code is the responsibility of the developer**
+- Three architecture models:
+  - Single Instance deployment: good for dev
+  - LB + ASG: great for production or pre-production web applications
+  - ASG only: great for non-web apps in production (workers, etc..)
+
+![elastic_beanstalk](/research/aws_overview/elastic_beanstalk.png)
 
 ### Health Monitoring
 
@@ -467,3 +507,116 @@ Then CloudFormation creates those for you, in the **right order**, with the **ex
 
 - AWS OpsWorks = Managed **Chef & Puppet**
 - Chef & Puppet (2 tools not created by AWS) help you perform server configuration automatically, or repetitive actions
+
+## Route 53 - DNS
+
+- Route53 is a **Managed DNS (Domain Name System)**
+- DNS is a collection of rules and records which helps clients understand how to reach a server through URLs
+
+### Routing Policies
+
+![route53_routing_policies1](/research/aws_overview/route53_routing_policies1.png)
+![route53_routing_policies2](/research/aws_overview/route53_routing_policies2.png)
+
+## CloudFront - CDN
+
+- **Content Delivery Network (CDN)**
+- **Improves read performance**, content is cached at the edge
+- **DDoS protection** (because worldwide), integration with Shield, AWS Web Application Firewall
+- S3 bucket
+  - Enhanced security with CloudFront **Origin Access Control (OAC)**
+  - OAC is replacing Origin Access Identity (OAI)
+  - CloudFront can be used as an ingress (**to upload files to S3**)
+
+![cloudfront](/research/aws_overview/cloudfront.png)
+![cloudfront_s3](/research/aws_overview/cloudfront_s3.png)
+
+### CloudFront vs S3 Cross Region Replication
+
+{{<columns>}}
+
+### CloudFront:
+
+- Global Edge network
+- Files are cached for a TTL (maybe a day)
+- **Great for static content that must be available everywhere**
+
+<--->
+
+### S3 Cross Region Replication:
+
+- Must be setup for each region you want replication to happen
+- Files are updated in near real-time
+- Read only
+- **Great for dynamic content that needs to be available at low-latency in few regions**
+
+{{</columns>}}
+
+## S3 Transfer Acceleration
+
+- Increase transfer speed by transferring file to an AWS edge location which will forward the data to the S3 bucket in the target region
+
+![s3_transfer_acceleration](/research/aws_overview/s3_transfer_acceleration.png)
+
+## Global Accelerator
+
+- **Improve global application {{<u "availability">}} and {{<u "performance">}} using the AWS global network**
+- Leverage the AWS internal network to optimize the route to your application (60% improvement)
+- **2 Anycast IP** are created for your application and traffic is sent through Edge Locations
+- The Edge locations send the traffic to your application
+
+![global_accelerator](/research/aws_overview/global_accelerator.png)
+
+### AWS Global Accelerator vs CloudFront
+
+- They both use the AWS global network and its edge locations around the world
+- Both services integrate with AWS Shield for DDoS protection
+
+{{<columns>}}
+
+### CloudFront - CDN
+
+- Improves performance for your cacheable content (such as images and videos)
+- Content is **served at the edge**
+
+<--->
+
+### Global Accelerator
+
+- No caching, **proxying packets** at the edge to applications running in one or more AWS Regions.
+- Improves performance for a wide range of applications over TCP or UDP
+- Good for HTTP use cases that require static IP addresses
+- Good for HTTP use cases that required deterministic, fast regional failover
+
+{{</columns>}}
+
+## Outposts
+
+- **Hybrid Cloud**: businesses that keep an on-premises infrastructure alongside a cloud infrastructure
+- **AWS Outposts are “server racks”** that offers the same AWS infrastructure, services, APIs & tools to build your own applications on-premises just as in the cloud
+- **AWS will setup and manage “Outposts Racks”** within your on-premises infrastructure and you can start leveraging AWS services on-premises
+- **{{<u "You are responsible for the Outposts Rack physical security">}}**
+
+![outposts](/research/aws_overview/outposts.png)
+
+## WaveLength
+
+- **WaveLength Zones** are infrastructure deployments embedded within the telecommunications providers' datacenters at the edge of the **5G networks**
+- Use cases: Smart Cities, ML-assisted diagnostics, Connected Vehicles, Interactive Live Video Streams, AR/VR, Real-time Gaming, …
+
+![wavelength](/research/aws_overview/wavelength.png)
+
+## Local Zones
+
+- Places AWS compute, storage, database, and other selected AWS services **closer to end users to run latency-sensitive applications**
+- Extend your VPC to more locations – **“Extension of an AWS Region”**
+- Example:
+  - **AWS Region**: N. Virginia (us-east-1)
+  - **AWS Local Zones**: Boston, Chicago, Dallas, Houston, Miami, …
+
+![local_zones](/research/aws_overview/local_zones.png)
+
+## Global Applications Architecture
+
+![global_apps_architecture1](/research/aws_overview/global_apps_architecture1.png)
+![global_apps_architecture2](/research/aws_overview/global_apps_architecture2.png)
