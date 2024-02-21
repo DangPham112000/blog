@@ -1,6 +1,6 @@
 ---
 title: "Process vs Thread"
-weight: 20
+weight: 10
 date: 2023-12-05T01:47:46+07:00
 ---
 
