@@ -10,12 +10,14 @@ Software Engineer
 {{< columns >}} <!-- begin columns block -->
 
 Phone: (+84) 389 384 374\
-Email: dangpham112000@gmail.com
+Email: dangpham112000@gmail.com\
+Credly: [dangpham0401](https://www.credly.com/users/dangpham0401/badges)
 
 <---> <!-- magic separator, between columns -->
 
-Linkedln: [linkedin.com/in/dangpham0401](https://linkedin.com/in/dangpham0401)\
-GitHub: [github.com/DangPham112000](https://github.com/DangPham112000)
+Linkedln: [dangpham0401](https://linkedin.com/in/dangpham0401)\
+GitHub: [DangPham112000](https://github.com/DangPham112000)\
+Leetcode: [DangPham112000](https://leetcode.com/DangPham112000/)
 
 {{< /columns >}}
 
@@ -33,7 +35,7 @@ GitHub: [github.com/DangPham112000](https://github.com/DangPham112000)
 - Follow the best practices and processes established in the team
 - Understand the company’s vision, goals, and strategy. Actively contribute to the achievement of the
   goals and execution of the company’s strategy
-- Tech stacks: JavaScript, Vitest, Sinon, Mocha/Chai, Kibana/Elasticsearch, Git/GitHub
+- Tech stacks: JavaScript, Vite/Vitest, Gulp, Mocha/Chai/Sinon, Kibana/Elasticsearch, Git/GitHub
 
 #### Software Engineer Intern (Graduate program) | May 2022 - Nov 2022
 
@@ -54,7 +56,7 @@ GitHub: [github.com/DangPham112000](https://github.com/DangPham112000)
   products
 - Tech stacks: HTML/CSS/JS
 
-## SKILLS
+## SKILL
 
 - Programming Languages: JavaScript, Golang
 - Web Technologies: HTML/CSS, ReactJS, ExpressJS
@@ -69,4 +71,42 @@ GitHub: [github.com/DangPham112000](https://github.com/DangPham112000)
 
 #### Bachelor of Information Technology | 2018 - 2022
 
-GPA: 7.2
+- GPA: 7.2
+
+## CERTIFICATE
+
+### Amazon Web Services (AWS)
+
+- [AWS Certified Cloud Practitioner](https://www.credly.com/badges/9a87901a-70c0-40b5-842a-548a68ee1042/linked_in_profile)
+  - Dec 18, 2023 - Dec 18, 2026
+- [AWS Cloud Quest: Cloud Practitioner](https://www.credly.com/badges/6cf2f630-6897-4180-832e-1b631b874c38/linked_in_profile)
+  - Aug 2023
+
+### Scrum.org
+
+- [Professional Scrum Master™ I](https://www.credly.com/badges/979d4baa-d92f-4056-b85e-29f789ab697e/linked_in_profile)
+  - Aug 2023
+
+### Udemy
+
+- [Ultimate AWS Certified Cloud Practitioner CLF-C02](https://www.udemy.com/certificate/UC-4aadbd11-0e03-4f9d-99a2-e5d81effc470/)
+  - Dec 2023
+- [Go: The Complete Developer's Guide (Golang)](https://www.udemy.com/certificate/UC-d2778b6a-3c91-4259-8134-999f2c19f706/)
+  - Dec 2022
+
+### HackerRank
+
+- [JavaScript (Basic)](https://www.hackerrank.com/certificates/76a9bee077c7)
+  - Jun 21, 2022
+- [JavaScript (Intermediate)](https://www.hackerrank.com/certificates/12e5ddde29f3)
+  - Jun 21, 2022
+- [SQL (Basic)](https://www.hackerrank.com/certificates/b8a7eb2391b9)
+  - Jun 20, 2022
+- [SQL (Intermediate)](https://www.hackerrank.com/certificates/c109e4d8dbab)
+  - Jun 20, 2022
+- [SQL (Advanced)](https://www.hackerrank.com/certificates/43781041eace)
+  - Jun 20, 2022
+- [Node (Basic)](https://www.hackerrank.com/certificates/6285f12e2ec1)
+  - Dec 06, 2022
+- [Go (Basic)](https://www.hackerrank.com/certificates/d8bb03403a00)
+  - Dec 30, 2022
