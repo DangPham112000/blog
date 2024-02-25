@@ -22,4 +22,5 @@ hugo server
 
 ```
 hugo -t [theme-name]
+hugo -t hugo-book
 ```

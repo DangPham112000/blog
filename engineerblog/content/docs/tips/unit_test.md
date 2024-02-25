@@ -17,10 +17,169 @@ date: 2023-11-15T01:47:46+07:00
 ## What environment the unit test cases are running on: Browser or Nodejs?
 
 - Because Nodejs does not have browser APIs
+  - Using `Karma` to run browser's unit test
+  - Using JS-DOM but it's missing a lot of browser APIs
 
 {{</hint>}}
 
-## Sinon stub
+## Work only when running alone
+
+**Scenario:**
+{{<hint warning>}}
+A unit test case only **pass** when **running alone** but **fail** when **running with other** test cases
+{{</hint>}}
+
+**Check:**
+
+- {{<u "Restore all mocks after mocking things" >}}: `sandbox.restore()`, `jest.restoreAllMocks()`, `vi.restoreAllMocks()` and `vi.unstubAllGlobals()` at `afterEach`
+- {{<u "Reset global variables inner module" >}}: create a reset function to reset all variable of module to the initial value
+
+**Example:**
+
+```js
+// calculateThings.js
+import cal1Thing from "./private/cal1Thing.js";
+
+let cached = ""; // Global variable
+
+export default (things) => {
+  if (cached) return cached;
+  let result = [];
+  for (let i = 0; i < things.length; i++) {
+    const calculatedThing = cal1Thing(things[i]);
+    result.push(calculatedThing);
+  }
+  cached = result;
+  return cached;
+};
+
+/* start-test-code */
+export const testingOnly = {
+  resetCached: () => {
+    cached = "";
+  },
+};
+/* end-test-code */
+```
+
+```js
+// calculateThings.test.js
+import calculateThings from "./calculateThings";
+import cal1Thing from "./cal1Thing";
+import { testingOnly } from "./calculateThings";
+
+vi.mock("./cal1Thing");
+
+describe("calculateThings", () => {
+  const { resetCached } = testingOnly;
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+  it("should work as expected", () => {
+    cal1Thing.mockReturnValue("a string");
+    const caledThings = calculateThings([1, 2, 3]);
+    expect(caledThings).toEqual(["a string", "a string", "a string"]);
+  });
+  it("should return empty when empty cached and input is empty array", () => {
+    resetCached(); // remember reset cached
+    const caledThings = calculateThings([]);
+    expect(caledThings).toEqual("");
+  });
+});
+```
+
+## Setup code for testing only
+
+{{<hint info>}}
+This setup will help you export function only when run test, not appear when build
+{{</hint>}}
+
+### Gulp - Rollup
+
+```js
+// rollup.bundle.js
+import stripCode from "rollup-plugin-strip-code";
+import {rollup} from rollup;
+
+const stripcode = stripCode({
+  start_comment: "start-test-code",
+  end_comment: "end-test-code",
+});
+
+export default async () => {
+  const bundle = await rollup({input: 'mainFilePath.js', plugins: [stripcode]});
+  await bundle.write({
+    file: 'dist/destinationName.js',
+    format: 'iife',
+    name: 'YourObjectName',
+    sourcemap: false
+  })
+}
+```
+
+```js
+// gulpfile.js
+import rollupBundle from "./rollup.bundle.js";
+
+const clean = () => {
+    // remove all previous build files or ST like that
+  },
+  lint = () => {
+    // run eslint warning
+  };
+
+export default () => {
+  series(clean, rollupBundle, lint);
+};
+```
+
+## Vite - Vitest
+
+### Mock module
+
+{{<hint danger>}}
+When you mock a module, everything you exported in this module will be mocked and can not act like original (even if you call `vi.restoreAllMocks()`)
+{{</hint>}}
+
+**Solution:**
+
+If your module exports alots, and you only want to mock one thing, you shoult split it into another module
+
+**Example:**
+
+```js
+// calculateThings.js
+import cal1Thing from "./private/cal1Thing.js";
+export default (things) => {
+  let result = [];
+  for (let i = 0; i < things.length; i++) {
+    const calculatedThing = cal1Thing(things[i]);
+    result.push(calculatedThing);
+  }
+  return result;
+};
+```
+
+```js
+// calculateThings.test.js
+import calculateThings from "./calculateThings";
+import cal1Thing from "./cal1Thing";
+
+vi.mock("./cal1Thing");
+
+describe("calculateThings", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+  it("should work as expected", () => {
+    cal1Thing.mockReturnValue("a string");
+    const caledThings = calculateThings([1, 2, 3]);
+    expect(caledThings).toEqual(["a string", "a string", "a string"]);
+  });
+});
+```
+
+## Sinon
 
 ### Stub a function that is called by another function in the same module
 
@@ -32,18 +191,6 @@ Using `this.[func_name]` when calling it in your module
 import * as query from "/database/query";
 const makeQueryStub = sandbox.stub(query, "default").resolves([]);
 ```
-
-## Work only when running alone
-
-**Scenario:**
-{{<hint warning>}}
-A unit test case only **pass** when **running alone** but **fail** when **running with other** test cases
-{{</hint>}}
-
-**Check:**
-
-- {{<u "Restore all mocks after mocking functions" >}}: `sandbox.restore()` or `jest.restoreAllMocks()` at `afterEach`
-- {{<u "Reset global variables inner module" >}}: create a reset function to reset all variable of module to the initial value
 
 ## Mocha - Chai - Sinon sample
 

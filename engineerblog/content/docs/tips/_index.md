@@ -1,5 +1,5 @@
 ---
 bookFlatSection: true
 title: TIPS
-weight: 1
+weight: 2
 ---
