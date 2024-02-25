@@ -1,10 +1,14 @@
 ---
 title: "Event loop"
-weight: 10
+weight: 100
 date: 2023-12-05T01:47:46+07:00
 ---
 
 # Event loop
+
+## Challenge
+
+Can you guess the output of the below JS code
 
 {{<columns>}}
 
@@ -68,3 +72,17 @@ Phase 2: the code execution phase
 4. JS
 
 {{</details>}}
+
+## Overview
+
+## Stack
+
+## Heap
+
+## Queue
+
+## Reference
+
+- Mozilla: [The event loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop) (Dec 20, 2023)
+- Youtube: [What the heck is the event loop anyway? | Philip Roberts | JSConf EU](https://www.youtube.com/watch?v=8aGhZQkoFbQ) (Oct 9, 2014)
+- Nodejs: [The Node.js Event Loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick)
