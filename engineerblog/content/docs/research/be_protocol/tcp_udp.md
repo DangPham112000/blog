@@ -8,6 +8,17 @@ date: 2023-11-15T01:47:46+07:00
 
 ## UDP
 
+User Datagram Protocol
+
+### Overview
+
+- Message Based Layer 4 protocol
+- Ability to address processes in a host using ports
+- Simple protocol to send and receive messages
+- Prior communication not required (double edge sword)
+- Stateless no knowledge is stored on the host
+- 8 byte header Datagram
+
 ### Demo
 
 ```js
@@ -41,6 +52,20 @@ I am Dang
 The result of the server log: (TBU)
 
 ## TCP
+
+Transmission Control Protocol
+
+### Overview
+
+- Stream based Layer 4 protocol
+- Ability to address processes in a host using ports
+- “Controls” the transmission unlike UDP which is a firehose
+- Connection
+- Requires handshake
+- 20 bytes headers Segment (can go to 60)
+- Stateful
+
+### 3 ways handshake
 
 ### Demo
 

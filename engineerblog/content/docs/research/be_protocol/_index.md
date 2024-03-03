@@ -20,7 +20,7 @@ date: 2023-11-15T01:47:46+07:00
   - Text based (plain text, JSON, XML)
   - Binary (protobuf, RESP, h2, h3)
 - Transfer mode
-  - Message based (UDP, HTTaP)
+  - Message based (UDP, HTTP)
   - Stream (TCP, WebRTC)
 - Addressing system
   - DNS name, IP, MAC
