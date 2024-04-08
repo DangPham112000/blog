@@ -8,9 +8,9 @@ date: 2023-12-05T01:47:46+07:00
 
 ## Architecture
 
-- Frontend: VanilaJS, Vite, Bootstrap 5
-- Backend: ExpressJS, MongoDB
-- Ops: Git Action, Docker
+- Frontend: Vite-ReactJS, Argon (Consider replace with TaiwinCSS)
+- Backend: ExpressJS, Golang, MongoDB
+- Ops: Git Action, Docker, EC2
 
 ### Login
 
@@ -19,6 +19,9 @@ date: 2023-12-05T01:47:46+07:00
   - Routing handling
 - Back: API login/register
 - Cookie base
+  - Consider the possibility?
+  - Because the strickly of cookie when work with cross-origin (front-end origin vs backend origin)
+  - Solution: using the nginx to become the gateway to serve backend api and frontend site
 - Token base
 - SSO
 

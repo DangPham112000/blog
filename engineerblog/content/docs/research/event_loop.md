@@ -75,6 +75,8 @@ Phase 2: the code execution phase
 
 ## Overview
 
+![](/research/event_loop/execution_context.png)
+
 ## Stack
 
 ## Heap
@@ -86,3 +88,4 @@ Phase 2: the code execution phase
 - Mozilla: [The event loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop) (Dec 20, 2023)
 - Youtube: [What the heck is the event loop anyway? | Philip Roberts | JSConf EU](https://www.youtube.com/watch?v=8aGhZQkoFbQ) (Oct 9, 2014)
 - Nodejs: [The Node.js Event Loop](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick)
+- Jotform: [Unraveling the JavaScript execution pipeline: Understanding V8, event loop, and libuv for high-performance web experiences](https://tech.jotform.com/unraveling-the-javascript-execution-pipeline-understanding-v8-event-loop-and-libuv-for-4da6789fcfc2) (Aug 9, 2023)

@@ -22,7 +22,7 @@ git add .
 git commit -m "commit message"
 ```
 
-These 2 commands can combie into 1
+These 2 commands above can combie into 1:
 
 ```sh
 git commit -am "commit message"
