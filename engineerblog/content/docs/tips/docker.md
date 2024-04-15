@@ -206,7 +206,7 @@ docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app <image_name>
 
 When you issue docker stop to a container, if the container does not automatically stop in 10 seconds, then Docker is going to automatically fall back to issuing the docker kill command.
 
-### SIGTERM
+### Soft
 
 Send SIGTERM (terminate signal) to the process: give a process inside the container a little bit of time to do ST (like backup, etc…)
 
@@ -214,7 +214,7 @@ Send SIGTERM (terminate signal) to the process: give a process inside the contai
 docker stop <container-id>
 ```
 
-### SIGKILL
+### Hard
 
 Send SIGKILL (kills signal): shut down right now
 

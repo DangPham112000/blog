@@ -1,5 +1,5 @@
 ---
-title: "Communication"
+title: "Communication - Draft"
 weight: 8
 date: 2023-11-15T01:47:46+07:00
 ---
@@ -108,3 +108,4 @@ One publisher many readers
 - Linkedin: [Backend Communication Design Patterns](https://www.linkedin.com/pulse/backend-communication-design-patterns-muhammad-iftekhar-ul-alam/) (Sep 13, 2023)
 - Freecodecamp: [Communication Design Patterns for Backend Development](https://www.freecodecamp.org/news/communication-design-patterns-for-backend-development/)
 - Amazon: [Message Queues](https://aws.amazon.com/message-queue/)
+- Udemy: [Fundamentals of Backend Engineering](https://www.udemy.com/course/fundamentals-of-backend-communications-and-protocols) (Feb, 2024)

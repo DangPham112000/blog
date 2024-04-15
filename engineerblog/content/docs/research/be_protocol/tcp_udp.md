@@ -1,5 +1,5 @@
 ---
-title: "TCP - UDP"
+title: "TCP - UDP - Draft"
 weight: 1
 date: 2023-11-15T01:47:46+07:00
 ---
@@ -11,6 +11,8 @@ date: 2023-11-15T01:47:46+07:00
 User Datagram Protocol
 
 ### Overview
+
+![udp](/research/be_protocol/tcp_udp/udp.png)
 
 - Message Based Layer 4 protocol
 - Ability to address processes in a host using ports
@@ -57,6 +59,8 @@ Transmission Control Protocol
 
 ### Overview
 
+![tcp_handshake](/research/be_protocol/tcp_udp/tcp_handshake.png)
+
 - Stream based Layer 4 protocol
 - Ability to address processes in a host using ports
 - “Controls” the transmission unlike UDP which is a firehose
@@ -96,3 +100,8 @@ Client recieve message when successful establish the connection: (TBU)
 # client terminal
 This is data to send to the server!
 ```
+
+## Reference
+
+- Geeksforgeeks: [Differences between TCP and UDP](https://www.geeksforgeeks.org/differences-between-tcp-and-udp/) (06 May, 2023)
+- Udemy: [Fundamentals of Backend Engineering](https://www.udemy.com/course/fundamentals-of-backend-communications-and-protocols) (Feb, 2024)

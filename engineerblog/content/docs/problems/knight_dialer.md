@@ -1,6 +1,6 @@
 ---
 title: "Knight Dialer"
-weight: 200
+weight: 100
 date: 2023-11-15T01:47:46+07:00
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Backend Protocol"
 weight: 20
-date: 2023-11-15T01:47:46+07:00
+date: 2024-04-15T01:47:46+07:00
 ---
 
 # Backend Protocol
@@ -52,28 +52,38 @@ date: 2023-11-15T01:47:46+07:00
 
 ## OSI Model
 
-7 Layers each describe a specific networking component
+7 Layers each describe a specific networking component:
 
-Layer 7 - Application - HTTP/FTP/gRPC
+- Layer 7: Application - HTTP/FTP/gRPC
+- Layer 6: Presentation - Encoding, Serialization
+- Layer 5: Session - Connection establishment, TLS
+- Layer 4: Transport - UDP/TCP
+- Layer 3: Network - IP
+- Layer 2: Data link - Frames, Mac address Ethernet
+- Layer 1: Physical - Electric signals, fiber or radio waves
 
-Layer 6 - Presentation - Encoding, Serialization
+![osi](/research/be_protocol/index/osi.png)
+![osi_2](/research/be_protocol/index/osi_2.png)
 
-Layer 5 - Session - Connection establishment, TLS
+### Data across network
 
-Layer 4 - Transport - UDP/TCP
-
-Layer 3 - Network - IP
-
-Layer 2 - Data link - Frames, Mac address Ethernet
-
-Layer 1 - Physical - Electric signals, fiber or radio waves
+![data_across_network](/research/be_protocol/index/data_across_network.png)
+![data_across_network_2](/research/be_protocol/index/data_across_network_2.png)
 
 ## TCP/IP Model
 
 Much simpler than OSI just 4 layers
 
-- Application (Layer 5, 6 and 7)
-- Transport (Layer 4)
-- Internet (Layer 3)
-- Data link (Layer 2)
-- Physical layer is not officially covered in the model
+![tcp_ip](/research/be_protocol/index/tcp_ip.png)
+
+### Why
+
+- OSI Model has too many layers which can be hard to comprehend
+- Hard to argue about which layer does what
+- Simpler to deal with Layers 5-6-7 as just one layer, application
+- TCP/IP Model does just that
+
+## Reference
+
+- Geeksforgeeks: [TCP/IP Model](https://www.geeksforgeeks.org/tcp-ip-model/) (21 Jul, 2023)
+- Udemy: [Fundamentals of Backend Engineering](https://www.udemy.com/course/fundamentals-of-backend-communications-and-protocols) (Feb, 2024)
