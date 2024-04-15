@@ -1,6 +1,6 @@
 ---
 title: "AWS Overview"
-weight: 20
+weight: 30
 date: 2023-11-15T01:47:46+07:00
 ---
 
