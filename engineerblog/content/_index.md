@@ -25,25 +25,17 @@ Leetcode: [DangPham112000](https://leetcode.com/DangPham112000/)
 
 ### Geocomply
 
-#### Software Engineer I | Nov 2022 - Present
+#### Software Engineer | May 2022 - Present
 
-- Research new features, analyze requirements, estimate implementation; code reviews; document
-  solutions
-- Develop javascript web-SDK products including unit tests and functional tests
-- Assist with preparing release packages and documentation
-- Participate in Quality Assurance of the software deliverables
-- Follow the best practices and processes established in the team
-- Understand the company’s vision, goals, and strategy. Actively contribute to the achievement of the
-  goals and execution of the company’s strategy
-- Tech stacks: JavaScript, Vite/Vitest, Gulp, Mocha/Chai/Sinon, Kibana/Elasticsearch, Git/GitHub
-
-#### Software Engineer Intern (Graduate program) | May 2022 - Nov 2022
-
-- Research, create, and develop software applications to extend and improve GeoComply’s product
-  offering
-- Work in and support a productive and innovative team with peers, managers, and cross-functional
-  teams
-- Tech stack: HTML/CSS/JS, ExpressJS, Bootstrap, MySQL, MongoDB, Git/GitHub
+- Dedicate time to thoroughly research new features, meticulously analyze requirements, accurately estimate implementation efforts, and diligently document solutions
+- Implement features while ensuring unit testing and functionality testing with a minimum coverage of 80%
+- Develop and maintain Javascript web-SDK products
+- Develop and maintain NodeJS server-side rendering products
+- Prepare release packages and documentation using GitHub and Confluence
+- Participate in Quality Assurance processes for software deliverables
+- Share a variety of technical topics with peers, managers, and cross-functional teams
+- Adopt the hybrid Scrum-Kanban approach in project management
+- Tech stacks: JavaScript, NodeJS, Bootstrap, MySQL, MongoDB, Vite/Vitest, Mocha/Chai/Sinon, JIRA, Confluence, Kibana, Git/GitHub, Scrum-Kanban, REST/SOAP
 
 ### FireGroup
 
@@ -54,7 +46,6 @@ Leetcode: [DangPham112000](https://leetcode.com/DangPham112000/)
   process
 - Share best practices and inspire your customers to set up a successful implementation using the
   products
-- Tech stacks: HTML/CSS/JS
 
 ## SKILL
 

@@ -154,6 +154,8 @@ docker exec -it <container-id> sh
 
 ## Listing
 
+### Container
+
 - Listing all running containers:
 
 ```shell
@@ -164,6 +166,12 @@ docker ps
 
 ```shell
 docker ps --all
+```
+
+### Image
+
+```sh
+docker image ls
 ```
 
 ## Caching
