@@ -6,7 +6,11 @@ date: 2023-11-15T01:47:46+07:00
 
 # Security
 
-## DDOS
+## DOS
+
+- Rate limit
+
+DDOS
 
 ## Backdoor attack
 
@@ -15,6 +19,10 @@ date: 2023-11-15T01:47:46+07:00
 ## Cross-site scripting (XSS) attack
 
 ## Cross-site request forgery (CSRF) attack
+
+## IDOR attack
+
+Authorize route
 
 ## Cross-domain access attack
 
