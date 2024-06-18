@@ -12,6 +12,12 @@ hugo new site [site-name]
 hugo new content posts/[post-name]
 ```
 
+### first come
+- Install `golang`,`dart-sass`,`hugo`
+- Clone theme:
+    - Go to `themes` folder: `cd engineerblog/themes`
+    - Clone theme: `git clone `
+
 ### run dev
 
 ```
