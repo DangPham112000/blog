@@ -1,12 +1,39 @@
 ---
 title: "Security - Draft"
 weight: 200
-date: 2023-11-15T01:47:46+07:00
+date: 2024-06-15T01:47:46+07:00
 ---
 
 # Security
 
-## 
+## Brute Force Attack
+
+Every password-based system and encryption key out there can be cracked using a brute force attack.
+
+There are only one problem of this attack is the time
+
+![2024-Crack-Password-Table](/research/security/2024-Crack-Password-Table.png)
+
+- Why hashing method matter when cracking password with brute force attack. Bcrypt will take longer cracking time than MD5
+
+### Use case
+
+- Cracking passwords (SSH logins) 
+- Cracking encryption keys (API keys)
+
+### How it works
+
+they may have to run through every possible combination of characters before achieving their goal. 
+
+Brute force password attacks are often carried out by scripts or bots that target
+
+
+### Prevention
+
+- **Longer password**
+- **Delay response**: The right away responsed system is not always good. Adding some delay point to when checking password, a delay of even a few seconds can greatly weaken the effectiveness of a brute force attack
+- **Two-factor authentication**
+- **Rate limit**
 
 ## Dictionary attack
 
@@ -30,6 +57,7 @@ date: 2023-11-15T01:47:46+07:00
 ## DOS
 
 ### Prevention
+
 - Rate limit
 
 ### DDOS
@@ -60,4 +88,6 @@ Authorize route
 
 ## References
 
+- Cloudflare: [What is a brute force attack?](https://www.cloudflare.com/learning/bots/brute-force-attack/) ()
+- Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) ()
 - Kaspersky: [What is a Dictionary Attack?](https://www.kaspersky.com/resource-center/definitions/what-is-a-dictionary-attack) ()
