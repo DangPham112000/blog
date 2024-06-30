@@ -8,6 +8,14 @@ date: 2023-11-15T01:47:46+07:00
 
 ## Hash
 
+*Note: An 8-bit byte is represented as 2 characters, from 00 to FF, in hexadecimal*
+
+### Collision
+
+### Use case
+
+- Checking file integrity
+
 ## HMAC
 
 - HMAC stand for **H**ash-Based **M**essage **A**uthentication **C**odes
@@ -62,7 +70,14 @@ Cryptography defines key-exchange algorithms (like Diffie-Hellman key exchange a
 
 In cryptography the hashing, encryption algorithms and random generators follow the Shannon's principles of [confusion and diffusion](https://en.wikipedia.org/wiki/Confusion_and_diffusion). Confusion means that each bit in the output form a cipher should depend on several parts of the key and input data and thus direct mapping cannot be established. Diffusion means that changing one bit in the input should change approximately half of the bits in the output. These principles are incorporated in most hash functions, MAC algorithms, random number generators, symmetric and asymmetric ciphers.
 
+## Appendix
+
+### Why Bcrypt will take longer time to crack your password than MD5?
+
+![2024_Password_Table_MD5](/research/encription/2024_Password_Table_MD5.png)
+![2024_Password_Table_bcrypt](/research/encription/2024_Password_Table_bcrypt.png)
 ## Reference
 
 - Okta: [HMAC (Hash-Based Message Authentication Codes) Definition](https://www.okta.com/identity-101/hmac/) (Sep 15, 2023)
 - Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19, 2019)
+- Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)

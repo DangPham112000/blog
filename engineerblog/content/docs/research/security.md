@@ -8,13 +8,12 @@ date: 2024-06-15T01:47:46+07:00
 
 ## Brute Force Attack
 
-Every password-based system and encryption key out there can be cracked using a brute force attack.
-
-There are only one problem of this attack is the time
+- Every password-based system and encryption key out there can be cracked using a brute force attack.
+- There is only one problem with this attack: the time.
 
 ![2024-Crack-Password-Table](/research/security/2024-Crack-Password-Table.png)
 
-- Why hashing method matter when cracking password with brute force attack. Bcrypt will take longer cracking time than MD5
+- Why does the hashing method matter when cracking passwords with a brute force attack? [Bcrypt will take longer to crack than MD5](/docs/research/encryption/#why-bcrypt-will-take-longer-time-to-crack-your-password-than-md5)
 
 ### Use case
 
@@ -23,15 +22,14 @@ There are only one problem of this attack is the time
 
 ### How it works
 
-they may have to run through every possible combination of characters before achieving their goal. 
-
-Brute force password attacks are often carried out by scripts or bots that target
-
+- The hacker have to run through every possible combination of characters before achieving their goal 
+- These attacks are often carried out by scripts or bots that target specific systems or accounts
 
 ### Prevention
 
 - **Longer password**
-- **Delay response**: The right away responsed system is not always good. Adding some delay point to when checking password, a delay of even a few seconds can greatly weaken the effectiveness of a brute force attack
+- **Delay response**: A system that responds immediately is not always good. Adding a delay when checking passwords, even a delay of a few seconds, can greatly weaken the effectiveness of a brute force attack
+- **Stronger hashing method**
 - **Two-factor authentication**
 - **Rate limit**
 
@@ -44,15 +42,15 @@ Brute force password attacks are often carried out by scripts or bots that targe
 
 ### How it works
 
-- If it target to an orgization, or a paticulally person. the dictionary can collect all the `gan gui` words around the factor they want to hack, combination all of them in all the possible ways then try each to guess the pass or key they want to hack
+- If it targets an organization or a particular person, the dictionary can collect all the closely related words around the target they want to hack. It can then combine all of them in all possible ways and try each combination to guess the password or key they want to hack
 
 ### Prevention
 
-- Avoid passwords: the passwords can be hacked if we dont use password for login (funy huh). At the system view we can totally avoid it by using password-free authentication solutions and biometric logins 
-- Use random passwords: At the user view, dont you closely information like (name, pet, birthday) or the easy to predict words (like password, abcd, xyz, 123) to create a password. instead, using random string, if you see it's difficult to remember them then you can use some 3rd-party password manager to store them (of course, you need to choose the trustworthy one)
-- Two-factor authentication
-- Limit login attempts
-- Force resets
+- **Avoid passwords**: Passwords can't be hacked if we don't use them for login (I'm joking). From a system perspective, we can completely avoid them by using password-free authentication solutions and biometric logins
+- **Random passwords**: From a user perspective, don't use closely related information (like names, pets, birthdays) or easy-to-predict words (like "password," "abcd," "xyz," "123") to create a password. Instead, use random strings. If you find them difficult to remember, you can use a third-party password manager to store them (of course, you need to choose a trustworthy one).
+- **Two-factor authentication**
+- **Limit login attempts**
+- **Force resets**
 
 ## DOS
 
@@ -89,5 +87,5 @@ Authorize route
 ## References
 
 - Cloudflare: [What is a brute force attack?](https://www.cloudflare.com/learning/bots/brute-force-attack/) ()
-- Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) ()
+- Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
 - Kaspersky: [What is a Dictionary Attack?](https://www.kaspersky.com/resource-center/definitions/what-is-a-dictionary-attack) ()
