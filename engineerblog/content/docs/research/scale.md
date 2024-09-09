@@ -140,7 +140,39 @@ In mobile architecture
 
 ## Caching
 
-## CDN
+## CDN - Content Delivery Network
+
+Vướng víu lượng tử sẽ giúp tương lai của chúng ta truyền thông tin hay dữ liệu một cách ngay lập tức, bất kể khoảng cách
+
+Nhưng có một sự thật là
+mặc dù Hiện nay chúng ta đang dùng cáp quang. nhưng độ trễ sẽ lớn hơn rất nhiều khi ta tải dữ liệu ở một nơi xa so với ở gần
+
+Gói tin của chúng ta không di chuyển với tốc độ ánh sáng hay sao?
+Nếu gói tin được truyền với tốc độ sáng thì độ trễ xa gần sẽ đã không còn là đáng kể
+
+hcm -> ny = 14 275km = 14 275 000 m
+speed of light = 3 \* 10^8 = 300 000 000 m/s = 300 000 m/ms
+
+thời gian gửi gói tin và nhận lại phản hồi 47.583 ms \* 2 = 95ms
+
+Đây là điều kiện siêu lý tưởng:
+
+- Server tốn 0ms để xử lý request và lập tức trả ra response
+- speed = 300 000 m/ms tức là Gói tin đang di chuyển trong môi trường chân không
+
+Thực tế
+
+- Vận tốc truyền tin bên trong cáp quang (fiber optic cable): will be lower - 200 thousand km per second.
+
+Giả sử điều kiện lý tưởng như
+vận tốc truyền tin đạt 200 000 m/ms
+bạn có một sợi cáp quang nối thẳng từ hcm đến server đặt ở ny
+
+vậy thì cũng phải chờ ít nhất 142.75ms để nhận được được phản hồi từ NY
+
+oh shit vậy là mặc dù có kết nối trực tiếp từ máy chủ NY tôi vẫn phải chơi LoL ở đó với ping luôn lớn hơn 140ms :)
+
+tỉnh dậy và ngừng mơ thôi
 
 ## Data center
 
@@ -151,3 +183,4 @@ In mobile architecture
 - Geeksforgeeks: [What is a monolith server ?](https://www.geeksforgeeks.org/what-is-a-monolith-server/) (19 Nov, 2021)
 - Cloudzero: [Horizontal Vs. Vertical Scaling: How Do They Compare?](https://www.cloudzero.com/blog/horizontal-vs-vertical-scaling/) (May 05, 2023)
 - Amazon: [What is Load Balancing?](https://aws.amazon.com/what-is/load-balancing)
+- Linkedin: [How Web is limited by the speed of light?](https://www.linkedin.com/pulse/internet-speed-light-viktor-turskyi-/) (May 16, 2022)
