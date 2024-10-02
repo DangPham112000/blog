@@ -140,7 +140,28 @@ In mobile architecture
 
 ## Caching
 
-## CDN - Content Delivery Network
+Everything stored on frontend can be changed by the user so this is potential security vulnerability.
+
+This is the main difference between backend and frontend caching, backend caching can't be edited by the user.
+
+![caching](/research/scale/caching.png)
+
+
+### Frontend
+
+On the frontend, a browser or the client application caches data like a header image the first time your user accesses it. The next time they access that same content, the frontend loads the cached files to improve performance.
+
+#### Browser caching
+
+Browser caching is a technique that allows you to store certain files, such as CSS, JavaScript, and images
+
+### Backend
+
+Backend development uses caching to reduce the load on the application server. What you store in the backend cache depends on your application itself. Cached content includes static pages, database query results, API responses, session data, images, and videos.
+
+### CDN - Content Delivery Network
+
+Implementing CDN caching requires integrating your website with a CDN provider. This involves configuring your DNS settings to point to the CDN’s servers and setting up caching rules to determine which files should be cached and for how long.
 
 Vướng víu lượng tử sẽ giúp tương lai của chúng ta truyền thông tin hay dữ liệu một cách ngay lập tức, bất kể khoảng cách
 
