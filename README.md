@@ -1,10 +1,12 @@
 # Hugo quick start
 
 ### first come
-- Install `golang`,`dart-sass`,`hugo`
+- Verify the existence of **Golang**: cmd -> `go version`
+- Verify the existence of **Dart Sass**: cmd -> `dart-sass --version`
+- Verify the existence of **Hugo**: cmd -> `hugo version`
 - Setup all submodule (github page and book theme):
-    - Clear all files in `public` folder: `engineerblog/public`
-    - Also clear in `themes` folder: `engineerblog/themes`
+    - Clear all files in `public` folder: `rm -rf engineerblog/public`
+    - Also clear in `themes` folder: `rm -rf engineerblog/themes`
     - Clone and connect to submodule: `git submodule update --init --recursive`
 
 ### run dev
