@@ -220,6 +220,26 @@ git rebase --continue
 git push -f
 ```
 
+## Remote origin
+
+### Check remote origin
+
+```sh
+git remote -v
+```
+
+### Change remote origin
+
+```sh
+git remote set-url origin git://new.url.here
+```
+
+### Remove remote origin
+
+```sh
+git remote remove origin
+```
+
 ## Log pretty
 
 ```sh
