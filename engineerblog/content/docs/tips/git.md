@@ -252,3 +252,65 @@ git config user.email dangpham112000@gmail.com
 ### Switch git user tool
 
 https://github.com/geongeorge/Git-User-Switch
+
+## Connecting to GitHub using SSH keys (Ubuntu)
+
+### Checking for existing SSH keys
+
+```sh
+ls -al ~/.ssh
+```
+Check the existing of these files:
+- id_rsa.pub
+- id_ecdsa.pub
+- id_ed25519.pub
+
+### Generating a new SSH key
+
+```sh
+ssh-keygen -t ed25519 -C "dangpham112000@gmail.com"
+```
+
+You can skip all the prompted by Enter
+
+### Adding your SSH key to the ssh-agent
+
+1. Start the ssh-agent in the background
+
+    ```sh
+    $ eval "$(ssh-agent -s)"
+    > Agent pid 59566
+    ```
+
+2. Add your SSH private key to the ssh-agent
+
+    ```sh
+    ssh-add ~/.ssh/id_ed25519
+    ```
+
+### Adding a new SSH key to account
+
+1. Copy the SSH public key to your clipboard
+
+    ```sh
+    cat ~/.ssh/id_ed25519.pub
+    ```
+
+    Then select and copy the contents of the `id_ed25519.pub` file displayed in the terminal to your clipboard
+2. In the upper-right corner of any page on GitHub, click your profile photo, then click **Settings**
+3. In the "Access" section of the sidebar, click **SSH and GPG keys**
+4. Click **New SSH key** or **Add SSH key**
+5. In the "Title" field, add a descriptive label for the new key.
+    _For example_, if you're using a personal laptop, you might call this key "Personal laptop"
+6. Select the type of key, either authentication or signing
+7. In the "Key" field, paste your public key
+8. Click **Add SSH key**
+
+### Testing your SSH connection
+
+```sh
+ssh -T git@github.com
+```
+
+You may see a message like this: 
+`Hi DangPham112000! You've successfully authenticated, but GitHub does not provide shell access.`
