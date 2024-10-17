@@ -163,37 +163,31 @@ Backend development uses caching to reduce the load on the application server. W
 
 Implementing CDN caching requires integrating your website with a CDN provider. This involves configuring your DNS settings to point to the CDN’s servers and setting up caching rules to determine which files should be cached and for how long.
 
-Vướng víu lượng tử sẽ giúp tương lai của chúng ta truyền thông tin hay dữ liệu một cách ngay lập tức, bất kể khoảng cách
+#### Ramble on about the limit of the speed of light
 
-Nhưng có một sự thật là
-mặc dù Hiện nay chúng ta đang dùng cáp quang. nhưng độ trễ sẽ lớn hơn rất nhiều khi ta tải dữ liệu ở một nơi xa so với ở gần
+Quantum entanglement promises to enable instant communication or data transmission in the future, regardless of distance.
 
-Gói tin của chúng ta không di chuyển với tốc độ ánh sáng hay sao?
-Nếu gói tin được truyền với tốc độ sáng thì độ trễ xa gần sẽ đã không còn là đáng kể
+However, as of now, we use fiber optic cables, and the latency is significantly higher when transfering data from a distant location compared to a nearby one.
 
-hcm -> ny = 14 275km = 14 275 000 m
-speed of light = 3 \* 10^8 = 300 000 000 m/s = 300 000 m/ms
+A question is: **Aren't data packets traveling at the speed of light?** If they did, would the difference in latency between close and far locations be significant?
 
-thời gian gửi gói tin và nhận lại phản hồi 47.583 ms \* 2 = 95ms
+For example:
 
-Đây là điều kiện siêu lý tưởng:
+- The distance from Ho Chi Minh City to New York is 14,275 km, or 14,275,000 meters.
+- The speed of light is approximately 300,000,000 m/s, or 300,000 meters per millisecond (m/ms).
+- The time for a data packet to travel one way would be around 47.583 ms, so a round trip (sending and receiving) would take about 95 ms.
 
-- Server tốn 0ms để xử lý request và lập tức trả ra response
-- speed = 300 000 m/ms tức là Gói tin đang di chuyển trong môi trường chân không
+But this is in an ideal scenario where:
 
-Thực tế
+- The server takes 0 ms to process the request and sends the response instantly.
+- The signal is traveling in a vacuum at the speed of light (300,000 m/ms).
 
-- Vận tốc truyền tin bên trong cáp quang (fiber optic cable): will be lower - 200 thousand km per second.
+In reality:
 
-Giả sử điều kiện lý tưởng như
-vận tốc truyền tin đạt 200 000 m/ms
-bạn có một sợi cáp quang nối thẳng từ hcm đến server đặt ở ny
+- The speed of data transmission through fiber optic cables is lower—around 200,000 kilometers per second, or 200,000 m/ms.
+- Even with a direct fiber optic connection between Ho Chi Minh City and a server in New York, the round trip would take at least 142.75 ms.
 
-vậy thì cũng phải chờ ít nhất 142.75ms để nhận được được phản hồi từ NY
-
-oh shit vậy là mặc dù có kết nối trực tiếp từ máy chủ NY tôi vẫn phải chơi LoL ở đó với ping luôn lớn hơn 140ms :)
-
-tỉnh dậy và ngừng mơ thôi
+So even with a direct connection to a New York server, I'd still be playing League of Legends with a ping of over 140 ms!
 
 ## Data center
 
