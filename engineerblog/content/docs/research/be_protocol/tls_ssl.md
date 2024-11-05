@@ -23,6 +23,10 @@ date: 2023-11-15T01:47:46+07:00
 
 ### TLS 1.3
 
+## Related
+
+- Why a website we need Certificate?: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects)
+
 ## Reference
 
 - Cloudflare: [How does SSL work?](https://www.cloudflare.com/learning/ssl/how-does-ssl-work/)

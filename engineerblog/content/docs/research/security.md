@@ -52,6 +52,19 @@ date: 2024-06-15T01:47:46+07:00
 - **Limit login attempts**
 - **Force resets**
 
+## Malicious Network Redirects
+
+Attackers can inject fake DNS responses, redirecting you to malicious versions of websites
+
+### How it works
+
+- Hacker hijacking the unsecured Wi-Fi you access
+- Malware in your computer edit your Host file (the file work like the DNS in your computer)
+
+### Prevention
+
+- **Using SSL/TLS for website**: Even if SSL helps detect this (you’d see a certificate warning), many users may overlook or click through the warning, which could put them at risk
+
 ## DOS
 
 ### Prevention
@@ -76,9 +89,11 @@ Authorize route
 
 ## Syn flood attack
 
-## Relay attack
-
 ## Man in the middle attack
+
+## Replay attack
+
+## Relay attack
 
 ### request modify
 

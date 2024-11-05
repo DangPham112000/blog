@@ -1,6 +1,6 @@
 ---
 title: "Encryption - Draft"
-weight: 2000
+weight: 50
 date: 2023-11-15T01:47:46+07:00
 ---
 
