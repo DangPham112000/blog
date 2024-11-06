@@ -273,6 +273,12 @@ git config user.email dangpham112000@gmail.com
 
 https://github.com/geongeorge/Git-User-Switch
 
+## Change origin
+
+```sh
+git remote set-url origin <url>
+```
+
 ## Connecting to GitHub using SSH keys (Ubuntu)
 
 ### Checking for existing SSH keys

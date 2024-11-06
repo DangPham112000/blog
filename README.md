@@ -8,6 +8,10 @@
     - Clear all files in `public` folder: `rm -rf engineerblog/public`
     - Also clear in `themes` folder: `rm -rf engineerblog/themes`
     - Clone and connect to submodule: `git submodule update --init --recursive`
+    - Checkout to main brance for incomming deploy:
+        - `cd engineerblog/public`
+        - `git checkout main`
+        - `git pull`
 
 ### run dev
 
