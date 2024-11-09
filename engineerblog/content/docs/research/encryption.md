@@ -179,7 +179,7 @@ Decrypted Message: �!T�{)b��#\��(r sit amet, consectetur adipiscing 
 
 Uses a public-key cryptosystem (like RSA or ECC) and a key-pair: encryption key and corresponding decryption key
 
-Encryption algorithms are often combined in encryption schemes (like AES-256-CTR-HMAC-SHA-256, ChaCha20-Poly1305 or ECIES-secp256k1-AES-128-GCM).
+Encryption algorithms are often combined in encryption schemes (like AES-256-CTR-HMAC-SHA-256, ChaCha20-Poly1305 or ECIES-secp256k1-AES-128-GCM)
 
 ![Asymmetric](/research/encription/Asymmetric.png)
 
@@ -676,3 +676,4 @@ In cryptography the hashing, encryption algorithms and random generators follow 
 - Okta: [HMAC (Hash-Based Message Authentication Codes) Definition](https://www.okta.com/identity-101/hmac/) (Sep 15, 2023)
 - Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19, 2019)
 - Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
+- DangPham112000: [Examples code](https://github.com/DangPham112000/blog-demo) (2024)

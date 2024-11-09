@@ -23,12 +23,57 @@ date: 2023-11-15T01:47:46+07:00
 
 ### TLS 1.3
 
-## Related
+## SSL Certificate
 
-- Why a website we need Certificate?: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects)
+An SSL certificate contains:
+- The website's public key
+- The domain name it's issued for
+- The issuing certificate authority's digital signature
+- Other important information
+
+### Why we need SSL Certificate?
+
+- Prevent: 
+    - [On-path attack](https://www.cloudflare.com/learning/security/threats/on-path-attack/)  <!-- Todo: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects) -->
+    - Domain spoofing
+    - Other methods attackers use to impersonate a website and trick users
+- Establish HTTPS
+
+### Types
+
+#### Single Domain SSL Certificates
+
+One domain and all pages
+
+#### Wildcard SSL Certificates
+
+One domain and all subdomains
+
+#### Multi-Domain SSL Certificates
+
+It's a shared certificate. Multiple distinct domains will be listed on a certificate
+
+### Validation levels
+
+#### Domain Validation
+
+- The least-stringent level 
+- The user only has to prove they control the domain
+- The process can be automated
+
+#### Organization Validation
+
+- Manual vetting process
+
+#### Extended Validation
+
+- Full background check of the organization
 
 ## Reference
 
 - Cloudflare: [How does SSL work?](https://www.cloudflare.com/learning/ssl/how-does-ssl-work/)
+- Cloudflare: [Types of SSL certificates: SSL certificate types explained](https://www.cloudflare.com/learning/ssl/types-of-ssl-certificates/)
 - Gigamon: [What Is TLS 1.2, and Why Should You (Still) Care?](https://blog.gigamon.com/2021/07/14/what-is-tls-1-2-and-why-should-you-still-care/)
-- Wikipedia: [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (Mar 1, 2024)
+- Wikipedia: [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (Mar 1st, 2024)
+- Youtube: [Let's Encrypt Explained: Free SSL](https://www.youtube.com/watch?v=jrR_WfgmWEw) (Oct 25th, 2020)
+- Youtube: [Are Free SSL Certificates Really Good Enough for Your Website?](https://www.youtube.com/watch?v=yjk36fv3Km4) (Sep 1st, 2022)
