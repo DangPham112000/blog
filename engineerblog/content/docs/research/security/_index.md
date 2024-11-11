@@ -101,6 +101,6 @@ Authorize route
 
 ## References
 
-- Cloudflare: [What is a brute force attack?](https://www.cloudflare.com/learning/bots/brute-force-attack/) ()
+- Cloudflare: [What is a brute force attack?](https://www.cloudflare.com/learning/bots/brute-force-attack/)
 - Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
-- Kaspersky: [What is a Dictionary Attack?](https://www.kaspersky.com/resource-center/definitions/what-is-a-dictionary-attack) ()
+- Kaspersky: [What is a Dictionary Attack?](https://www.kaspersky.com/resource-center/definitions/what-is-a-dictionary-attack)

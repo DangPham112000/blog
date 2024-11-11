@@ -26,10 +26,13 @@ date: 2023-11-15T01:47:46+07:00
 ## SSL Certificate
 
 An SSL certificate contains:
-- The website's public key
-- The domain name it's issued for
-- The issuing certificate authority's digital signature
-- Other important information
+- Domain name it's issued for
+- Certificate Authority (CA)
+- Validity Period
+- Website's public key
+- Other information
+
+![certificate](/research/be_protocol/tls_ssl/certificate.png)
 
 ### Why we need SSL Certificate?
 
@@ -39,35 +42,62 @@ An SSL certificate contains:
     - Other methods attackers use to impersonate a website and trick users
 - Establish HTTPS
 
+### Validation levels
+
+![validation_levels](/research/be_protocol/tls_ssl/validation_levels.png)
+
+{{< hint info >}}
+In terms of encryption strength, all three levels provide the same security
+{{< /hint >}}
+
+{{<columns>}}
+
+#### Domain Validation
+
+- Least-stringent level 
+- User only has to prove they control the domain
+- Process can be automated
+
+<--->
+
+#### Organization Validation
+
+- Manual vetting process
+
+<--->
+
+#### Extended Validation
+
+- Full background check of the organization
+
+{{</columns>}}
+
+
+{{< hint info >}}
+At higher levels, they give more verified information about the website owner's identity
+{{< /hint >}}
+
+
 ### Types
 
 #### Single Domain SSL Certificates
 
 One domain and all pages
 
+![single_domain](/research/be_protocol/tls_ssl/single_domain.png)
+
 #### Wildcard SSL Certificates
 
 One domain and all subdomains
 
+![wildcard](/research/be_protocol/tls_ssl/wildcard.png)
+
 #### Multi-Domain SSL Certificates
 
-It's a shared certificate. Multiple distinct domains will be listed on a certificate
+- It's a shared certificate
+- Multiple distinct domains will be listed on a certificate
 
-### Validation levels
-
-#### Domain Validation
-
-- The least-stringent level 
-- The user only has to prove they control the domain
-- The process can be automated
-
-#### Organization Validation
-
-- Manual vetting process
-
-#### Extended Validation
-
-- Full background check of the organization
+![multi-domain](/research/be_protocol/tls_ssl/multi-domain.png)
 
 ## Reference
 

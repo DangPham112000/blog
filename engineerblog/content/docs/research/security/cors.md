@@ -4,7 +4,7 @@ weight: 1000
 date: 2024-04-18T01:47:46+07:00
 ---
 
-# CORS
+# Cross-origin resource sharing
 
 ## Overview
 
