@@ -109,3 +109,4 @@ One domain and all subdomains
 - Wikipedia: [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (Mar 1st, 2024)
 - Youtube: [Let's Encrypt Explained: Free SSL](https://www.youtube.com/watch?v=jrR_WfgmWEw) (Oct 25th, 2020)
 - Youtube: [Are Free SSL Certificates Really Good Enough for Your Website?](https://www.youtube.com/watch?v=yjk36fv3Km4) (Sep 1st, 2022)
+- Mozilla: [SSL Configuration Generator](https://ssl-config.mozilla.org/) (Nov 13th, 2024)

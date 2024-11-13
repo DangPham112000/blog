@@ -143,7 +143,7 @@ When you mock a module, everything you exported in this module will be mocked an
 
 **Solution:**
 
-If your module exports alots, and you only want to mock one thing, you shoult split it into another module
+If your module exports alots, and you only want to mock one thing, you should split it into another module
 
 **Example:**
 
