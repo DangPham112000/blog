@@ -34,14 +34,6 @@ An SSL certificate contains:
 
 ![certificate](/research/be_protocol/tls_ssl/certificate.png)
 
-### Why we need SSL Certificate?
-
-- Prevent: 
-    - [On-path attack](https://www.cloudflare.com/learning/security/threats/on-path-attack/)  <!-- Todo: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects) -->
-    - Domain spoofing
-    - Other methods attackers use to impersonate a website and trick users
-- Establish HTTPS
-
 ### Validation levels
 
 ![validation_levels](/research/be_protocol/tls_ssl/validation_levels.png)
@@ -98,6 +90,16 @@ One domain and all subdomains
 - Multiple distinct domains will be listed on a certificate
 
 ![multi-domain](/research/be_protocol/tls_ssl/multi-domain.png)
+
+### Why we need SSL Certificate?
+
+- Prevent: 
+    - [On-path attack](https://www.cloudflare.com/learning/security/threats/on-path-attack/)  <!-- Todo: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects) -->
+    - Domain spoofing
+    - Other methods attackers use to impersonate a website and trick users
+- Establish HTTPS
+
+### [How to setup SSL Cert?](/docs/tips/004_ops/#ssl-certificate)
 
 ## Reference
 
