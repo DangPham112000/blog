@@ -69,6 +69,8 @@ ZSH_THEME="agnoster"
 
 #### [Auto-suggestions](https://github.com/zsh-users/zsh-autosuggestions?tab=readme-ov-file#zsh-autosuggestions)
 
+![auto_suggestions](/tips/passion/auto_suggestions.png)
+
 ```sh
 # Download plugin
 git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
@@ -81,8 +83,9 @@ plugins=(
 )
 ```
 
-
 #### [Syntax highlighting](https://github.com/zsh-users/zsh-syntax-highlighting?tab=readme-ov-file#zsh-syntax-highlighting-)
+
+![syntax_highlighting](/tips/passion/syntax_highlighting.png)
 
 ```sh
 # Download plugin
@@ -114,7 +117,40 @@ cmatrix
 
 ### Power mode extension
 
+![power_mode](/tips/passion/power_mode.gif)
+
+```sh
+# Open file setting.json of vscode
+vim ~/.config/Code/User/settings.json
+```
+
+```json
+// settings.json
+{
+    // Other settings
+    "powermode.enabled": true,
+    "powermode.maxExplosions": 10,
+    "editor.codeActionsOnSave": null,
+    "powermode.explosions.size": 15,
+    "powermode.explosions.frequency": 2,
+    "powermode.explosions.offset": 0.215,
+    "powermode.explosions.customExplosions": [
+        "https://media.giphy.com/media/sLMRyFR4eIEgnFe4mK/giphy.gif",
+        "https://media.giphy.com/media/RFvv2miX3KHcOkBwns/giphy.gif",
+        "https://media.giphy.com/media/8Hw8ei9OiUXIUlHEBy/giphy.gif"
+    ],
+    "powermode.explosions.backgroundMode": "mask",
+    "powermode.explosions.gifMode": "restart",
+    "powermode.explosions.explosionOrder": "sequential",
+    "powermode.explosions.duration": 1000,
+    "powermode.explosions.customCss": {
+        "mix-blend-mode": "color-dodge"
+    },
+    "powermode.shake.enabled": false
+}
+```
+
 ## References
 
-- Github: [Power mode setups](https://github.com/hoovercj/vscode-power-mode/issues/1)
+- Github: [Power mode setup templates](https://github.com/hoovercj/vscode-power-mode/issues/1)
 - Scottspence: [My Zsh Config](https://scottspence.com/posts/my-zsh-config) (April 14th, 2022)
