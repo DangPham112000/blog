@@ -99,7 +99,7 @@ One domain and all subdomains
     - Other methods attackers use to impersonate a website and trick users
 - Establish HTTPS
 
-### [How to setup SSL Cert?](/docs/tips/004_ops/#ssl-certificate)
+### How to setup SSL Cert? [(Link)](/docs/tips/004_ops/#ssl-certificate)
 
 ## Reference
 
