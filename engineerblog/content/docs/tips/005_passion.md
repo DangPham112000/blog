@@ -117,7 +117,11 @@ cmatrix
 
 ### Power mode extension
 
+- Add visual effects and animations as you type
+
 ![power_mode](/tips/passion/power_mode.gif)
+
+- Install extension name: `Power Mode`
 
 ```sh
 # Open file setting.json of vscode
