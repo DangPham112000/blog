@@ -22,11 +22,17 @@ date: 2023-11-15T01:47:46+07:00
 
 ## Symmetric encryption
 
-uses the same key to encrypt and decrypt messages
+Uses the same key to encrypt and decrypt messages
 
 AES, Twofish and ChaCha20
 
 ![Symmetric](/research/encription/Symmetric.png)
+
+### Use case
+
+- HTTPS with SSL/TLS: Session key
+- Data Transmission
+- Data Storage
 
 ### Demo code
 

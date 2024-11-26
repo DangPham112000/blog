@@ -25,7 +25,7 @@ date: 2023-11-15T01:47:46+07:00
 
 ## SSL Certificate
 
-An SSL certificate contains:
+A SSL certificate contains:
 - Domain name it's issued for
 - Certificate Authority (CA)
 - Validity Period
@@ -33,6 +33,17 @@ An SSL certificate contains:
 - Other information
 
 ![certificate](/research/be_protocol/tls_ssl/certificate.png)
+
+{{<columns>}}
+#### No certificate
+![no_cert](/research/be_protocol/tls_ssl/no_cert.png)
+<--->
+#### Invalid certificate
+![err_cert](/research/be_protocol/tls_ssl/err_cert.png)
+<--->
+#### Valid certificate
+![valid_cert](/research/be_protocol/tls_ssl/valid_cert.png)
+{{</columns>}}
 
 ### Validation levels
 
@@ -64,6 +75,21 @@ In terms of encryption strength, all three levels provide the same security
 
 {{</columns>}}
 
+{{<columns>}}
+![DV1](/research/be_protocol/tls_ssl/DV1.png)
+<--->
+![OV1](/research/be_protocol/tls_ssl/OV1.png)
+<--->
+![EV1](/research/be_protocol/tls_ssl/EV1.png)
+{{</columns>}}
+
+{{<columns>}}
+![DV2](/research/be_protocol/tls_ssl/DV2.png)
+<--->
+![OV2](/research/be_protocol/tls_ssl/OV2.png)
+<--->
+![EV2](/research/be_protocol/tls_ssl/EV2.png)
+{{</columns>}}
 
 {{< hint info >}}
 At higher levels, they give more verified information about the website owner's identity

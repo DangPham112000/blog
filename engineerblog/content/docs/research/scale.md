@@ -140,16 +140,16 @@ In mobile architecture
 
 ## Caching
 
-Everything stored on frontend can be changed by the user so this is potential security vulnerability.
+Everything stored on frontend can be changed by the user so this is potential security vulnerability
 
-This is the main difference between backend and frontend caching, backend caching can't be edited by the user.
+This is the main difference between backend and frontend caching, backend caching can't be edited by the user
 
 ![caching](/research/scale/caching.png)
 
 
 ### Frontend
 
-On the frontend, a browser or the client application caches data like a header image the first time your user accesses it. The next time they access that same content, the frontend loads the cached files to improve performance.
+On the frontend, a browser or the client application caches data like a header image the first time your user accesses it. The next time they access that same content, the frontend loads the cached files to improve performance
 
 #### Browser caching
 
@@ -157,37 +157,40 @@ Browser caching is a technique that allows you to store certain files, such as C
 
 ### Backend
 
-Backend development uses caching to reduce the load on the application server. What you store in the backend cache depends on your application itself. Cached content includes static pages, database query results, API responses, session data, images, and videos.
+Backend development uses caching to reduce the load on the application server. What you store in the backend cache depends on your application itself. Cached content includes static pages, database query results, API responses, session data, images, and videos
 
 ### CDN - Content Delivery Network
 
-Implementing CDN caching requires integrating your website with a CDN provider. This involves configuring your DNS settings to point to the CDN’s servers and setting up caching rules to determine which files should be cached and for how long.
+Implementing CDN caching requires integrating your website with a CDN provider. This involves configuring your DNS settings to point to the CDN’s servers and setting up caching rules to determine which files should be cached and for how long
 
-#### Ramble on about the limit of the speed of light
+{{<details title="**Ramble on about the limit of the speed of light**" open=false >}}
 
-Quantum entanglement promises to enable instant communication or data transmission in the future, regardless of distance.
+Quantum entanglement promises to enable instant communication or data transmission in the future, regardless of distance
 
-However, as of now, we use fiber optic cables, and the latency is significantly higher when transfering data from a distant location compared to a nearby one.
+However, as of now, we use fiber optic cables, and the latency is significantly higher when transfering data from a distant location compared to a nearby one
 
 A question is: **Aren't data packets traveling at the speed of light?** If they did, would the difference in latency between close and far locations be significant?
 
 For example:
 
-- The distance from Ho Chi Minh City to New York is 14,275 km, or 14,275,000 meters.
-- The speed of light is approximately 300,000,000 m/s, or 300,000 meters per millisecond (m/ms).
-- The time for a data packet to travel one way would be around 47.583 ms, so a round trip (sending and receiving) would take about 95 ms.
+- The distance from Ho Chi Minh City to New York is 14,275 km, or 14,275,000 meters
+- The speed of light is approximately 300,000,000 m/s, or 300,000 meters per millisecond (m/ms)
+- The time for a data packet to travel one way would be around 47.583 ms, so a round trip (sending and receiving) would take about 95 ms
 
 But this is in an ideal scenario where:
 
-- The server takes 0 ms to process the request and sends the response instantly.
-- The signal is traveling in a vacuum at the speed of light (300,000 m/ms).
+- The server takes 0 ms to process the request and sends the response instantly
+- The signal is traveling in a vacuum at the speed of light (300,000 m/ms)
 
 In reality:
 
-- The speed of data transmission through fiber optic cables is lower—around 200,000 kilometers per second, or 200,000 m/ms.
-- Even with a direct fiber optic connection between Ho Chi Minh City and a server in New York, the round trip would take at least 142.75 ms.
+- The speed of data transmission through fiber optic cables is lower—around 200,000 kilometers per second, or 200,000 m/ms
+- Even with a direct fiber optic connection between Ho Chi Minh City and a server in New York, the round trip would take at least 142.75 ms
 
 So even with a direct connection to a New York server, I'd still be playing League of Legends with a ping of over 140 ms!
+
+{{</details>}}
+
 
 ## Data center
 
