@@ -115,13 +115,14 @@ cmatrix
 
 ## Vscode Custom
 
-### Power mode extension
+### Power Mode extension
 
 - Add visual effects and animations as you type
 
 ![power_mode](/tips/passion/power_mode.gif)
 
 - Install extension name: `Power Mode`
+- ID: `hoovercj.vscode-power-mode`
 
 ```sh
 # Open file setting.json of vscode
@@ -153,6 +154,15 @@ vim ~/.config/Code/User/settings.json
     "powermode.shake.enabled": false
 }
 ```
+
+### Todo Tree extension
+
+- This extension quickly searches your workspace for comment tags like **TODO** and **FIXME**, and displays them in a tree view in the activity bar
+
+![todo](/tips/passion/todo.png)
+
+- Install extension name: `Todo Tree`
+- ID: `Gruntfuggly.todo-tree`
 
 ## References
 

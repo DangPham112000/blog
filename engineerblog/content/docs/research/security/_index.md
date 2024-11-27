@@ -91,6 +91,9 @@ Authorize route
 
 ## Man in the middle attack
 
+- TODO: Listen wifi
+- TODO: Setup server in front of real server
+
 ## Replay attack
 
 ## Relay attack

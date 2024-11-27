@@ -6,6 +6,58 @@ date: 2023-11-15T01:47:46+07:00
 
 # TLS - SSL
 
+## Problem
+
+- TODO: Demo listen plain packet from wifi if user browse a website using http with and without ssl/tls
+
+```sh
+# Install the Aircrack-ng suite, which includes airmon-ng
+sudo apt install aircrack-ng
+
+# Check wireless interface
+iwconfig
+# -> E.g output
+lo        no wireless extensions.
+enp4s0    no wireless extensions.
+wlo1      IEEE 802.11  ESSID:"A14-01"  
+          Mode:Managed  Frequency:2.417 GHz  Access Point: CC:71:90:62:9E:98   
+          Bit Rate=130 Mb/s   Tx-Power=22 dBm   
+          Retry short limit:7   RTS thr:off   Fragment thr:off
+          Power Management:on
+          Link Quality=62/70  Signal level=-48 dBm  
+          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:203   Missed beacon:0
+docker0   no wireless extensions.
+
+# Disconnect the wireless adapter from managing a network
+sudo airmon-ng check kill
+
+# Enable monitor mode on your wireless adapter
+sudo airmon-ng start wlo1
+
+# Verify
+iwconfig
+# -> E.g output
+lo        no wireless extensions.
+enp4s0    no wireless extensions.
+docker0   no wireless extensions.
+wlo1mon   IEEE 802.11  Mode:Monitor  Frequency:2.457 GHz  
+          Retry short limit:7   RTS thr:off   Fragment thr:off
+          Power Management:on
+
+# Capture packets
+sudo airodump-ng wlo1mon
+sudo wireshark
+# -> Use Wireshark to capture packets on the wlo1mon interface
+```
+
+- Stop capturing packets (Monitor Mode)
+```sh
+sudo airmon-ng stop wlo1mon
+sudo systemctl restart NetworkManager
+```
+
+
 ## Overview
 
 - A protocol for encrypting, securing, and authenticating communications that take place on the Internet
@@ -13,35 +65,165 @@ date: 2023-11-15T01:47:46+07:00
 
 ![evolution](/research/be_protocol/tls_ssl/evolution.png)
 
+- To see which TLS version of a website (For Chrome): 
+    1. Open the **Developer Tools** (Ctrl+Shift+I) 
+    2. Select the **Security** tab 
+    3. Navigate to the **Origin** you want to inspect 
+    4. At the **Connection** section, check the results which TLS protocol is used
+    ![tls_demo_version_check](/research/be_protocol/tls_ssl/tls_demo_version_check.png)
+
 ## TLS 1.2
 
 ![tls_1.2_handsake](/research/be_protocol/tls_ssl/tls_1.2_handsake.png)
 
+### Setup
+
+{{<details title="**Nginx**" open=false >}}
+
+1. Open Your Nginx Configuration
+
+```sh
+sudo vi /etc/nginx/sites-enabled/default
+```
+
+2. Update the `ssl_protocols` directive and configure cipher suites:
+    - `ssl_protocols TLSv1.2;`
+    - `ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256';`
+    - When you set up a free SSL certificate with **Certbot** ([Let's Encrypt certificate](/docs/tips/004_ops/#lets-encrypt-ssltls-certificate)), **Certbot** automatically sets up `ssl_protocols` and `ssl_ciphers` for you (`include /etc/letsencrypt/options-ssl-nginx.conf;`). I commented this out to allow my demo to work correctly
+
+```nginx
+server {
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mnptt.io.vn/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mnptt.io.vn/privkey.pem; # managed by Certbot
+    #include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    # Downgrade to TLS 1.2
+    ssl_protocols TLSv1.2;
+    ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256';
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name mnptt.io.vn;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+3. Test the configuration
+
+```sh
+sudo nginx -t
+```
+
+4. Reload Nginx
+
+```sh
+sudo systemctl reload nginx
+```
+
+5. Verify
+
+![tls_1_2_setup](/research/be_protocol/tls_ssl/tls_1_2_setup.png)
+
+{{</details>}}
+
 ## TLS 1.3
 
-### Diffie Hellman
+### Diffie-Hellman
 
 ### TLS 1.3
 
+### Setup
+
+{{<details title="**Nginx**" open=false >}}
+
+0. Requirements
+
+- `OpenSSL`: 1.1.1 or newer
+- `Nginx`: 1.13.0 or newer
+
+1. Open Your Nginx Configuration
+
+```sh
+sudo vi /etc/nginx/sites-enabled/default
+```
+
+2. Update the `ssl_protocols` directive and configure cipher suites:
+   - `ssl_protocols TLSv1.3 TLSv1.2;`
+   - `ssl_ciphers 'TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384';`
+    - When you set up a free SSL certificate with **Certbot** ([Let's Encrypt certificate](/docs/tips/004_ops/#lets-encrypt-ssltls-certificate)), **Certbot** automatically sets up `ssl_protocols` and `ssl_ciphers` for you (`include /etc/letsencrypt/options-ssl-nginx.conf;`). I commented this out to allow my demo to work correctly
+
+```nginx
+server {
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/mnptt.io.vn/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mnptt.io.vn/privkey.pem; # managed by Certbot
+    #include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    # Override settings for TLS 1.3
+    ssl_protocols TLSv1.2 TLSv1.3;  # Enable TLS 1.3 and keep TLS 1.2
+    ssl_ciphers 'TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384';
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name mnptt.io.vn;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+3. Test the configuration
+
+```sh
+sudo nginx -t
+```
+
+4. Reload Nginx
+
+```sh
+sudo systemctl reload nginx
+```
+
+5. Verify
+
+![tls_1_3_setup](/research/be_protocol/tls_ssl/tls_1_3_setup.png)
+
+{{</details>}}
+
 ## SSL Certificate
 
-A SSL certificate contains:
-- Domain name it's issued for
-- Certificate Authority (CA)
-- Validity Period
-- Website's public key
-- Other information
+- A SSL certificate contains:
+  - Domain name it's issued for
+  - Certificate Authority (CA)
+  - Validity Period
+  - Website's public key
+  - Other information
 
 ![certificate](/research/be_protocol/tls_ssl/certificate.png)
 
 {{<columns>}}
+
 #### No certificate
+
 ![no_cert](/research/be_protocol/tls_ssl/no_cert.png)
 <--->
+
 #### Invalid certificate
+
 ![err_cert](/research/be_protocol/tls_ssl/err_cert.png)
 <--->
+
 #### Valid certificate
+
 ![valid_cert](/research/be_protocol/tls_ssl/valid_cert.png)
 {{</columns>}}
 
@@ -57,7 +239,7 @@ In terms of encryption strength, all three levels provide the same security
 
 #### Domain Validation
 
-- Least-stringent level 
+- Least-stringent level
 - User only has to prove they control the domain
 - Process can be automated
 
@@ -95,7 +277,6 @@ In terms of encryption strength, all three levels provide the same security
 At higher levels, they give more verified information about the website owner's identity
 {{< /hint >}}
 
-
 ### Types
 
 #### Single Domain SSL Certificates
@@ -119,13 +300,16 @@ One domain and all subdomains
 
 ### Why we need SSL Certificate?
 
-- Prevent: 
-    - [On-path attack](https://www.cloudflare.com/learning/security/threats/on-path-attack/)  <!-- Todo: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects) -->
+- Prevent:
+    - [On-path attack](https://www.cloudflare.com/learning/security/threats/on-path-attack/) <!-- TODO: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects) -->
     - Domain spoofing
     - Other methods attackers use to impersonate a website and trick users
 - Establish HTTPS
 
-### How to setup SSL Cert? [(Link)](/docs/tips/004_ops/#ssl-certificate)
+### How to setup SSL Certificate?
+
+- [Free SSL Certificate](/docs/tips/004_ops/#lets-encrypt-ssltls-certificate)
+- [SSL Certificate for localhost](/docs/tips/004_ops/#certificates-for-localhost)
 
 ## Reference
 
@@ -136,3 +320,5 @@ One domain and all subdomains
 - Youtube: [Let's Encrypt Explained: Free SSL](https://www.youtube.com/watch?v=jrR_WfgmWEw) (Oct 25th, 2020)
 - Youtube: [Are Free SSL Certificates Really Good Enough for Your Website?](https://www.youtube.com/watch?v=yjk36fv3Km4) (Sep 1st, 2022)
 - Mozilla: [SSL Configuration Generator](https://ssl-config.mozilla.org/) (Nov 13th, 2024)
+- Networkoptix: [How to check and/or change the TLS version](https://support.networkoptix.com/hc/en-us/articles/17314112665111-How-to-check-and-or-change-the-TLS-version) (Nov 11th, 2024)
+- Wireshark: [Turning on monitor mode](https://wiki.wireshark.org/CaptureSetup/WLAN#turning-on-monitor-mode)
