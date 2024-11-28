@@ -91,7 +91,11 @@ Authorize route
 
 ## Man in the middle attack
 
-- TODO: Listen wifi
+- [Packet Sniffing](/docs/research/security/packet_sniffing/)
+- ARP Spoofing
+- [Evil Twin Attack](/docs/research/security/evil_twin/)
+- Deauthentication Attack
+- DNS Spoofing
 - TODO: Setup server in front of real server
 
 ## Replay attack

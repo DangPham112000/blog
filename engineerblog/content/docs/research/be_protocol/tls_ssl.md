@@ -8,55 +8,7 @@ date: 2023-11-15T01:47:46+07:00
 
 ## Problem
 
-- TODO: Demo listen plain packet from wifi if user browse a website using http with and without ssl/tls
-
-```sh
-# Install the Aircrack-ng suite, which includes airmon-ng
-sudo apt install aircrack-ng
-
-# Check wireless interface
-iwconfig
-# -> E.g output
-lo        no wireless extensions.
-enp4s0    no wireless extensions.
-wlo1      IEEE 802.11  ESSID:"A14-01"  
-          Mode:Managed  Frequency:2.417 GHz  Access Point: CC:71:90:62:9E:98   
-          Bit Rate=130 Mb/s   Tx-Power=22 dBm   
-          Retry short limit:7   RTS thr:off   Fragment thr:off
-          Power Management:on
-          Link Quality=62/70  Signal level=-48 dBm  
-          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
-          Tx excessive retries:0  Invalid misc:203   Missed beacon:0
-docker0   no wireless extensions.
-
-# Disconnect the wireless adapter from managing a network
-sudo airmon-ng check kill
-
-# Enable monitor mode on your wireless adapter
-sudo airmon-ng start wlo1
-
-# Verify
-iwconfig
-# -> E.g output
-lo        no wireless extensions.
-enp4s0    no wireless extensions.
-docker0   no wireless extensions.
-wlo1mon   IEEE 802.11  Mode:Monitor  Frequency:2.457 GHz  
-          Retry short limit:7   RTS thr:off   Fragment thr:off
-          Power Management:on
-
-# Capture packets
-sudo airodump-ng wlo1mon
-sudo wireshark
-# -> Use Wireshark to capture packets on the wlo1mon interface
-```
-
-- Stop capturing packets (Monitor Mode)
-```sh
-sudo airmon-ng stop wlo1mon
-sudo systemctl restart NetworkManager
-```
-
+- Demo listen plain packet from wifi if user browse a website using http with and without ssl/tls: [Link](/docs/research/security/packet_sniffing/)
 
 ## Overview
 
@@ -143,9 +95,8 @@ sudo systemctl reload nginx
 {{<details title="**Nginx**" open=false >}}
 
 0. Requirements
-
-- `OpenSSL`: 1.1.1 or newer
-- `Nginx`: 1.13.0 or newer
+    - `OpenSSL`: 1.1.1 or newer
+    - `Nginx`: 1.13.0 or newer
 
 1. Open Your Nginx Configuration
 
@@ -321,4 +272,3 @@ One domain and all subdomains
 - Youtube: [Are Free SSL Certificates Really Good Enough for Your Website?](https://www.youtube.com/watch?v=yjk36fv3Km4) (Sep 1st, 2022)
 - Mozilla: [SSL Configuration Generator](https://ssl-config.mozilla.org/) (Nov 13th, 2024)
 - Networkoptix: [How to check and/or change the TLS version](https://support.networkoptix.com/hc/en-us/articles/17314112665111-How-to-check-and-or-change-the-TLS-version) (Nov 11th, 2024)
-- Wireshark: [Turning on monitor mode](https://wiki.wireshark.org/CaptureSetup/WLAN#turning-on-monitor-mode)
