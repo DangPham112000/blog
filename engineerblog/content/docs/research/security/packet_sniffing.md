@@ -17,10 +17,34 @@ date: 2024-06-15T01:47:46+07:00
 
 ## Demo
 
-```sh
-# Install the Aircrack-ng suite, which includes airmon-ng
-sudo apt install aircrack-ng
+{{<hint danger>}}
+**DISCLAIMER**: This demo is for educational purposes only. The techniques should only be tested on systems you own or have explicit permission to analyze. Misuse of this information is unethical, may violate the law, and could lead to serious consequences. The author takes no responsibility for any damages or misuse arising from this content
+{{</hint>}}
 
+
+### Install necessary packages
+
+```sh
+sudo apt update
+```
+
+- Aircrack-ng:
+    - Airmon-ng is a utility in the Aircrack-ng suite that helps set up a wireless network card into monitor mode
+    - Airodump-ng: Captures data packets from nearby wireless networks
+
+```sh
+sudo apt install aircrack-ng
+```
+
+- Wireshark is a network packet analyzer
+
+```sh
+sudo apt install wireshark
+```
+
+### Hand-on
+
+```sh
 # Check wireless interface
 iwconfig
 # -> E.g output
@@ -35,6 +59,7 @@ wlo1      IEEE 802.11  ESSID:"A14-01"
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:203   Missed beacon:0
 docker0   no wireless extensions.
+# -> Your wireless interface is wlo1
 
 # Disconnect the wireless adapter from managing a network
 sudo airmon-ng check kill
@@ -51,6 +76,7 @@ docker0   no wireless extensions.
 wlo1mon   IEEE 802.11  Mode:Monitor  Frequency:2.457 GHz  
           Retry short limit:7   RTS thr:off   Fragment thr:off
           Power Management:on
+# -> Your wireless adapter with monitor mode is now wlo1mon
 
 # Capture packets
 sudo airodump-ng wlo1mon
