@@ -42,7 +42,7 @@ sudo apt install aircrack-ng
 sudo apt install wireshark
 ```
 
-### Hand-on
+### Let's go
 
 ```sh
 # Check wireless interface

