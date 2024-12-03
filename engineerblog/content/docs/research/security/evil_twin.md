@@ -65,6 +65,7 @@ sudo airodump-ng wlo1mon
 
 # Find the channel of wifi
 sudo aireplay-ng --test wlo1mon
+# -> If it fails, your card may not support Packet Injection
 # E.g output
 12:26:19  Trying broadcast probe requests...
 12:26:21  No Answer...
