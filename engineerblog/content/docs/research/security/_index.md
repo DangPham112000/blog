@@ -6,6 +6,62 @@ date: 2024-06-15T01:47:46+07:00
 
 # Security
 
+## Explore your site's vulnerabilities
+
+```sh
+# IPv4
+sudo nmap --script vuln [IPv4] 
+# IPv6 
+sudo nmap -6 --script vuln [IPv6]
+# E.g IPv4
+sudo nmap --script vuln 18.141.184.34
+# E.g IPv6
+sudo nmap -6 --script vuln 2606:4700:3033::ac43:b865
+# E.g output
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-05 09:00 +07
+Nmap scan report for ec2-18-141-184-34.ap-southeast-1.compute.amazonaws.com (18.141.184.34)
+Host is up (0.033s latency).
+Not shown: 997 filtered tcp ports (no-response)
+PORT    STATE SERVICE
+22/tcp  open  ssh
+80/tcp  open  http
+|_http-csrf: Couldn't find any CSRF vulnerabilities.
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+| http-vuln-cve2011-3192: 
+|   VULNERABLE:
+|   Apache byterange filter DoS
+|     State: VULNERABLE
+|     IDs:  BID:49303  CVE:CVE-2011-3192
+|       The Apache web server is vulnerable to a denial of service attack when numerous
+|       overlapping byte ranges are requested.
+|     Disclosure date: 2011-08-19
+|     References:
+|       https://www.securityfocus.com/bid/49303
+|       https://www.tenable.com/plugins/nessus/55976
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3192
+|_      https://seclists.org/fulldisclosure/2011/Aug/175
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+443/tcp open  https
+|_http-csrf: Couldn't find any CSRF vulnerabilities.
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+| http-vuln-cve2011-3192: 
+|   VULNERABLE:
+|   Apache byterange filter DoS
+|     State: VULNERABLE
+|     IDs:  BID:49303  CVE:CVE-2011-3192
+|       The Apache web server is vulnerable to a denial of service attack when numerous
+|       overlapping byte ranges are requested.
+|     Disclosure date: 2011-08-19
+|     References:
+|       https://www.securityfocus.com/bid/49303
+|       https://www.tenable.com/plugins/nessus/55976
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3192
+|_      https://seclists.org/fulldisclosure/2011/Aug/175
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+
+Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
+```
+
 ## Brute Force Attack
 
 - Every password-based system and encryption key out there can be cracked using a brute force attack.
