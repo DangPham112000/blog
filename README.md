@@ -4,14 +4,17 @@
 - Verify the existence of **Golang**: cmd -> `go version`
 - Verify the existence of **Dart Sass**: cmd -> `dart-sass --version`
 - Verify the existence of **Hugo**: cmd -> `hugo version`
-- Setup all submodule (github page and book theme):
-    - Clear all files in `public` folder: `rm -rf engineerblog/public`
-    - Also clear in `themes` folder: `rm -rf engineerblog/themes`
-    - Clone and connect to submodule: `git submodule update --init --recursive`
-    - Checkout to main brance for incomming deploy:
+- Setup submodules (github page and book theme):
+    - Github page module: `public` folder
+        - Clear folder: `rm -rf ./engineerblog/public`
+    - Hugo-book theme module: `themes/hugo-book` folder
+        - Clear folder: `rm -rf ./engineerblog/themes`
+    - Clone and connect to submodules: `git submodule update --init --recursive`
+    - Switch to the main branch for the upcoming deployment:
         - `cd engineerblog/public`
         - `git checkout main`
         - `git pull`
+        - Repeat the same steps for the `hugo-book` module
 
 ### run dev
 
