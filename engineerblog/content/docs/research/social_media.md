@@ -2,6 +2,7 @@
 title: "Social Media - Draft"
 weight: 1000
 date: 2023-12-05T01:47:46+07:00
+draft: true
 ---
 
 # Social Media: fakebut.site

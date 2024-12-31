@@ -138,3 +138,5 @@ By having this information, the compositor thread can make sure to send input ev
 - Gitconnected: [How web browsers use processes and threads](https://levelup.gitconnected.com/how-web-browsers-use-processes-and-threads-9f8f8fa23371) (2020 Jul 17)
 - Medium: [Javascript main thread dissected](https://medium.com/@francesco_rizzi/javascript-main-thread-dissected-43c85fce7e23) (2017 Nov 13)
 - V8: [JavaScript modules](https://v8.dev/features/modules) (2018 Jun 18)
+
+{{< footer >}}

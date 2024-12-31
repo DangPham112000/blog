@@ -620,3 +620,5 @@ Then CloudFormation creates those for you, in the **right order**, with the **ex
 
 ![global_apps_architecture1](/research/aws_overview/global_apps_architecture1.png)
 ![global_apps_architecture2](/research/aws_overview/global_apps_architecture2.png)
+
+{{< footer >}}

@@ -13,3 +13,5 @@ Taking HTTP/2 to the next level
 - Client Library: One library for popular languages
 - Protocol: HTTP/2 (hidden implementation)
 - Message Format: Protocol buffers as format
+
+{{< footer >}}
