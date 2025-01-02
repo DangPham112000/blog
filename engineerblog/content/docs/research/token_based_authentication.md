@@ -1,20 +1,19 @@
 ---
-title: "Authentication - Draft"
+title: "Token Based Authentication"
 weight: 60
 date: 2024-10-17T01:47:46+07:00
 ---
 
-# Authentication
+# Token based authentication
 
-## Cookie - Session
+## Basic flow
+![basic_flow](/research/token_based_authentication/basic_flow.png)
 
-## Token base
+## Token expired
+![token_expired](/research/token_based_authentication/token_expired.png)
 
-Basic flow
-![basic-flow](/research/authentication/basic-flow.png)
-
-Token expired
-![token-expired](/research/authentication/token-expired.png)
+## Threat mitigation strategy
+![threat_mitigation](/research/token_based_authentication/threat_mitigation.png)
 
 ### Access Token
 
@@ -50,6 +49,12 @@ So refresh token born as a factor to re-grant AT when they are expired and user 
 
 Whenever we see the reused RT, we must right away clear all token and it's keys, then force user to re-login to the system
 
+### Third party authen concept
+
+![3rd_auth](/research/token_based_authentication/3rd_auth.png)
+
 ## Reference
 
 - : []() ()
+
+{{< footer >}}
