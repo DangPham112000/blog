@@ -6,26 +6,22 @@ date: 2025-01-03T01:47:46+07:00
 
 # Token-based authentication
 
-- Provide one-time login for user
-- Less access to database for password checking, user info, user role 
+- **Senario**: Each time a user accesses your website containing **sensitive** resources, such as posting a new blog, they are required to log in **repeatedly** every time they visit
+- **Problem**: Is there a way to allow them to log in just **once** and avoid re-logging in, even if their previous session was two days ago?
+- **Solution**: Access tokens were designed to solve this problem
 
-## Basic flow
-![basic_flow](/research/token_based_authentication/basic_flow.png)
+## Access token
 
-## Token expired
-![token_expired](/research/token_based_authentication/token_expired.png)
+- Provide a one-time login for users
+- Reduce database access for password verification, user information retrieval, and role checking
 
-## Threat mitigation strategy
-![threat_mitigation](/research/token_based_authentication/threat_mitigation.png)
+### Characteristics
 
-### Access Token
-
-#### Pros
-Do you notice some web page allow you go to a route like dashboard immediately just because you has been login before, but some other web app also have dashboard but they request you login every time you go to them
-
---> Bad UX
-
-If we use AT, they do not need re-login
+- Short-lived
+- Stored in client-side storage
+- Contains the user's identity
+- Contains a set of claims, permissions, or roles of the user
+- **Grants access to the system**
 
 #### Cons
 
@@ -43,17 +39,34 @@ Our server can grant several AT and somehow one of them be stolen by hacker, if 
 
 --> So we design RT
 
-### Refresh Token
+## Refresh token
 
 In order to prevent hacker stolen AT, we decide AT only live in a short time
 So refresh token born as a factor to re-grant AT when they are expired and user then can be continue their session with our resource without re-login and don't worry about impersonation
+
+### Characteristics
+
+- Long-lived 
+- Single-use
+- Stored on the server and the client
+- **Used to obtain a new pair of access and refresh tokens**
 
 #### Each RT can only be used once
 
 Whenever we see the reused RT, we must right away clear all token and it's keys, then force user to re-login to the system
 
-### Third party authen concept
+## How do they work together? 
 
+### Basic flow
+![basic_flow](/research/token_based_authentication/basic_flow.png)
+
+### Token expired
+![token_expired](/research/token_based_authentication/token_expired.png)
+
+### Threat mitigation strategy
+![threat_mitigation](/research/token_based_authentication/threat_mitigation.png)
+
+### Third party authen concept
 ![3rd_auth](/research/token_based_authentication/3rd_auth.png)
 
 ## Demo code
@@ -272,6 +285,6 @@ router.get("/drafts/all", asyncHandler(postController.findAllDraftsOfUser));
 
 ## Reference
 
-- : []() ()
+- Medium: [Understanding Access Tokens and Refresh Tokens](https://medium.com/@lakshyakumarsingh.2003.va/understanding-access-tokens-and-refresh-tokens-2ec4bc4f9a4f) (Mar 23, 2024)
 
 {{< footer >}}
