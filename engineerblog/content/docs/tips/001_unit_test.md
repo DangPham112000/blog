@@ -179,6 +179,67 @@ describe("calculateThings", () => {
 });
 ```
 
+
+### Mock library
+
+```js
+// authUtils.js
+import jwt from "jsonwebtoken";
+
+export const createTokenPair = (payload, privateKey) => {
+	try {
+		const accessToken = jwt.sign(payload, privateKey, {
+			algorithm: "RS256",
+			expiresIn: "2 days",
+		});
+		const refreshToken = jwt.sign(payload, privateKey, {
+			algorithm: "RS256",
+			expiresIn: "7 days",
+		});
+
+		return { accessToken, refreshToken };
+	} catch (error) {
+		throw new Error("createTokenPair got error");
+	}
+};
+```
+
+```js
+// authUtils.test.js
+import { describe, expect, it } from "vitest";
+import { createTokenPair, genKeyPairRSA } from "../../src/auth/authUtils";
+import jwt from "jsonwebtoken";
+
+describe("auth/authUtils.js", () => {
+	describe("createTokenPair", () => {
+		afterEach(() => {
+			vi.restoreAllMocks();
+			vi.unstubAllGlobals();
+		});
+		it("should throw error when jwt lib got error", () => {
+			vi.spyOn(jwt, "sign").mockImplementation(() => {
+				throw new Error("JWT error");
+			});
+
+			const payload = {
+				userId: 123,
+				email: "a@b.co",
+			};
+
+			const { privateKey, publicKey } = genKeyPairRSA();
+
+			const toBeThrowError = () => {
+				const { accessToken, refreshToken } = createTokenPair(
+					payload,
+					privateKey
+				);
+			};
+			expect(toBeThrowError).toThrowError("createTokenPair got error");
+		});
+	});
+});
+```
+
 ## Sinon
 
 ### Stub a function that is called by another function in the same module
