@@ -245,3 +245,5 @@ Retrieve all information that has been emitted from the docker
 ```shell
 docker logs <container-id>
 ```
+
+{{< footer >}}

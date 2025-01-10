@@ -1,7 +1,7 @@
 ---
 title: "Unit Test"
 weight: 100
-date: 2023-11-15T01:47:46+07:00
+date: 2024-01-06
 ---
 
 # Unit Test Tips
@@ -310,3 +310,5 @@ describe("module_name", function () {
   });
 });
 ```
+
+{{< footer >}}

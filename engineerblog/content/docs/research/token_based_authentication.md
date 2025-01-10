@@ -285,6 +285,7 @@ router.get("/drafts/all", asyncHandler(postController.findAllDraftsOfUser));
 
 ## Reference
 
+- Geeksforgeeks: [Access Token vs Refresh Token: A Breakdown](https://www.geeksforgeeks.org/access-token-vs-refresh-token-a-breakdown/) (27 Sep, 2024)
 - Medium: [Understanding Access Tokens and Refresh Tokens](https://medium.com/@lakshyakumarsingh.2003.va/understanding-access-tokens-and-refresh-tokens-2ec4bc4f9a4f) (Mar 23, 2024)
 
 {{< footer >}}

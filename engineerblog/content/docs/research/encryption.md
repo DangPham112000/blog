@@ -6,6 +6,8 @@ date: 2023-11-15T01:47:46+07:00
 
 # Encryption
 
+- TODO: compare speed
+
 ## Hash
 
 *Note: An 8-bit byte is represented as 2 characters, from 00 to FF, in hexadecimal*
@@ -666,10 +668,6 @@ Like `Math.random()` does not secure but `Crypto.getRandomValues()` does (Ref: [
 ## Key Exchange
 
 Cryptography defines key-exchange algorithms (like Diffie-Hellman key exchange and ECDH) and key establishment schemes, used to securely establish encryption keys between two parties that intend to transmit messages securely using encryption. Such algorithms are performed typically when a new secure connection between two parties is established, e.g. when you open a modern Web site or connect to the WiFi network.
-
-## Confusion and Diffusion in Cryptography
-
-In cryptography the hashing, encryption algorithms and random generators follow the Shannon's principles of [confusion and diffusion](https://en.wikipedia.org/wiki/Confusion_and_diffusion). Confusion means that each bit in the output form a cipher should depend on several parts of the key and input data and thus direct mapping cannot be established. Diffusion means that changing one bit in the input should change approximately half of the bits in the output. These principles are incorporated in most hash functions, MAC algorithms, random number generators, symmetric and asymmetric ciphers.
 
 ## Appendix
 

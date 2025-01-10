@@ -6,6 +6,8 @@ date: 2023-11-15T01:47:46+07:00
 
 # TLS - SSL
 
+- TODO: capture network flow to show how much steps tls1.2 vs tls1.3
+
 ## Problem
 
 - Demo listen plain packet from wifi if user browse a website using http with and without ssl/tls: [Link](/docs/research/security/packet_sniffing/)
@@ -26,7 +28,7 @@ date: 2023-11-15T01:47:46+07:00
 
 ## TLS 1.2
 
-![tls_1.2_handsake](/research/be_protocol/tls_ssl/tls_1.2_handsake.png)
+![tls_1_2_flow](/research/be_protocol/tls_ssl/tls_1_2_flow.png)
 
 ### Setup
 
@@ -267,6 +269,7 @@ One domain and all subdomains
 - Cloudflare: [How does SSL work?](https://www.cloudflare.com/learning/ssl/how-does-ssl-work/)
 - Cloudflare: [Types of SSL certificates: SSL certificate types explained](https://www.cloudflare.com/learning/ssl/types-of-ssl-certificates/)
 - Gigamon: [What Is TLS 1.2, and Why Should You (Still) Care?](https://blog.gigamon.com/2021/07/14/what-is-tls-1-2-and-why-should-you-still-care/)
+- Xargs: [The Illustrated TLS 1.3 Connection](https://tls13.xargs.org/) (Nov 13th, 2024)
 - Wikipedia: [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (Mar 1st, 2024)
 - Youtube: [Let's Encrypt Explained: Free SSL](https://www.youtube.com/watch?v=jrR_WfgmWEw) (Oct 25th, 2020)
 - Youtube: [Are Free SSL Certificates Really Good Enough for Your Website?](https://www.youtube.com/watch?v=yjk36fv3Km4) (Sep 1st, 2022)

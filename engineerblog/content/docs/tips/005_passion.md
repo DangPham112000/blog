@@ -1,7 +1,7 @@
 ---
 title: "Spark Passion"
 weight: 500
-date: 2023-11-15T01:47:46+07:00
+date: 2024-11-27T01:47:46+07:00
 ---
 
 # Spark Your Passion
@@ -168,3 +168,5 @@ vim ~/.config/Code/User/settings.json
 
 - Github: [Power mode setup templates](https://github.com/hoovercj/vscode-power-mode/issues/1)
 - Scottspence: [My Zsh Config](https://scottspence.com/posts/my-zsh-config) (April 14th, 2022)
+
+{{< footer >}}
