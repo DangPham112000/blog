@@ -1,25 +1,25 @@
 ---
-title: "TLS - SSL - Draft"
+title: "TLS - SSL"
 weight: 3
-date: 2023-11-15T01:47:46+07:00
+date: 2024-01-14
 ---
 
 # TLS - SSL
 
-- TODO: capture network flow to show how much steps tls1.2 vs tls1.3
-
 ## Problem
 
-- Demo listen plain packet from wifi if user browse a website using http with and without ssl/tls: [Link](/docs/research/security/packet_sniffing/)
+- If a website uses HTTP without SSL/TLS, all packets sent over the internet can easily be captured and read (see [packet sniffing demonstration](/docs/research/security/packet_sniffing/))
+- How can a user determine if the website they are currently visiting is the original or a look-alike website created by a hacker to impersonate it? (see [dns poisoning demonstration](/docs/research/security/dns_poisoning/))
 
 ## Overview
 
+- The internet's official birthday is January 1, 1983
 - A protocol for encrypting, securing, and authenticating communications that take place on the Internet
 - SSL was replaced by an updated protocol called TLS some time ago, SSL is still a commonly used term for this technology
 
 ![evolution](/research/be_protocol/tls_ssl/evolution.png)
 
-- To see which TLS version of a website (For Chrome): 
+- To see which TLS version of a website (on Chrome): 
     1. Open the **Developer Tools** (Ctrl+Shift+I) 
     2. Select the **Security** tab 
     3. Navigate to the **Origin** you want to inspect 
@@ -28,9 +28,15 @@ date: 2023-11-15T01:47:46+07:00
 
 ## TLS 1.2
 
+- Key exchange algorithm: [RSA](/docs/research/encryption/#asymmetric-encryption)
+- Round trip time: 2 RTT
+- Compatibility: [Supported by both older and newer versions of all browsers](https://caniuse.com/?search=tls%201.2)
+
+### Flow
+
 ![tls_1_2_flow](/research/be_protocol/tls_ssl/tls_1_2_flow.png)
 
-### Setup
+### Set up your server using TLS 1.2
 
 {{<details title="**Nginx**" open=false >}}
 
@@ -88,11 +94,25 @@ sudo systemctl reload nginx
 
 ## TLS 1.3
 
+- Key exchange algorithm: Diffie-Hellman
+- Round trip time: 1 RTT
+- Compatibility: [Supported by newer versions of most browsers](https://caniuse.com/?search=tls%201.3)
+
 ### Diffie-Hellman
 
-### TLS 1.3
+#### Concept
 
-### Setup
+![diffie_hellman_concept](/research/be_protocol/tls_ssl/diffie_hellman_concept.png)
+
+#### Example
+
+![diffie_hellman_example](/research/be_protocol/tls_ssl/diffie_hellman_example.png)
+
+### Flow
+
+![tls_1_3_flow](/research/be_protocol/tls_ssl/tls_1_3_flow.png)
+
+### Set up your server using TLS 1.3
 
 {{<details title="**Nginx**" open=false >}}
 
@@ -251,14 +271,6 @@ One domain and all subdomains
 
 ![multi-domain](/research/be_protocol/tls_ssl/multi-domain.png)
 
-### Why we need SSL Certificate?
-
-- Prevent:
-    - [On-path attack](https://www.cloudflare.com/learning/security/threats/on-path-attack/) <!-- TODO: [Malicious Network Redirects](/docs/research/security/#malicious-network-redirects) -->
-    - Domain spoofing
-    - Other methods attackers use to impersonate a website and trick users
-- Establish HTTPS
-
 ### How to setup SSL Certificate?
 
 - [Free SSL Certificate](/docs/tips/004_ops/#lets-encrypt-ssltls-certificate)
@@ -271,7 +283,10 @@ One domain and all subdomains
 - Gigamon: [What Is TLS 1.2, and Why Should You (Still) Care?](https://blog.gigamon.com/2021/07/14/what-is-tls-1-2-and-why-should-you-still-care/)
 - Xargs: [The Illustrated TLS 1.3 Connection](https://tls13.xargs.org/) (Nov 13th, 2024)
 - Wikipedia: [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security) (Mar 1st, 2024)
+- Cloudflare: [A Detailed Look at RFC 8446 (a.k.a. TLS 1.3)](https://blog.cloudflare.com/rfc-8446-aka-tls-1-3/) (Aug 10th, 2018)
 - Youtube: [Let's Encrypt Explained: Free SSL](https://www.youtube.com/watch?v=jrR_WfgmWEw) (Oct 25th, 2020)
 - Youtube: [Are Free SSL Certificates Really Good Enough for Your Website?](https://www.youtube.com/watch?v=yjk36fv3Km4) (Sep 1st, 2022)
 - Mozilla: [SSL Configuration Generator](https://ssl-config.mozilla.org/) (Nov 13th, 2024)
 - Networkoptix: [How to check and/or change the TLS version](https://support.networkoptix.com/hc/en-us/articles/17314112665111-How-to-check-and-or-change-the-TLS-version) (Nov 11th, 2024)
+
+{{< footer >}}
