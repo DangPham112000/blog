@@ -12,7 +12,7 @@ date: 2023-11-15T01:47:46+07:00
 
 ### Overview
 
-The Request-Response pattern is a fundamental communication pattern where a client sends a request to a server, and the server processes the request and sends back a response. It's one of the most common patterns for communication in distributed systems, client-server architectures, and web applications.
+The Request-Response pattern is a fundamental communication pattern where a client sends a request to a server, and the server processes the request and sends back a response. It's one of the most common patterns for communication in distributed systems, client-server architectures, and web applications
 
 ## Push
 

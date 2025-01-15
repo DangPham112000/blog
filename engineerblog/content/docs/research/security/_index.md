@@ -17,7 +17,10 @@ sudo nmap -6 --script vuln [IPv6]
 sudo nmap --script vuln 18.141.184.34
 # E.g IPv6
 sudo nmap -6 --script vuln 2606:4700:3033::ac43:b865
-# E.g output
+```
+{{<details title="Example output" open=false >}}
+
+```sh
 Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-12-05 09:00 +07
 Nmap scan report for ec2-18-141-184-34.ap-southeast-1.compute.amazonaws.com (18.141.184.34)
 Host is up (0.033s latency).
@@ -61,6 +64,7 @@ PORT    STATE SERVICE
 
 Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
 ```
+{{</details>}}
 
 ## Brute Force Attack
 

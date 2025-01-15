@@ -23,51 +23,52 @@ date: 2025-01-03T01:47:46+07:00
 - Contains a set of claims, permissions, or roles of the user
 - **Grants access to the system**
 
-#### Cons
+#### New problems
 
-If we only use AT for authentication
-So when hacker stolen AT successfully, they can impersonate the user
-
-How about short-term AT?
-- Each time we grant AT we need to force user re-login
---> Bad UX
-
-How about combine short-term AT and store AT in DB?
-Our server can grant several AT and somehow one of them be stolen by hacker, if we store current AT-list and used-AT list. Then if we renew an AT for hacker or user and then another try to renew a used AT we can clear all of them and then force user to re-login
-- This approach is totally possible
---> BUT we will increase the I/O cost in DB because too much AT used to check and store
-
---> So we design RT
+- **Problem 1**: When a hacker successfully steals an access token, they can impersonate the user
+- **Solution 1**: Use short-term access tokens to minimize the risk of misuse if a hacker steals one
+- **Problem 2**: Requiring users to re-login every time an access token is granted leads to a poor user experience
+- **Solution 2**: Refresh tokens were introduced to address this issue by allowing the generation of new access tokens without requiring the user to log in again
 
 ## Refresh token
 
-In order to prevent hacker stolen AT, we decide AT only live in a short time
-So refresh token born as a factor to re-grant AT when they are expired and user then can be continue their session with our resource without re-login and don't worry about impersonation
+- To prevent hackers from stealing access tokens, access tokens were designed to be valid for a short duration
+- Refresh tokens were introduced to re-grant access tokens when they expire, allowing users to continue their sessions seamlessly without re-login while reducing the risk of impersonation.
 
 ### Characteristics
 
 - Long-lived 
-- Single-use
 - Stored on the server and the client
 - **Used to obtain a new pair of access and refresh tokens**
-
-#### Each RT can only be used once
-
-Whenever we see the reused RT, we must right away clear all token and it's keys, then force user to re-login to the system
 
 ## How do they work together? 
 
 ### Basic flow
+
 ![basic_flow](/research/token_based_authentication/basic_flow.png)
 
+- You may be curious why using separate keys for creating and verifying tokens (see [this use case](#authentication-server-standalone-concept))
+
 ### Token expired
+
 ![token_expired](/research/token_based_authentication/token_expired.png)
 
 ### Threat mitigation strategy
+
+- Each refresh token (RT) can only be used once
+- If a reused RT is detected, we must immediately clear all tokens and their associated keys, then force the user to re-login to the system
+
 ![threat_mitigation](/research/token_based_authentication/threat_mitigation.png)
 
-### Third party authen concept
-![3rd_auth](/research/token_based_authentication/3rd_auth.png)
+{{<details title="Why does this only mitigate the hacking and not prevent it?" open=false >}}
+- In the picture above, if you switch the positions of the hacker and the user, you'll see that if the hacker comes first, they will be granted a new AT and RT, and can access resources as many times as they want until the second token renewal process occurs, forcing them to re-login
+{{</details>}}
+
+### Authentication server standalone concept
+
+- This explains why you should use a key pair to create and verify tokens separately, instead of using a single key for both actions
+
+![authen_server_standalone](/research/token_based_authentication/authen_server_standalone.png)
 
 ## Demo code
 
@@ -82,56 +83,51 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 export const genKeyPairRSA = () => {
-    try {
-        const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-            modulusLength: 4096,
-            publicKeyEncoding: {
-                type: "pkcs1",
-                format: "pem",
-            },
-            privateKeyEncoding: {
-                type: "pkcs1",
-                format: "pem",
-            },
-        });
-        return { privateKey, publicKey };
-    } catch (error) {
-        throw error;
-    }
+	try {
+		const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
+			modulusLength: 4096,
+			publicKeyEncoding: {
+				type: "pkcs1",
+				format: "pem",
+			},
+			privateKeyEncoding: {
+				type: "pkcs1",
+				format: "pem",
+			},
+		});
+		return { privateKey, publicKey };
+	} catch (error) {
+		throw new Error("crypto.generateKeyPairSync got error");
+	}
 };
 
-export const createTokenPair = async (payload, publicKey, privateKey) => {
+export const createTokenPair = (payload, privateKey) => {
 	try {
-		const accessToken = await jwt.sign(payload, privateKey, {
+		const accessToken = jwt.sign(payload, privateKey, {
 			algorithm: "RS256",
-			expiresIn: "2 days",
+			expiresIn: "60000", // 1min
 		});
-		const refreshToken = await jwt.sign(payload, privateKey, {
+		const refreshToken = jwt.sign(payload, privateKey, {
 			algorithm: "RS256",
 			expiresIn: "7 days",
 		});
 
-        // Just ensure the encryption is implemented correctly
-		jwt.verify(accessToken, publicKey, (err, decode) => {
-			if (err) {
-				console.log("error verify: ", err);
-			} else {
-				console.log("decode verify: ", decode);
-			}
-		});
-
 		return { accessToken, refreshToken };
 	} catch (error) {
-		throw error;
+		throw new Error("jwt.sign got error");
 	}
 };
 
 export const authentication = async (req, res, next) => {
 	const userId = req.headers[HEADER.CLIENT_ID];
-	if (!userId) throw new AuthFailureError("Invalid request");
+	if (!userId) {
+		throw new AuthFailureError("Invalid request");
+	}
 
 	const keyStore = await KeyTokenService.findByUserId(userId);
-	if (!keyStore) throw new NotFoundError("Not found keyStore");
+	if (!keyStore) {
+		throw new NotFoundError("Not found any keys and token match this user");
+	}
 
 	const refreshToken = req.headers[HEADER.REFRESHTOKEN];
 	if (refreshToken) {
@@ -140,7 +136,6 @@ export const authentication = async (req, res, next) => {
 			if (userId !== decodeUser.userId) {
 				throw new AuthFailureError("Invalid userId");
 			}
-			req.keyStore = keyStore;
 			req.user = decodeUser; // {userId, email}
 			req.refreshToken = refreshToken;
 			return next();
@@ -157,7 +152,6 @@ export const authentication = async (req, res, next) => {
 		if (userId !== decodeUser.userId) {
 			throw new AuthFailureError("Invalid userId");
 		}
-		req.keyStore = keyStore;
 		req.user = decodeUser; // {userId, email}
 		return next();
 	} catch (error) {
@@ -175,47 +169,43 @@ export const authentication = async (req, res, next) => {
 import bcrypt from "bcrypt";
 
 import KeyTokenService from "./keyToken.service.js";
-import {
-	createTokenPair,
-	genKeyPairRSA,
-	verifyJWT,
-} from "../auth/authUtils.js";
+import { createTokenPair, genKeyPairRSA } from "../auth/authUtils.js";
 
 
 class AccessService {
-    static login = async ({ email, password }) => {
-        const foundUser = await findByEmail({ email });
-        if (!foundUser) throw new BadRequestError("User not yet registered");
+	static login = async ({ email, password }) => {
+		const foundUser = await findByEmail({ email });
+		if (!foundUser) {
+			throw new BadRequestError("User not yet registered");
+		}
+		const match = await bcrypt.compare(password, foundUser.password);
+		if (!match) {
+			throw new AuthFailureError("Authentication error");
+		}
 
-        const match = await bcrypt.compare(password, foundUser.password);
-        if (!match) throw new AuthFailureError("Authentication error");
+		const { privateKey, publicKey } = genKeyPairRSA();
 
-        const { privateKey, publicKey } = genKeyPairRSA();
+		const { _id: userId } = foundUser;
 
-        const { _id: userId } = foundUser;
+		const tokens = createTokenPair({ userId, email }, privateKey);
 
-        const tokens = await createTokenPair(
-            { userId, email }, // for token payload
-            publicKey, 
-            privateKey
-        );
+		await KeyTokenService.createKeyToken({
+			userId,
+			publicKey,
+			privateKey,
+			refreshToken: tokens.refreshToken,
+		});
 
-        // Store publicKey, privateKey and refreshToken with correct userId to DB
-        await KeyTokenService.createKeyToken({
-            userId,
-            publicKey,
-            privateKey,
-            refreshToken: tokens.refreshToken,
-        });
+		return {
+			user: foundUser,
+			tokens,
+		};
+	};
 
-        return {
-            user: foundUser,
-            tokens,
-        };
-    };
-
-	static handleRefreshToken = async ({ refreshToken, user, keyStore }) => {
+	static handleRefreshToken = async ({ refreshToken, user }) => {
 		const { userId, email } = user;
+		const keyStore = await KeyTokenService.findByUserId(userId);
+
 		if (keyStore.refreshTokensUsed.includes(refreshToken)) {
 			await KeyTokenService.removeByUserId(userId);
 			throw new ForbiddenError("Something wrong happen. Pls relogin");
@@ -230,23 +220,20 @@ class AccessService {
 			throw new AuthFailureError("User is deleted or never exist");
 		}
 
-		const tokens = await createTokenPair(
+		const newTokens = createTokenPair(
 			{ userId: foundUser._id, email },
-			keyStore.publicKey,
 			keyStore.privateKey
 		);
-		await keyStore.updateOne({
-			$set: {
-				refreshToken: tokens.refreshToken,
-			},
-			$addToSet: {
-				refreshTokensUsed: refreshToken,
-			},
-		});
+
+		await KeyTokenService.updateRefreshToken(
+			userId,
+			newTokens.refreshToken,
+			refreshToken
+		);
 
 		return {
 			user,
-			tokens,
+			tokens: newTokens,
 		};
 	};
 }
@@ -257,10 +244,41 @@ export default AccessService;
 
 {{<nl>}}
 
+{{<details title="access.controller.js" open=false >}}
+```js
+import { CREATED, SuccessResponse } from "../core/success.response.js";
+import AccessService from "../services/access.service.js";
+
+class AccessController {
+	login = async (req, res, next) => {
+		new SuccessResponse({
+			metatdata: await AccessService.login(req.body),
+		}).send(res);
+	};
+
+	handleRefreshToken = async (req, res, next) => {
+		new SuccessResponse({
+			message: "Update token success",
+			metatdata: await AccessService.handleRefreshToken({
+				refreshToken: req.refreshToken,
+				user: req.user,
+			}),
+		}).send(res);
+	};
+}
+
+export default new AccessController();
+```
+{{</details>}}
+
+{{<nl>}}
+
 {{<details title="routes.js" open=false >}}
 ```js
 import express from "express";
+
 import accessController from "../../controllers/access.controller.js";
+import postController from "../../controllers/post.controller.js";
 import { authentication } from "../../auth/authUtils.js";
 
 const router = express.Router();
@@ -283,9 +301,22 @@ router.get("/drafts/all", asyncHandler(postController.findAllDraftsOfUser));
 ```
 {{</details>}}
 
+## Discussion
+
+- **Question**: Why do we need two tokens? Can we combine them?
+- **New approach**: Use short-term access tokens (AT) and store them in the database. Track the current AT list and the used AT list. If one of the current tokens is stolen by a hacker and the hacker tries to renew the token, the old token will be stored in the used AT list. When the user attempts to renew using the old token, our server can invalidate all tokens and force both the user and the hacker to re-login
+
+{{<details title="**Problem**" open=false >}}
+- **This approach has one weakness**: Access tokens are exposed more frequently to retrieve resources, increasing the potential for them to be captured and stolen
+- **Conclusion**: By keeping the refresh token separate and less exposed, the chances of a hacker being able to maintain access to our resources are reduced
+- **Do you think this approach have any other weaknesses?**
+{{</details>}}
+
+
 ## Reference
 
 - Geeksforgeeks: [Access Token vs Refresh Token: A Breakdown](https://www.geeksforgeeks.org/access-token-vs-refresh-token-a-breakdown/) (27 Sep, 2024)
+- Auth0: [What Are Refresh Tokens and How to Use Them Securely](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/#When-to-Use-Refresh-Tokens) (Oct 7th, 2021)
 - Medium: [Understanding Access Tokens and Refresh Tokens](https://medium.com/@lakshyakumarsingh.2003.va/understanding-access-tokens-and-refresh-tokens-2ec4bc4f9a4f) (Mar 23, 2024)
 
 {{< footer >}}

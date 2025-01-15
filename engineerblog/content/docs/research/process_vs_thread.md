@@ -590,6 +590,5 @@ How does Hyper-Threading work? When Intel® Hyper-Threading Technology is active
 - Scaler: [Difference Between Multicore and Multiprocessor System](https://www.scaler.com/topics/operating-system/difference-between-multicore-and-multiprocessor-system/)
 - Superuser: [What's the difference between a multiprocessor and a multiprocessing system?](https://superuser.com/questions/1297813/whats-the-difference-between-a-multiprocessor-and-a-multiprocessing-system)
 - Superuser: [What's the difference between multicore proccesor and multiproccess system?](https://superuser.com/questions/13107/whats-the-difference-between-multicore-proc-and-multiproc-system?rq=1)
-- Give a thank to ChatGPT dude to support me during a process create multiple supreme demos
 
 {{< footer >}}

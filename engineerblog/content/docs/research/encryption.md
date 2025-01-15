@@ -671,13 +671,20 @@ Cryptography defines key-exchange algorithms (like Diffie-Hellman key exchange a
 
 ## Appendix
 
-### Why Bcrypt will take longer time to crack your password than MD5?
+### Bcrypt cracking password time vs MD5
+
+#### MD5
 
 ![2024_Password_Table_MD5](/research/encription/2024_Password_Table_MD5.png)
+
+#### Bcrypt
+
 ![2024_Password_Table_bcrypt](/research/encription/2024_Password_Table_bcrypt.png)
+
 ## Reference
 
 - Okta: [HMAC (Hash-Based Message Authentication Codes) Definition](https://www.okta.com/identity-101/hmac/) (Sep 15, 2023)
 - Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19, 2019)
 - Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
 - DangPham112000: [Examples code](https://github.com/DangPham112000/blog-demo) (2024)
+- Hackernoon: [HMAC & Message Authentication Codes](https://hackernoon.com/hmac-and-message-authentication-codes-why-using-hashing-alone-is-not-enough-for-data-integrity) (Aug 15th, 2023)
