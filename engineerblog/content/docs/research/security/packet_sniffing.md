@@ -11,9 +11,12 @@ date: 2024-06-15T01:47:46+07:00
 - Key Characteristics:
     - Often passive (doesn’t modify the traffic, just listens)
     - Works well on unencrypted networks or with weak encryption like WEP
-- Prevention:
-    - Use strong encryption (WPA3 is ideal, WPA2 is acceptable)
-    - Avoid unencrypted public Wi-Fi
+
+## Prevention:
+
+- Use strong encryption (WPA3 is ideal, WPA2 is acceptable)
+- Avoid unencrypted public Wi-Fi
+- Encrypt all messages that go through the internet
 
 ## Demo
 

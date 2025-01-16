@@ -1,5 +1,5 @@
 ---
-title: "Scale - draft"
+title: "Scale"
 weight: 1000
 date: 2024-04-18T01:47:46+07:00
 ---
@@ -155,13 +155,15 @@ On the frontend, a browser or the client application caches data like a header i
 
 Browser caching is a technique that allows you to store certain files, such as CSS, JavaScript, and images
 
+#### CDN - Content Delivery Network
+
+Implementing CDN caching requires integrating your website with a CDN provider. This involves configuring your DNS settings to point to the CDN’s servers and setting up caching rules to determine which files should be cached and for how long
+
 ### Backend
 
 Backend development uses caching to reduce the load on the application server. What you store in the backend cache depends on your application itself. Cached content includes static pages, database query results, API responses, session data, images, and videos
 
-### CDN - Content Delivery Network
-
-Implementing CDN caching requires integrating your website with a CDN provider. This involves configuring your DNS settings to point to the CDN’s servers and setting up caching rules to determine which files should be cached and for how long
+## Appendix
 
 {{<details title="**Ramble on about the limit of the speed of light**" open=false >}}
 
@@ -202,3 +204,5 @@ So even with a direct connection to a New York server, I'd still be playing Leag
 - Cloudzero: [Horizontal Vs. Vertical Scaling: How Do They Compare?](https://www.cloudzero.com/blog/horizontal-vs-vertical-scaling/) (May 05, 2023)
 - Amazon: [What is Load Balancing?](https://aws.amazon.com/what-is/load-balancing)
 - Linkedin: [How Web is limited by the speed of light?](https://www.linkedin.com/pulse/internet-speed-light-viktor-turskyi-/) (May 16, 2022)
+
+{{< footer >}}

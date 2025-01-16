@@ -137,10 +137,6 @@ Attackers can inject fake DNS responses, redirecting you to malicious versions o
 
 ## SQL injection
 
-## Cross-site scripting (XSS) attack
-
-## Cross-site request forgery (CSRF) attack
-
 ## IDOR attack
 
 Authorize route
