@@ -1,5 +1,5 @@
 ---
-title: "Encryption - Draft"
+title: "Encryption"
 weight: 50
 date: 2023-11-15T01:47:46+07:00
 ---
@@ -10,17 +10,91 @@ date: 2023-11-15T01:47:46+07:00
 
 ## Hash
 
+- Can take a message of **arbitrary length** and transform it into a **fixed-length** digest
+- Some of the commonly used hashing algorithms: MD5, SHA1, SHA256, SHA512, and etc
+
+`MD5('hello') = 5d41402abc4b2a76b9719d911017c592`
+
 *Note: An 8-bit byte is represented as 2 characters, from 00 to FF, in hexadecimal*
 
-### Collision
+### Good hash function
+
+- Fast
+- One-way function
+- Collision resistance
 
 ### Use case
 
 - Checking file integrity
+- Indexing in in-memory databases (Eg: Redis)
+- Hashing passwords (+ salt)
+- Message authentication code (MAC)
+- Digital signatures
 
-## HMAC
+### Collision
 
-- HMAC stand for **H**ash-Based **M**essage **A**uthentication **C**odes
+![hashing_collision](/research/encription/hashing_collision.png)
+
+{{<details title="MD5 Collision Demo" open=false >}}
+
+d131dd02c5e6eec4693d9a0698aff95c2fcab5**8**712467eab4004583eb8fb7f89 
+55ad340609f4b30283e4888325**7**1415a085125e8f7cdc99fd91dbd**f**280373c5b 
+d8823e3156348f5bae6dacd436c919c6dd53e2**b**487da03fd02396306d248cda0 
+e99f33420f577ee8ce54b67080**a**80d1ec69821bcb6a8839396f965**2**b6ff72a70
+
+VS
+
+d131dd02c5e6eec4693d9a0698aff95c2fcab5**0**712467eab4004583eb8fb7f89 
+55ad340609f4b30283e4888325**f**1415a085125e8f7cdc99fd91dbd**7**280373c5b 
+d8823e3156348f5bae6dacd436c919c6dd53e2**3**487da03fd02396306d248cda0 
+e99f33420f577ee8ce54b67080**2**80d1ec69821bcb6a8839396f965**a**b6ff72a70 
+
+**NodeJS**
+
+```js
+const crypto = require('crypto');
+
+// Input 1 (Hexadecimal)
+const input1 = Buffer.from(
+  'd131dd02c5e6eec4693d9a0698aff95c2fcab58712467eab4004583eb8fb7f89' +
+  '55ad340609f4b30283e488832571415a085125e8f7cdc99fd91dbdf280373c5b' +
+  'd8823e3156348f5bae6dacd436c919c6dd53e2b487da03fd02396306d248cda0' +
+  'e99f33420f577ee8ce54b67080a80d1ec69821bcb6a8839396f9652b6ff72a70',
+  'hex'
+);
+
+// Input 2 (Hexadecimal)
+const input2 = Buffer.from(
+  'd131dd02c5e6eec4693d9a0698aff95c2fcab50712467eab4004583eb8fb7f89' +
+  '55ad340609f4b30283e4888325f1415a085125e8f7cdc99fd91dbd7280373c5b' +
+  'd8823e3156348f5bae6dacd436c919c6dd53e23487da03fd02396306d248cda0' +
+  'e99f33420f577ee8ce54b67080280d1ec69821bcb6a8839396f965ab6ff72a70',
+  'hex'
+);
+
+// Function to calculate MD5 hash
+function calculateMD5(data) {
+  return crypto.createHash('md5').update(data).digest('hex');
+}
+
+console.log('Are the inputs identical?', input1 === input2);
+
+const hash1 = calculateMD5(input1);
+const hash2 = calculateMD5(input2);
+
+console.log('MD5 Hash of Input 1:', hash1);
+console.log('MD5 Hash of Input 2:', hash2);
+
+console.log('Are the hashes identical?', hash1 === hash2);
+
+```
+```text
+Are the inputs identical? false
+MD5 Hash of Input 1: 79054025255fb1a26e4bc422aef54eb4
+MD5 Hash of Input 2: 79054025255fb1a26e4bc422aef54eb4
+Are the hashes identical? true
+```
+{{</details>}}
 
 ## Symmetric encryption
 
@@ -38,11 +112,11 @@ AES, Twofish and ChaCha20
 
 ### Demo code
 
-This example demonstrates symmetric encryption and decryption in NodeJS using the crypto module with AES (Advanced Encryption Standard) in AES-256-CBC mode
-
-{{<details title="Init necessary functions" open=false >}}
+This example demonstrates symmetric encryption and decryption  using the crypto module with AES (Advanced Encryption Standard) in AES-256-CBC mode
 
 **NodeJS**
+
+{{<details title="Init necessary functions" open=false >}}
 ```js
 const crypto = require('crypto');
 
@@ -75,7 +149,6 @@ function decrypt(encryptedText, keyHex, ivHex) {
 {{<nl>}}
 
 {{<details title="Encrypt and decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { key, iv } = generateKeyAndIv();
 console.log("Generated Key (hex):", key);
@@ -104,7 +177,6 @@ Decrypted Message: Hello, this is a secret message!
 {{<nl>}}
 
 {{<details title="Decrypt a message with wrong key" open=false >}}
-**NodeJS**
 ```js
 const { key, iv } = generateKeyAndIv();
 console.log("Generated Key (hex):", key);
@@ -156,7 +228,6 @@ Node.js v18.19.1
 {{<nl>}}
 
 {{<details title="Decrypt a message with wrong iv" open=false >}}
-**NodeJS**
 ```js
 const { key, iv } = generateKeyAndIv();
 const { iv: iv2 } = generateKeyAndIv();
@@ -183,6 +254,163 @@ Decrypted Message: �!T�{)b��#\��(r sit amet, consectetur adipiscing 
 {{</details>}}
 
 
+## HMAC
+
+- HMAC stands for Hash-based Message Authentication Code
+- It's a method that generates a **Message Authentication Code** (MAC)
+- The major **difference** between a **hash** and an **HMAC** is that HMAC uses a **secret key**
+- It's used to prove message authenticity and **integrity**
+- There exist many algorithms for calculating a MAC, such as SipHash, BLAKE2, CMAC, etc
+
+![hmac](/research/encription/hmac.png)
+
+### Why and how
+
+- See more details about the bit-flipping attack [here](/docs/research/security/bit_flipping)
+
+![bit_flipping](/research/security/bit_flipping/bit_flipping.png)
+
+- Here shows you how HMAC prevents a bit-flipping attack
+
+![hmac_flow](/research/encription/hmac_flow.png)
+
+### Use case
+
+- Signing **JSON Web Tokens** (JWTs) for secure authentication
+- Signing files in **secure file transfer protocols**. Eg: SSH File Transfer Protocol (SFTP), FTP over SSL (FTPS)
+- Verifying the integrity and authenticity of transactions in banking
+
+### Demo
+
+This example demonstrates how HMAC prevents bit-flipping attack
+
+{{<hint info>}}
+This demo can be run directly in the console of the Chrome browser
+{{</hint>}}
+
+**Javascript**
+
+{{<details title="Prepare" open=false >}}
+```js
+const iv = crypto.getRandomValues(new Uint8Array(16));
+let key;
+
+(async () => {
+	key = await crypto.subtle.generateKey(
+		{
+			name: "AES-CBC",
+			length: 128,
+		},
+		true,
+		["encrypt", "decrypt"]
+	);
+})();
+
+async function encryptData(plaintext) {
+	const encoder = new TextEncoder();
+	const data = encoder.encode(plaintext);
+	const ciphertext = await crypto.subtle.encrypt(
+		{
+			name: "AES-CBC",
+			iv,
+		},
+		key,
+		data
+	);
+
+	return new Uint8Array(ciphertext);
+}
+
+async function decryptData(ciphertext) {
+	const plaintextBuffer = await crypto.subtle.decrypt(
+		{
+			name: "AES-CBC",
+			iv,
+		},
+		key,
+		ciphertext
+	);
+
+	const decoder = new TextDecoder();
+	return decoder.decode(plaintextBuffer);
+}
+
+async function deriveHmacKey(aesKey) {
+	const rawKey = await crypto.subtle.exportKey("raw", aesKey); 
+	return crypto.subtle.importKey(
+		"raw",
+		rawKey,
+		{
+			name: "HMAC",
+			hash: { name: "SHA-1" }, 
+		},
+		true,
+		["sign", "verify"]
+	);
+}
+
+async function signData(data) {
+	const encoder = new TextEncoder();
+	const encodedData = encoder.encode(data);
+	const hmacKey = await deriveHmacKey(key);
+	const signature = await crypto.subtle.sign("HMAC", hmacKey, encodedData);
+
+	return new Uint8Array(signature);
+}
+
+async function verifyData(data, signature) {
+	const encoder = new TextEncoder();
+	const encodedData = encoder.encode(data);
+	const hmacKey = await deriveHmacKey(key);
+	const isValid = await crypto.subtle.verify(
+		"HMAC",
+		hmacKey,
+		signature,
+		encodedData
+	);
+
+	return isValid;
+}
+
+function ord(string) {
+	return string.charCodeAt(0);
+}
+```
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="Main flow" open=false >}}
+```js
+(async () => {
+    // User
+	const plaintext = "{ Message: 'Doing  charity  work!', Money: 001 $, To: Beggar }";
+	const ciphertext = await encryptData(plaintext);
+	const signature = await signData(ciphertext);
+
+    // Hacker
+	ciphertext[43 - 16] = ord("0") ^ ciphertext[43 - 16] ^ ord("9");
+	ciphertext[44 - 16] = ord("0") ^ ciphertext[44 - 16] ^ ord("9");
+	ciphertext[45 - 16] = ord("1") ^ ciphertext[45 - 16] ^ ord("9");
+
+    // Bank
+	const decryptedText = await decryptData(ciphertext);
+	console.log("Decrypted Text:", decryptedText);
+	const isVerified = await verifyData(ciphertext, signature);
+	console.log("Signature valid:", isVerified);
+})();
+```
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="Output" open=false >}}
+```text
+> Decrypted Text: { Message: 'Doin��iQ���'BT_�"!', Money: 999 $, To: Beggar }
+> Signature valid: false
+```
+{{</details>}}
+
 ## Asymmetric encryption
 
 Uses a public-key cryptosystem (like RSA or ECC) and a key-pair: encryption key and corresponding decryption key
@@ -195,8 +423,9 @@ Encryption algorithms are often combined in encryption schemes (like AES-256-CTR
 
 This example demonstrates asymmetric encryption using an RSA **public key to encrypt** and an RSA **private key to decrypt** a message in Node.js with the crypto module
 
-{{<details title="Init necessary functions" open=false >}}
 **NodeJS**
+
+{{<details title="Init necessary functions" open=false >}}
 ```js
 const crypto = require('crypto');
 
@@ -229,7 +458,6 @@ function decryptWithPrivateKey(privateKeyPem, encryptedMessage) {
 {{<nl>}}
 
 {{<details title="Public key to encrypt and private key to decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { publicKey, privateKey } = generateKeyPair();
 console.log("Public Key (PEM format):\n", publicKey);
@@ -296,7 +524,6 @@ Decrypted Message: Hello, this is a secret message!
 {{<nl>}}
 
 {{<details title="Private key to encrypt and decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { privateKey } = generateKeyPair();
 console.log("Private Key (PEM format):\n", privateKey);
@@ -331,7 +558,6 @@ Decrypted Message: Hello, this is a secret message!
 {{<nl>}}
 
 {{<details title="Private key to encrypt and public key to decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { publicKey, privateKey } = generateKeyPair();
 console.log("Public Key (PEM format):\n", publicKey);
@@ -389,12 +615,28 @@ Node.js v18.19.1
 ```
 {{</details>}}
 
-### Demo of private key encryption and public key decryption
+### Digital signatures
+
+- prove message **authenticity** and integrity
+
+Most digital signature algorithms (like DSA, ECDSA and EdDSA) use asymmetric key pair (private and public key):
+- the message is signed by the private key 
+- the signature is verified by the corresponding public key
+
+Use cases:
+- In the bank systems digital signatures are used to sign and approve payments
+- In blockchain signed transactions allow users to transfer a blockchain asset from one address to another
+
+![digital_signature](/research/encription/digital_signature.png)
+
+
+#### Demo of private key encryption and public key decryption
 
 This example demonstrates RSA encryption and decryption in a way that mimics JWT behavior, where the **private key is used to sign (encrypt)** the message, and the **public key is used to verify (decrypt)** it
 
-{{<details title="Init necessary functions" open=false >}}
 **NodeJS**
+
+{{<details title="Init necessary functions" open=false >}}
 ```js
 const crypto = require('crypto');
 
@@ -429,7 +671,6 @@ function verifyWithPublicKey(publicKeyPem, encryptedMessage) {
 {{<nl>}}
 
 {{<details title="Private key to encrypt and public key to decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { publicKey, privateKey } = generateKeyPair();
 console.log("Public Key (PEM format):\n", publicKey);
@@ -497,7 +738,6 @@ Decrypted Message: J5 love ST
 {{<nl>}}
 
 {{<details title="Public key to encrypt and decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { publicKey } = generateKeyPair();
 console.log("Public Key (PEM format):\n", publicKey);
@@ -549,7 +789,6 @@ Node.js v18.19.1
 {{<nl>}}
 
 {{<details title="Public key to encrypt and private key to decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { publicKey, privateKey } = generateKeyPair();
 console.log("Public Key (PEM format):\n", publicKey);
@@ -609,7 +848,6 @@ Node.js v18.19.1
 {{<nl>}}
 
 {{<details title="Private key to encrypt and decrypt a message" open=false >}}
-**NodeJS**
 ```js
 const { privateKey } = generateKeyPair();
 console.log("Private Key (PEM format):\n", privateKey);
@@ -639,36 +877,6 @@ Decrypted Message: J5 love ST
 ```
 {{</details>}}
 
-## Digital signatures
-
-guarantee message authenticity, integrity and non-repudiation. 
-
-Most digital signature algorithms (like DSA, ECDSA and EdDSA) use asymmetric key pair (private and public key):
-- the message is signed by the private key 
-- the signature is verified by the corresponding public key
-
-Use cases:
-- In the bank systems digital signatures are used to sign and approve payments. 
-- In blockchain signed transactions allow users to transfer a blockchain asset from one address to another.
-
-## Message Authentication
-
-message authentication algorithms (like HMAC) and message authentication codes (MAC codes)
-
-prove message authenticity, integrity and authorship
-
-Authentication is used side by side with encryption, to ensure secure communication.
-
-## Secure Random Numbers
-
-Cryptography uses random numbers and deals with entropy (unpredictable randomness) and secure generation of random numbers (e.g. using CSPRNG). Secure random numbers are unpredictable by nature and developers should care about them, because broken random generator means compromised or hacked system or app.
-
-Like `Math.random()` does not secure but `Crypto.getRandomValues()` does (Ref: [Math.random()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random))
-
-## Key Exchange
-
-Cryptography defines key-exchange algorithms (like Diffie-Hellman key exchange and ECDH) and key establishment schemes, used to securely establish encryption keys between two parties that intend to transmit messages securely using encryption. Such algorithms are performed typically when a new secure connection between two parties is established, e.g. when you open a modern Web site or connect to the WiFi network.
-
 ## Appendix
 
 ### Bcrypt cracking password time vs MD5
@@ -683,8 +891,12 @@ Cryptography defines key-exchange algorithms (like Diffie-Hellman key exchange a
 
 ## Reference
 
-- Okta: [HMAC (Hash-Based Message Authentication Codes) Definition](https://www.okta.com/identity-101/hmac/) (Sep 15, 2023)
-- Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19, 2019)
+- Jscape: [Understanding Hashing](https://www.jscape.com/blog/understanding-hashing) (May 18th, 2024)
+- IBM: [HASH_MD5, HASH_SHA1, HASH_SHA256, and HASH_SHA512](https://www.ibm.com/docs/en/i/7.4?topic=sf-hash-md5-hash-sha1-hash-sha256-hash-sha512) (Apr 11th, 2023)
+- Dalhousie University: [MD5 Collision Demo](https://www.mscs.dal.ca/~selinger/md5collision/) (Oct 11th, 2011)
+- Hackernoon: [HMAC & Message Authentication Codes](https://hackernoon.com/hmac-and-message-authentication-codes-why-using-hashing-alone-is-not-enough-for-data-integrity) (Aug 15th, 2023)
+- Linkedin: [What are some common use cases and best practices for HMAC in web applications?](https://www.linkedin.com/advice/3/what-some-common-use-cases-best-practices-hmac-web-applications)
+- Jscape: [What Is HMAC, And How Does It Secure File Transfers?](https://www.jscape.com/blog/what-is-hmac-and-how-does-it-secure-file-transfers) (May 18th, 2024)
+- Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19th, 2019)
 - Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
 - DangPham112000: [Examples code](https://github.com/DangPham112000/blog-demo) (2024)
-- Hackernoon: [HMAC & Message Authentication Codes](https://hackernoon.com/hmac-and-message-authentication-codes-why-using-hashing-alone-is-not-enough-for-data-integrity) (Aug 15th, 2023)
