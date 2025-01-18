@@ -106,7 +106,7 @@ AES, Twofish and ChaCha20
 
 ### Use case
 
-- HTTPS with SSL/TLS: Session key
+- HTTP over SSL/TLS: Session key
 - Data Transmission
 - Data Storage
 
@@ -419,9 +419,10 @@ Encryption algorithms are often combined in encryption schemes (like AES-256-CTR
 
 ![Asymmetric](/research/encription/Asymmetric.png)
 
-### Public key encryption and private key decryption
+### Public encryption / private decryption
 
-This example demonstrates asymmetric encryption using an RSA **public key to encrypt** and an RSA **private key to decrypt** a message in Node.js with the crypto module
+- Common usage
+- HTTP over SSL/TLS 1.2: Key exchange
 
 **NodeJS**
 
@@ -616,9 +617,10 @@ Node.js v18.19.1
 {{</details>}}
 
 
-### Private key encryption and public key decryption
+### Private sign (encryption) / public verify (decryption)
 
-This example demonstrates RSA encryption and decryption in a way that mimics JWT behavior, where the **private key is used to sign (encrypt)** the message, and the **public key is used to verify (decrypt)** it
+- Token-based authentication
+- Digital signatures
 
 **NodeJS**
 
@@ -879,6 +881,7 @@ Decrypted Message: J5 love ST
 
 ### Use cases
 
+- Sign contracts
 - Sign and approve payments in the **bank systems**
 - Signed transactions allow users to transfer a **blockchain** asset from one address to another
 

@@ -23,7 +23,7 @@ date: 2025-01-03T01:47:46+07:00
 - Contains a set of claims, permissions, or roles of the user
 - **Grants access to the system**
 
-#### New problems
+### New problems
 
 - **Problem 1**: When a hacker successfully steals an access token, they can impersonate the user
 - **Solution 1**: Use short-term access tokens to minimize the risk of misuse if a hacker steals one
@@ -33,7 +33,7 @@ date: 2025-01-03T01:47:46+07:00
 ## Refresh token
 
 - To prevent hackers from stealing access tokens, access tokens were designed to be valid for a short duration
-- Refresh tokens were introduced to re-grant access tokens when they expire, allowing users to continue their sessions seamlessly without re-login while reducing the risk of impersonation.
+- Refresh tokens were introduced to re-grant access tokens when they expire, allowing users to continue their sessions seamlessly without re-login while reducing the risk of impersonation
 
 ### Characteristics
 
