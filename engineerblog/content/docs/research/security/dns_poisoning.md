@@ -2,6 +2,7 @@
 title: "DNS Poisoning - Draft"
 weight: 700
 date: 2024-06-15T01:47:46+07:00
+draft: true
 ---
 
 # DNS Poisoning Attack
@@ -19,6 +20,10 @@ date: 2024-06-15T01:47:46+07:00
 - Use a VPN: Encrypt traffic, bypassing rogue DNS responses on compromised networks
 
 ## Demo
+
+{{<hint danger>}}
+**DISCLAIMER**: This demo is for educational purposes only. The techniques should only be tested on systems you own or have explicit permission to analyze. Misuse of this information is unethical, may violate the law, and could lead to serious consequences. The author takes no responsibility for any damages or misuse arising from this content
+{{</hint>}}
 
 ```sh
 

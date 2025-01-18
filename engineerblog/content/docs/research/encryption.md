@@ -20,7 +20,7 @@ date: 2023-11-15T01:47:46+07:00
 ### Good hash function
 
 - Fast
-- One-way function
+- **One-way function**
 - Collision resistance
 
 ### Use case
@@ -419,7 +419,7 @@ Encryption algorithms are often combined in encryption schemes (like AES-256-CTR
 
 ![Asymmetric](/research/encription/Asymmetric.png)
 
-### Demo of public key encryption and private key decryption
+### Public key encryption and private key decryption
 
 This example demonstrates asymmetric encryption using an RSA **public key to encrypt** and an RSA **private key to decrypt** a message in Node.js with the crypto module
 
@@ -615,22 +615,8 @@ Node.js v18.19.1
 ```
 {{</details>}}
 
-### Digital signatures
 
-- prove message **authenticity** and integrity
-
-Most digital signature algorithms (like DSA, ECDSA and EdDSA) use asymmetric key pair (private and public key):
-- the message is signed by the private key 
-- the signature is verified by the corresponding public key
-
-Use cases:
-- In the bank systems digital signatures are used to sign and approve payments
-- In blockchain signed transactions allow users to transfer a blockchain asset from one address to another
-
-![digital_signature](/research/encription/digital_signature.png)
-
-
-#### Demo of private key encryption and public key decryption
+### Private key encryption and public key decryption
 
 This example demonstrates RSA encryption and decryption in a way that mimics JWT behavior, where the **private key is used to sign (encrypt)** the message, and the **public key is used to verify (decrypt)** it
 
@@ -877,9 +863,30 @@ Decrypted Message: J5 love ST
 ```
 {{</details>}}
 
+
+## Digital signatures
+
+- Prove message **authenticity** and **integrity**
+- Non-repudiation
+- Use asymmetric encryption
+
+### How
+
+- The message is signed by the private key 
+- The signature is verified by the corresponding public key
+
+![digital_signature](/research/encription/digital_signature.png)
+
+### Use cases
+
+- Sign and approve payments in the **bank systems**
+- Signed transactions allow users to transfer a **blockchain** asset from one address to another
+
 ## Appendix
 
-### Bcrypt cracking password time vs MD5
+### Bcrypt vs MD5
+
+- Cracking password time
 
 #### MD5
 

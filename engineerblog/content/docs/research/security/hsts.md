@@ -1,5 +1,5 @@
 ---
-title: "HSTS - Draft"
+title: "HSTS"
 weight: 800
 date: 2024-06-15T01:47:46+07:00
 ---
@@ -22,7 +22,7 @@ date: 2024-06-15T01:47:46+07:00
 
 ## Demo setup
 
-Nginx
+{{<details title="Nginx" open=false >}}
 
 ```nginx
 server {
@@ -33,7 +33,11 @@ server {
 }
 ```
 
-NodeJS
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="NodeJS" open=false >}}
 
 - Install the helmet middleware: `npm install helmet`
 
@@ -46,8 +50,9 @@ app.use(helmet.hsts({
 }));
 ```
 
-- Add your domain to the HSTS Preload List at [Hstspreload](https://hstspreload.org/)
+{{</details>}}
 
+- Add your domain to the HSTS Preload List at [Hstspreload](https://hstspreload.org/)
 - Verify at [Hardenize](https://www.hardenize.com/)
 
 ## Remove

@@ -2,6 +2,7 @@
 title: "ARP Spoofing - Draft"
 weight: 600
 date: 2024-06-15T01:47:46+07:00
+draft: true
 ---
 
 # ARP Spoofing Attack
@@ -39,6 +40,11 @@ Victim → Attacker → Router → Internet
 - Enable Dynamic ARP Inspection (DAI): On managed switches, DAI verifies ARP packets against a trusted database
 
 ## Demo
+
+{{<hint danger>}}
+**DISCLAIMER**: This demo is for educational purposes only. The techniques should only be tested on systems you own or have explicit permission to analyze. Misuse of this information is unethical, may violate the law, and could lead to serious consequences. The author takes no responsibility for any damages or misuse arising from this content
+{{</hint>}}
+
 ```sh
 
 # Fake dns

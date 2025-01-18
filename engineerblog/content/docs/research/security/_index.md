@@ -73,7 +73,7 @@ Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
 
 ![2024-Crack-Password-Table](/research/security/2024-Crack-Password-Table.png)
 
-- Why does the hashing method matter when cracking passwords with a brute force attack? [Bcrypt will take longer to crack than MD5](/docs/research/encryption/#why-bcrypt-will-take-longer-time-to-crack-your-password-than-md5)
+- Why does the hashing method matter when cracking passwords with a brute force attack? [Bcrypt will take longer to crack than MD5](/docs/research/encryption/#bcrypt-vs-md5)
 
 ### Use case
 
@@ -112,13 +112,21 @@ Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
 - **Limit login attempts**
 - **Force resets**
 
+## Man in the middle attack
+
+- [Packet Sniffing](/docs/research/security/packet_sniffing/)
+- [ARP Spoofing](/docs/research/security/arp_spoofing/)
+- [Evil Twin](/docs/research/security/evil_twin/)
+- [DNS Poisoning](/docs/research/security/dns_poisoning)
+- [Bit Flipping](/docs/research/security/bit_flipping)
+
 ## Malicious Network Redirects
 
 Attackers can inject fake DNS responses, redirecting you to malicious versions of websites
 
 ### How it works
 
-- Hacker hijacking the unsecured Wi-Fi you access
+- Hacker hijacking the unsecured Wi-Fi you access (more detail: [DNS Poisoning](/docs/research/security/dns_poisoning))
 - Malware in your computer edit your Host file (the file work like the DNS in your computer)
 
 ### Prevention
@@ -144,23 +152,6 @@ Authorize route
 ## Cross-domain access attack
 
 ## Syn flood attack
-
-## Man in the middle attack
-
-- [Packet Sniffing](/docs/research/security/packet_sniffing/)
-- ARP Spoofing
-- [Evil Twin Attack](/docs/research/security/evil_twin/)
-- Deauthentication Attack
-- DNS Spoofing
-- TODO: Setup server in front of real server
-
-## Replay attack
-
-## Relay attack
-
-### request modify
-
-### response modify
 
 ## References
 

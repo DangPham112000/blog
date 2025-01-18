@@ -2,6 +2,7 @@
 title: "Evil Twin - Draft"
 weight: 500
 date: 2024-06-15T01:47:46+07:00
+draft: true
 ---
 
 # Evil Twin Attack

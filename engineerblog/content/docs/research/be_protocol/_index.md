@@ -11,7 +11,7 @@ date: 2024-04-15T01:47:46+07:00
 - A system that allows two parties to communicate
 - A protocol is designed with a set of properties
 - Depending on the purpose of the protocol
-- TCP, UDP, HTTP, gRPC, FTP
+- [TCP, UDP](/docs/research/be_protocol/tcp_udp), [HTTP](/docs/research/be_protocol/http), [gRPC](/docs/research/be_protocol/grpc), FTP
 - The application protocols (HTTP/1.1, HTTP/2, HTTP/3) run on top of transport protocols (TCP, UDP)
 
 ## Protocol properties
@@ -21,7 +21,7 @@ date: 2024-04-15T01:47:46+07:00
   - Binary (protobuf, RESP, h2, h3)
 - Transfer mode
   - Message based (UDP, HTTP)
-  - Stream (TCP, WebRTC)
+  - Stream (TCP, [WebRTC](/docs/research/be_protocol/webrtc))
 - Addressing system
   - DNS name, IP, MAC
 - Directionality
