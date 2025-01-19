@@ -94,7 +94,7 @@ sudo systemctl reload nginx
 
 ## TLS 1.3
 
-- Key exchange algorithm: Diffie-Hellman
+- Key exchange algorithm: Diffie-Hellman, Elliptic-curve Diffie-Hellman (ECDH)
 - Round trip time: 1 RTT
 - Compatibility: [Supported by newer versions of most browsers](https://caniuse.com/?search=tls%201.3)
 

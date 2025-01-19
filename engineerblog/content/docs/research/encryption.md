@@ -1,17 +1,15 @@
 ---
 title: "Encryption"
 weight: 50
-date: 2023-11-15T01:47:46+07:00
+date: 2024-11-15
 ---
 
 # Encryption
 
-- TODO: compare speed
-
 ## Hash
 
 - Can take a message of **arbitrary length** and transform it into a **fixed-length** digest
-- Some of the commonly used hashing algorithms: MD5, SHA1, SHA256, SHA512, and etc
+- Some of the commonly used hashing algorithms: **Bcrypt**, MD5, SHA1, SHA256, SHA512, and etc
 
 `MD5('hello') = 5d41402abc4b2a76b9719d911017c592`
 
@@ -19,7 +17,7 @@ date: 2023-11-15T01:47:46+07:00
 
 ### Good hash function
 
-- Fast
+- Fast (exclude Bcrypt)
 - **One-way function**
 - Collision resistance
 
@@ -413,9 +411,11 @@ function ord(string) {
 
 ## Asymmetric encryption
 
-Uses a public-key cryptosystem (like RSA or ECC) and a key-pair: encryption key and corresponding decryption key
-
-Encryption algorithms are often combined in encryption schemes (like AES-256-CTR-HMAC-SHA-256, ChaCha20-Poly1305 or ECIES-secp256k1-AES-128-GCM)
+- There are generally three things asymmetric algorithms can do:
+    - **Encrypt/decrypt**: RSA, EC ElGamal
+    - **Sign/verify**: RSA, DSA, ECDSA
+    - **Key exchange**: Diffie-Hellman, ECDH
+- The **amount of data** that can be encrypted **depends on** the **modulus length** and the **type** (e.g., RSA 2048-bit modulus length with PKCS#1 can encrypt a maximum of (**2048** / 8) - 42 = 214 bytes)
 
 ![Asymmetric](/research/encription/Asymmetric.png)
 
@@ -885,28 +885,259 @@ Decrypted Message: J5 love ST
 - Sign and approve payments in the **bank systems**
 - Signed transactions allow users to transfer a **blockchain** asset from one address to another
 
+### Demo
+
+{{<hint info>}}
+This demo can be run directly in the console of the Chrome browser
+{{</hint>}}
+
+**Javascript**
+
+{{<details title="Prepare" open=false >}}
+```js
+const generateKeyPair = async () => {
+    const keyPair = await crypto.subtle.generateKey(
+        {
+            name: "RSASSA-PKCS1-v1_5",
+            modulusLength: 2048,
+            publicExponent: new Uint8Array([1, 0, 1]),
+            hash: "SHA-256",
+        },
+        true,
+        ["sign", "verify"]
+    );
+    return keyPair;
+}
+
+const signMessage = async (message, privateKey) => {
+    const encodedMessage = new TextEncoder().encode(message);
+    const signature = await crypto.subtle.sign(
+        {
+            name: "RSASSA-PKCS1-v1_5",
+        },
+        privateKey,
+        encodedMessage
+    );
+    return arrayBufferToHex(signature);
+};
+
+const verifySignature = async (message, hexSignature, publicKey) => {
+    const encodedMessage = new TextEncoder().encode(message);
+    const signatureBuffer = hexToArrayBuffer(hexSignature);
+    return await crypto.subtle.verify(
+        {
+            name: "RSASSA-PKCS1-v1_5",
+        },
+        publicKey,
+        signatureBuffer,
+        encodedMessage
+    );
+};
+
+const arrayBufferToHex = (buffer) => {
+    return Array.from(new Uint8Array(buffer))
+        .map((byte) => byte.toString(16).padStart(2, '0'))
+        .join('');
+};
+
+const hexToArrayBuffer = (hex) => {
+    const typedArray = new Uint8Array(hex.match(/[\da-f]{2}/gi).map((h) => parseInt(h, 16)));
+    return typedArray.buffer;
+};
+```
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="Main flow" open=false >}}
+```js
+(async () => {
+    const { privateKey, publicKey } = await generateKeyPair();
+    let message = "I<3U";
+    console.log("Message:", message);
+
+    // ST-Sender signs the message
+    const signatureHex = await signMessage(message, privateKey);
+    console.log("Signature (Hex):", signatureHex);
+
+    // HT-Hacker modifies the original message
+    message = "I hate you";
+    console.log("Message:", message);
+
+    // Rose-Receiver verifies the signature
+    const isValid = await verifySignature(message, signatureHex, publicKey);
+    console.log("Is the signature valid?", isValid);
+})();
+```
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="Output" open=false >}}
+```text
+> Message: I<3U
+> Signature (Hex): 02195d3ee8155a2581f7bf3f784347f2dfbbf352113c5a4489721a7dc5f6b2b2304d3dba1a83f596cd8420e8b8b2beb3bc0e6872d83eb4d430382603c2fb75f875698d19d1212b926c79ee2b8ef08b03a6715bb0eb7d518b7b773d28805aef533836a6f906034fa602958ce769ffa436d8223ba6bf5c144f596ffa64ce0bbaa917157b54d58a0c50c877c7a38583bdcd6ed3d55d2d9d5fd3d8227d387a9b42e3c6d20b7b24d4febf32d771557ed87863cab19db293da28100a7ee2eaba706156f93dba44c20c39c73ef1ae51cdbf511acf063441040d6917fbc68a077ec1a17dfa68cc2208ffb6b06085674fcbe316dfe7102b07ac8dca029ec2e17d4a8ec173
+> Message: I hate you
+> Is the signature valid? false
+```
+{{</details>}}
+
 ## Appendix
 
 ### Bcrypt vs MD5
 
 - Cracking password time
 
-#### MD5
-
-![2024_Password_Table_MD5](/research/encription/2024_Password_Table_MD5.png)
-
 #### Bcrypt
 
 ![2024_Password_Table_bcrypt](/research/encription/2024_Password_Table_bcrypt.png)
 
+#### MD5
+
+![2024_Password_Table_MD5](/research/encription/2024_Password_Table_MD5.png)
+
+### Compare speed
+
+| Name                        | Ecrypt        | Decrypt      |
+|-----------------------------|---------------|--------------|
+| SHA512                      | 0.34 ms       | N/A          |
+| AES-256-GCM                 | 0.43 ms       | 0.14 ms      |
+| RSA-4096-PKCS1-encrypt      | 0.30 ms       | 2.83 ms      |
+| RSA-4096-PKCS1-sign         | 2.66 ms       | 0.16 ms      |
+
+{{<details title="NodeJS" open=false >}}
+```js
+const crypto = require('crypto');
+const { performance } = require('perf_hooks');
+
+function measurePerformance(func, ...args) {
+    const startTime = performance.now();
+    const result = func(...args);
+    const endTime = performance.now();
+    console.log(`${func.name} execution time:`, (endTime - startTime).toFixed(2), 'ms');
+    return result;
+}
+
+function hashSHA512(message) {
+    const hash = crypto.createHash('sha512');
+    hash.update(message);
+    return hash;
+}
+
+function generateKeyAndIV() {
+    const key = crypto.randomBytes(32); // 256-bit key (32 bytes, the longest allowed by AES)
+    const iv = crypto.randomBytes(12); // 96-bit IV (12 bytes, recommended for GCM)
+    return { key, iv };
+}
+
+function encryptAESGCM(key, iv, plaintext) {
+    const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+    const encryptedAES = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()]);
+    const authTag = cipher.getAuthTag()
+    return { encryptedAES, authTag };
+}
+
+function decryptAESGCM(key, iv, encrypted, authTag) {
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(authTag);
+    const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+    return decrypted;
+}
+
+const generateKeyPair = () => {
+    return crypto.generateKeyPairSync('rsa', {
+        modulusLength: 4096,
+        publicKeyEncoding: {
+            type: 'pkcs1', // Public Key Cryptography Standards 1
+            format: 'pem'  // Output as PEM (Base64 encoded)
+        },
+        privateKeyEncoding: {
+            type: 'pkcs1', // Private Key Cryptography Standards 1
+            format: 'pem'  // Output as PEM (Base64 encoded)
+        }
+    });
+}
+
+function encryptWithPublicKey(publicKeyPem, message) {
+    const encrypted = crypto.publicEncrypt(publicKeyPem, Buffer.from(message));
+    return encrypted;
+}
+
+function decryptWithPrivateKey(privateKeyPem, encryptedMessage) {
+    const decrypted = crypto.privateDecrypt(privateKeyPem, encryptedMessage);
+    return decrypted;
+}
+
+function signWithPrivateKey(privateKeyPem, message) {
+    const encrypted = crypto.privateEncrypt(privateKeyPem, Buffer.from(message));
+    return encrypted; 
+}
+
+function verifyWithPublicKey(publicKeyPem, encryptedMessage) {
+    const decrypted = crypto.publicDecrypt(publicKeyPem, encryptedMessage);
+    return decrypted; 
+}
+
+function generateDummyText(byteLength) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+
+    let result = '';
+    let currentLength = 0;
+
+    while (currentLength < byteLength) {
+        const char = characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += char;
+        currentLength = Buffer.byteLength(result, 'utf8');
+        if (currentLength > byteLength) {
+            result = result.slice(0, -1);
+            break;
+        }
+    }
+
+    return result;
+}
+
+
+const message = generateDummyText(470); // Maximun byte RSA-4096-PKCS1 can encrypt
+console.log("Original Message:", message);
+
+
+const { publicKey, privateKey } = generateKeyPair();
+const { key, iv } = generateKeyAndIV();
+
+
+const hash = measurePerformance(hashSHA512, message);
+const { encryptedAES, authTag } = measurePerformance(encryptAESGCM, key, iv, message)
+const decryptedAES = measurePerformance(decryptAESGCM, key, iv, encryptedAES, authTag);
+const encryptedMessage = measurePerformance(encryptWithPublicKey, publicKey, message);
+const decryptedMessage = measurePerformance(decryptWithPrivateKey, privateKey, encryptedMessage);
+const signedMessage = measurePerformance(signWithPrivateKey, privateKey, message);
+const verifiedMessage = measurePerformance(verifyWithPublicKey, publicKey, signedMessage);
+
+
+console.log("SHA-512 hashed message:", hash.digest('hex'));
+console.log("AES decrypted message:", decryptedAES.toString('utf8'));
+console.log("RSA decrypted message:", decryptedMessage.toString('utf8'));
+console.log("RSA verified message:", verifiedMessage.toString('utf8'));
+```
+{{</details>}}
+
+
 ## Reference
 
+- Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19th, 2019)
 - Jscape: [Understanding Hashing](https://www.jscape.com/blog/understanding-hashing) (May 18th, 2024)
 - IBM: [HASH_MD5, HASH_SHA1, HASH_SHA256, and HASH_SHA512](https://www.ibm.com/docs/en/i/7.4?topic=sf-hash-md5-hash-sha1-hash-sha256-hash-sha512) (Apr 11th, 2023)
 - Dalhousie University: [MD5 Collision Demo](https://www.mscs.dal.ca/~selinger/md5collision/) (Oct 11th, 2011)
 - Hackernoon: [HMAC & Message Authentication Codes](https://hackernoon.com/hmac-and-message-authentication-codes-why-using-hashing-alone-is-not-enough-for-data-integrity) (Aug 15th, 2023)
 - Linkedin: [What are some common use cases and best practices for HMAC in web applications?](https://www.linkedin.com/advice/3/what-some-common-use-cases-best-practices-hmac-web-applications)
 - Jscape: [What Is HMAC, And How Does It Secure File Transfers?](https://www.jscape.com/blog/what-is-hmac-and-how-does-it-secure-file-transfers) (May 18th, 2024)
-- Cryptobook: [Cryptography - Overview](https://cryptobook.nakov.com/cryptography-overview) (Jun 19th, 2019)
+- Digicert: [Asymmetric algorithms](https://dev.digicert.com/en/trustcore-sdk/nanocrypto/asymmetric-algorithms.html)
+- Jscape: [What is a Digital Signature?](https://www.jscape.com/blog/what-is-a-digital-signature) (Dec 11th, 2022)
 - Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
+- Wikipedia: [Key size](https://en.wikipedia.org/wiki/Key_size) (Sep 18th, 2024)
+- Townsend Security: [How Much Data Can You Encrypt with RSA Keys?](https://info.townsendsecurity.com/bid/29195/how-much-data-can-you-encrypt-with-rsa-keys) (Apr 1st, 2011)
 - DangPham112000: [Examples code](https://github.com/DangPham112000/blog-demo) (2024)
+
+{{< footer >}}

@@ -93,7 +93,7 @@ Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
 - **Two-factor authentication**
 - **Rate limit**
 
-## Dictionary attack
+## Dictionary Attack
 
 ### Use case
 
@@ -112,7 +112,7 @@ Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
 - **Limit login attempts**
 - **Force resets**
 
-## Man in the middle attack
+## Man In The Middle Attack (MITM)
 
 - [Packet Sniffing](/docs/research/security/packet_sniffing/)
 - [ARP Spoofing](/docs/research/security/arp_spoofing/)
@@ -133,28 +133,30 @@ Attackers can inject fake DNS responses, redirecting you to malicious versions o
 
 - **Using SSL/TLS for website**: Even if SSL helps detect this (you’d see a certificate warning), many users may overlook or click through the warning, which could put them at risk
 
-## DOS
+## Denial Of Service (DOS)
 
 ### Prevention
 
 - Rate limit
 
-### DDOS
+### Distributed Denial Of Service (DDOS)
 
-## Backdoor attack
+## Backdoor Attack
 
-## SQL injection
+## SQL Injection
 
-## IDOR attack
+## IDOR Attack
 
 Authorize route
 
-## Cross-domain access attack
+## Cross-domain Access Attack
 
-## Syn flood attack
+## Syn Flood Attack
 
 ## References
 
 - Cloudflare: [What is a brute force attack?](https://www.cloudflare.com/learning/bots/brute-force-attack/)
 - Hivesystems: [Are Your Passwords in the Green?](https://www.hivesystems.com/blog/are-your-passwords-in-the-green) (2024)
 - Kaspersky: [What is a Dictionary Attack?](https://www.kaspersky.com/resource-center/definitions/what-is-a-dictionary-attack)
+
+{{< footer >}}

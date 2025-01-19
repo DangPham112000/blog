@@ -25,7 +25,7 @@ Leetcode: [DangPham112000](https://leetcode.com/DangPham112000/)
 
 ### Geocomply
 
-#### Software Engineer | May 2022 - Present
+#### Software Engineer | May 2022 - Aug 2024
 
 - Dedicate time to thoroughly research new features, meticulously analyze requirements, accurately estimate implementation efforts, and diligently document solutions
 - Implement features while ensuring unit testing and functionality testing with a minimum coverage of 80%
