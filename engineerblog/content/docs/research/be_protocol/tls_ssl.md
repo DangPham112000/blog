@@ -28,7 +28,7 @@ date: 2024-01-14
 
 ## TLS 1.2
 
-- Key exchange algorithm: [RSA](/docs/research/encryption/#asymmetric-encryption)
+- Key exchange algorithm: [Utilize the encryption and decryption capabilities of asymmetric encryption](/docs/research/encryption/#public-encryption--private-decryption)
 - Round trip time: 2 RTT
 - Compatibility: [Supported by both older and newer versions of all browsers](https://caniuse.com/?search=tls%201.2)
 
@@ -94,19 +94,9 @@ sudo systemctl reload nginx
 
 ## TLS 1.3
 
-- Key exchange algorithm: Diffie-Hellman, Elliptic-curve Diffie-Hellman (ECDH)
+- Key exchange algorithm: [Diffie-Hellman, Elliptic-curve Diffie-Hellman (ECDH)](/docs/research/encryption/#key-exchange)
 - Round trip time: 1 RTT
 - Compatibility: [Supported by newer versions of most browsers](https://caniuse.com/?search=tls%201.3)
-
-### Diffie-Hellman
-
-#### Concept
-
-![diffie_hellman_concept](/research/be_protocol/tls_ssl/diffie_hellman_concept.png)
-
-#### Example
-
-![diffie_hellman_example](/research/be_protocol/tls_ssl/diffie_hellman_example.png)
 
 ### Flow
 
@@ -177,7 +167,7 @@ sudo systemctl reload nginx
 - A SSL certificate contains:
   - Domain name it's issued for
   - Certificate Authority (CA)
-  - Validity Period
+  - Validity period
   - Website's public key
   - Other information
 

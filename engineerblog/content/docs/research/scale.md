@@ -163,6 +163,10 @@ Implementing CDN caching requires integrating your website with a CDN provider. 
 
 Backend development uses caching to reduce the load on the application server. What you store in the backend cache depends on your application itself. Cached content includes static pages, database query results, API responses, session data, images, and videos
 
+## Data center
+
+## Message queue
+
 ## Appendix
 
 {{<details title="**Ramble on about the limit of the speed of light**" open=false >}}
@@ -192,11 +196,6 @@ In reality:
 So even with a direct connection to a New York server, I'd still be playing League of Legends with a ping of over 140 ms!
 
 {{</details>}}
-
-
-## Data center
-
-## Message queue
 
 ## Reference
 

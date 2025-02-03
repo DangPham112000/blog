@@ -415,14 +415,15 @@ function ord(string) {
     - **Encrypt/decrypt**: RSA, EC ElGamal
     - **Sign/verify**: RSA, DSA, ECDSA
     - **Key exchange**: Diffie-Hellman, ECDH
-- The **amount of data** that can be encrypted **depends on** the **modulus length** and the **type** (e.g., RSA 2048-bit modulus length with PKCS#1 can encrypt a maximum of (**2048** / 8) - 42 = 214 bytes)
+- The **amount of data** that can be encrypted **depends on** the **modulus length** and the **type** (e.g., RSA 2048-bit modulus length with PKCS#1 can encrypt a maximum of (`(<modulus length> / 8) - 42` = **2048** / 8) - 42 = 214 bytes)
 
 ![Asymmetric](/research/encription/Asymmetric.png)
 
 ### Public encryption / private decryption
 
+- Algorithms: RSA, EC ElGamal
 - Common usage
-- HTTP over SSL/TLS 1.2: Key exchange
+- Use cases: [Key exchange in SSL/TLS 1.2](/docs/research/be_protocol/tls_ssl/#tls-12)
 
 **NodeJS**
 
@@ -619,8 +620,8 @@ Node.js v18.19.1
 
 ### Private sign (encryption) / public verify (decryption)
 
-- Token-based authentication
-- Digital signatures
+- Algorithms: RSA, DSA, ECDSA
+- Use cases: [Token-based authentication](/docs/research/token_based_authentication), [digital signatures](#digital-signatures)
 
 **NodeJS**
 
@@ -865,6 +866,59 @@ Decrypted Message: J5 love ST
 ```
 {{</details>}}
 
+## Key exchange
+
+- Algorithms: Diffie-Hellman, ECDH
+- Use cases: [SSL/TLS 1.3](/docs/research/be_protocol/tls_ssl/#tls-13)
+
+### Diffie-Hellman
+
+![diffie_hellman](/research/encription/diffie_hellman.png)
+
+{{<details title="Concept" open=false >}}
+![diffie_hellman_concept](/research/encription/diffie_hellman_concept.png)
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="Example" open=false >}}
+![diffie_hellman_example](/research/encription/diffie_hellman_example.png)
+{{</details>}}
+
+{{<nl>}}
+
+{{<details title="Demo code" open=false >}}
+**NodeJS**
+```js
+const crypto = require('crypto');
+
+// J5
+const J5 = crypto.createDiffieHellman(2048); // Prime will be 2048bit long
+const G = J5.getGenerator();
+const P = J5.getPrime();
+const J5_PublicKey = J5.generateKeys();
+
+// ST
+const ST = crypto.createDiffieHellman(P, G);
+const ST_PublicKey = ST.generateKeys();
+
+// Exchange public keys and compute the session key
+const J5_SessionKey = J5.computeSecret(ST_PublicKey);
+const ST_SessionKey = ST.computeSecret(J5_PublicKey);
+
+console.log("J5 SessionKey: ", J5_SessionKey.toString('hex'));
+console.log("ST SessionKey: ", ST_SessionKey.toString('hex'));
+```
+**Output**
+```text
+J5 SessionKey:  8b93d7a9d70c156ffa80a4fd5ed9420626028046c650cf9c94c175cc08baaa68726858dd4b9adb9729226e96a8d1c0566ef2e60239dadbc2c83c47888598be411ca56f537c9e4135d1064e378c6a811165cbde22f8ef1bbdc53aeda8d3484d1d88b737437f9b589f28a23891881e7d51cf1e99145ddc72783dee5dade38b2890eb64fa38c74cddf13803cbff8a4eb9718f08b2bc414722535233d390e8cca3d5c8005b287ea0ddb39527925c939690ac034fc2bff56babcec6386ef16f5ec88407c9733cc6835ce61d60803407b69e538b3052680958e3e50d24229374c46672ef0a32d144d5cd1b76626548b48b6ab71c22cab8ec154df48e257e86d8f5d33e
+ST SessionKey:  8b93d7a9d70c156ffa80a4fd5ed9420626028046c650cf9c94c175cc08baaa68726858dd4b9adb9729226e96a8d1c0566ef2e60239dadbc2c83c47888598be411ca56f537c9e4135d1064e378c6a811165cbde22f8ef1bbdc53aeda8d3484d1d88b737437f9b589f28a23891881e7d51cf1e99145ddc72783dee5dade38b2890eb64fa38c74cddf13803cbff8a4eb9718f08b2bc414722535233d390e8cca3d5c8005b287ea0ddb39527925c939690ac034fc2bff56babcec6386ef16f5ec88407c9733cc6835ce61d60803407b69e538b3052680958e3e50d24229374c46672ef0a32d144d5cd1b76626548b48b6ab71c22cab8ec154df48e257e86d8f5d33e
+```
+{{</details>}}
+
+### Elliptic-curve Diffie-Hellman (ECDH)
+
+![ecdh](/research/encription/ecdh.png)
 
 ## Digital signatures
 
@@ -998,12 +1052,14 @@ const hexToArrayBuffer = (hex) => {
 
 ### Compare speed
 
-| Name                        | Ecrypt        | Decrypt      |
-|-----------------------------|---------------|--------------|
-| SHA512                      | 0.34 ms       | N/A          |
-| AES-256-GCM                 | 0.43 ms       | 0.14 ms      |
-| RSA-4096-PKCS1-encrypt      | 0.30 ms       | 2.83 ms      |
-| RSA-4096-PKCS1-sign         | 2.66 ms       | 0.16 ms      |
+- Maximun byte RSA-4096-PKCS1 can encrypt: 470 bytes
+
+| Name                        | Encrypt        | Decrypt      |
+|-----------------------------|----------------|--------------|
+| SHA512                      | 0.34 ms        | N/A          |
+| AES-256-GCM                 | 0.43 ms        | 0.14 ms      |
+| RSA-4096-PKCS1-encrypt      | 0.30 ms        | 2.83 ms      |
+| RSA-4096-PKCS1-sign         | 2.66 ms        | 0.16 ms      |
 
 {{<details title="NodeJS" open=false >}}
 ```js

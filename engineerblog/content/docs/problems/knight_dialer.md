@@ -296,3 +296,5 @@ var knightDialer = function (n) {
 ## Reference
 
 - Leetcode: [knight dialer](https://leetcode.com/problems/knight-dialer)
+
+{{< footer >}}

@@ -14,7 +14,7 @@ Read [process vs thread](../process_vs_thread) first if you don't have any proce
 
 When you start an application, a process is created. The program might create thread(s) to help it do work, but that's optional. The Operating System gives the process a "slab" of memory to work with and all application state is kept in that private memory space. When you close the application, the process also goes away and the Operating System frees up the memory
 
-A process can ask the Operating System to spin up another process to run different tasks. When this happens, different parts of the memory are allocated for the new process. If two processes need to talk, they can do so by using **I**nter **P**rocess **C**ommunication (**IPC**). Many applications are designed to work this way so that if a worker process get unresponsive, it can be restarted without stopping other processes which are running different parts of the application.
+A process can ask the Operating System to spin up another process to run different tasks. When this happens, different parts of the memory are allocated for the new process. If two processes need to talk, they can do so by using **I**nter **P**rocess **C**ommunication (**IPC**). Many applications are designed to work this way so that if a worker process get unresponsive, it can be restarted without stopping other processes which are running different parts of the application
 
 ![snap_process](/research/chrome_architecture/snap_process.png)
 
@@ -107,7 +107,7 @@ Along the main thread there are many other threads spawned by the browser to do 
 - **Optimizer Thread**: uses the statistics and insights collected by the Statistics collector Thread to make performance optimizations over your code (Caching, Inlining, etc.)
 - **Garbage Collector Thread**: removes unconnected (**no more referenceable from the ROOT node**) JavaScript objects to free up memory using a mark-and-sweep algorithm. We don’t know when this will happen and have no control over it. AFAIK the browser uses this thread to track whose objects to remove and do useful stuff, but when it needs to remove them it actually blocks the main thread and uses it. From the Firefox blog Q:”Silly question here, why must garbage collection stop UI events and js execution? Couldn’t the GC just run in a separate thread?”, R:”It can be done, but the garbage collector is looking at the same objects that the JS currently running is touching, so it must be done carefully. That said, the Firefox GC actually does do some work on a separate thread: some types of objects can be thrown away once they are known to be garbage without affecting the main thread.”
 - **Rasterizer Thread**: rasterize your graphic into frames
-- Etc.
+- Etc
 
 ## Appendix
 

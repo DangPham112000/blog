@@ -63,3 +63,5 @@ app.use(helmet.hsts({
 ## References
 
 - Mozilla: [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) (Aug 1st, 2024)
+
+{{< footer >}}
