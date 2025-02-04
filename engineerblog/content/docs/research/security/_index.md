@@ -107,7 +107,7 @@ Nmap done: 1 IP address (1 host up) scanned in 193.10 seconds
 ### Prevention
 
 - **Avoid passwords**: Passwords can't be hacked if we don't use them for login (I'm joking). From a system perspective, we can completely avoid them by using password-free authentication solutions and biometric logins
-- **Random passwords**: From a user perspective, don't use closely related information (like names, pets, birthdays) or easy-to-predict words (like "password," "abcd," "xyz," "123") to create a password. Instead, use random strings. If you find them difficult to remember, you can use a third-party password manager to store them (of course, you need to choose a trustworthy one).
+- **Random passwords**: From a user perspective, don't use closely related information (like names, pets, birthdays) or easy-to-predict words (like "password," "abcd," "xyz," "123") to create a password. Instead, use random strings. If you find them difficult to remember, you can use a third-party password manager to store them (of course, you need to choose a trustworthy one)
 - **Two-factor authentication**
 - **Limit login attempts**
 - **Force resets**
