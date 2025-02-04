@@ -1,10 +1,10 @@
 ---
-title: "Backend Protocol"
+title: "Backend"
 weight: 40
 date: 2024-04-15T01:47:46+07:00
 ---
 
-# Backend Protocol
+# Backend
 
 ## What is a protocol?
 
