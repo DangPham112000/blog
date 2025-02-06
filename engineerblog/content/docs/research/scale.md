@@ -165,8 +165,6 @@ Backend development uses caching to reduce the load on the application server. W
 
 ## Data center
 
-## Message queue
-
 ## Appendix
 
 {{<details title="**Ramble on about the limit of the speed of light**" open=false >}}
