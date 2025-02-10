@@ -519,21 +519,25 @@ uploadMusicData();
     ```
 {{</details>}}
 
-## Message Queue
+## Publish-Subcribe
 
-Asynchronous messaging for batching jobs and decoupling applications
+- Also known as **Message Queue** Design Pattern
+- Used in microservices architectures
 
 ![message_queue](/research/be_protocol/communication/message_queue.png)
 
-### Overview
+### RabbitMQ
 
-A message queue is a form of asynchronous service-to-service communication used in serverless and microservices architectures. Messages are stored on the queue until they are processed and deleted. Each message is processed only once, by a single consumer. Message queues can be used to decouple heavyweight processing, to buffer or batch work, and to smooth spiky workloads.
+- Producer sends and monitors if the message reaches the intended consumer
+- Designed for complex message routing
+- Support message priorities
+- Messages are deleted once consumed
 
-## Publish Subcribe
+### Kafka
 
-One publisher many readers
-
-![pub_sub](/research/be_protocol/communication/pub_sub.png)
+- Consumers keep track of message retrieval with an offset tracker
+- Retain messages according to the retention policy
+- There’s no message priority
 
 ## Reference
 
@@ -542,5 +546,6 @@ One publisher many readers
 - Linkedin: [Understanding Short Polling: A Simple Backend Communication Pattern](https://www.linkedin.com/pulse/understanding-short-polling-simple-backend-pattern-rubayet-mnwec/) (Aug 7th, 2024)
 - Stackoverflow: [WebSockets vs. Server-Sent events/EventSource](https://stackoverflow.com/questions/5195452/websockets-vs-server-sent-events-eventsource) (Mar 16th, 2011)
 - Amazon: [Message Queues](https://aws.amazon.com/message-queue/)
+- Amazon: [What’s the Difference Between Kafka and RabbitMQ?](https://aws.amazon.com/compare/the-difference-between-rabbitmq-and-kafka/)
 
 {{< footer >}}
