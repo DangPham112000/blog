@@ -529,9 +529,9 @@ uploadMusicData();
 ### RabbitMQ
 
 - Producer sends and monitors if the message reaches the intended consumer
+- Messages are deleted once consumed
 - Designed for complex message routing
 - Support message priorities
-- Messages are deleted once consumed
 
 ### Kafka
 
