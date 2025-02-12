@@ -232,6 +232,14 @@ docker kill <container-id>
 
 ## Remove
 
+### Remove stopped container
+
+```shell
+docker rm <name>
+```
+
+### Remove all stopped containers and images
+
 Remove all stopped containers in your machine and also clear your docker cache. It means you must re-download it from docker-hub in the next run
 
 ```shell
