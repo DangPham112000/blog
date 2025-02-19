@@ -146,7 +146,6 @@ This is the main difference between backend and frontend caching, backend cachin
 
 ![caching](/research/scale/caching.png)
 
-
 ### Frontend
 
 On the frontend, a browser or the client application caches data like a header image the first time your user accesses it. The next time they access that same content, the frontend loads the cached files to improve performance
@@ -162,8 +161,6 @@ Implementing CDN caching requires integrating your website with a CDN provider. 
 ### Backend
 
 Backend development uses caching to reduce the load on the application server. What you store in the backend cache depends on your application itself. Cached content includes static pages, database query results, API responses, session data, images, and videos
-
-## Data center
 
 ## Appendix
 

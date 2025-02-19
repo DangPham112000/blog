@@ -503,7 +503,7 @@ uploadMusicData();
 2. Open your browser and enter: `http://localhost:2000`\
     2.1. Your browser will display: `Hello world`
 3. Open the browser console and run **Client code**\
-    3.1. Your terminal will first log: `Received music data: {"title":"My Awesome Track","size":1234}`
+    3.1. Your terminal will first log: `Received music data: {"title":"My Awesome Track","size":1234}`\
     3.2. Then, your browser console will display: 
     ```text
     >> Music data received and processing started
