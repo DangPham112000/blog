@@ -1,5 +1,16 @@
 # Hugo quick start
 
+### Deployment Flow
+
+```mermaid
+graph TD;
+    A[Source Repo Code & Content] -->|Run 'hugo server'| B(Local Development);
+    B -->|'hugo -t hugo-book'| C[Build Static Site];
+    C --> D[Generated files in 'public/' submodule];
+    D -->|Commit & Push| E[GitHub Pages Repo];
+    E -->|GitHub Actions| F[Live on GitHub Pages];
+```
+
 ### first come
 - Verify the existence of **Golang**: cmd -> `go version`
 - Verify the existence of **Dart Sass**: cmd -> `dart-sass --version`
