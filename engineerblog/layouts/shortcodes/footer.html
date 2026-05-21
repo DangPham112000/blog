@@ -28,6 +28,9 @@
     const formModalEle = document.getElementById('formModal');
     const elesToShowForm = ['linkButton', 'yesBtn', 'noBtn'];
 
+    // Move modal to body so its fixed positioning covers the whole screen
+    document.body.appendChild(formModalEle);
+
     for (const ele of elesToShowForm) {
         document.getElementById(ele).addEventListener('click', function(e) {
             e.preventDefault();
