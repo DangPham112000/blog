@@ -29,3 +29,96 @@ h4 {
     font-style: italic;
     opacity: 0.5;
 }
+/* Feedback Card Styles */
+.feedback-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: var(--gray-100);
+}
+
+.feedback-card__title {
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.feedback-card__buttons {
+    margin: 10px 0;
+}
+
+.feedback-card__button {
+    border: 1px solid var(--gray-200);
+    background-color: var(--gray-200);
+    color: var(--body-font-color);
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.feedback-card__button:hover {
+    background-color: var(--gray-500);
+}
+
+.feedback-card__link {
+    color: var(--color-link);
+    text-decoration: none;
+}
+
+.feedback-card__link:hover {
+    text-decoration: underline;
+}
+
+.feedback-card__text {
+    font-size: 14px;
+    color: var(--body-font-color);
+    opacity: 0.8;
+}
+
+.feedback-card__list {
+    padding-left: 20px;
+}
+
+.feedback-card__list-item {
+    font-size: 14px;
+}
+
+/* Feedback Modal Styles */
+.feedback-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    padding-bottom: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 1000;
+}
+
+.feedback-modal__content {
+    background-color: var(--body-background);
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.feedback-modal__input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--gray-200);
+    border-radius: 4px;
+    background-color: var(--body-background);
+    color: var(--body-font-color);
+    box-sizing: border-box;
+}
