@@ -1,0 +1,23 @@
+port 1313 already in use, attempting to use an available port
+Watching for changes in /app/engineerblog/{archetypes,assets,content,layouts,static,themes}
+Watching for config changes in /app/engineerblog/hugo.toml
+Start building sites …
+hugo v0.128.0-e6d2712ee062321dc2fc49e963597dd5a6157660+extended linux/amd64 BuildDate=2024-06-25T16:15:48Z VendorInfo=gohugoio
+
+
+                   | EN
+-------------------+------
+  Pages            |  78
+  Paginator pages  |   0
+  Non-page files   |   0
+  Static files     | 256
+  Processed images |   0
+  Aliases          |  12
+  Cleaned          |   0
+
+Built in 814 ms
+Environment: "development"
+Serving pages from disk
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at http://localhost:38073/ (bind address 127.0.0.1)
+Press Ctrl+C to stop
