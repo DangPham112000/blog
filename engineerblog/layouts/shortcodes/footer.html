@@ -7,6 +7,7 @@
     </div>
     <p class="feedback-card__text">This page was last modified at <strong>{{ .Page.Date.Format "2006-01-02" }}</strong></p>
     <ul class="feedback-card__list">
+        <!-- Security fix: Added rel="noopener noreferrer" to target="_blank" links to prevent reverse tabnabbing and protect user privacy -->
         <li class="feedback-card__list-item"><a class="feedback-card__link" href="https://github.com/DangPham112000/blog" target="_blank" rel="noopener noreferrer">View this page on GitHub</a></li>
         <li class="feedback-card__list-item"><a class="feedback-card__link" href="#" id="linkButton">Report a problem with this content</a></li>
     </ul>

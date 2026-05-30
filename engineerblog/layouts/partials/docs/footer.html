@@ -4,6 +4,7 @@
   <div>
     {{- $date := partial "docs/date" (dict "Date" .GitInfo.AuthorDate.Local "Format" .Site.Params.BookDateFormat) -}}
     {{- $commitPath := default "commit" .Site.Params.BookCommitPath -}}
+    <!-- Security fix: Added rel="noopener noreferrer" to prevent reverse tabnabbing via window.opener and protect user privacy by not sending Referer headers on external links -->
     <a class="flex align-center" href="{{ .Site.Params.BookRepo }}/{{ $commitPath }}/{{ .GitInfo.Hash }}" title='{{ i18n "Last modified by" }} {{ .GitInfo.AuthorName }} | {{ $date }}' target="_blank" rel="noopener noreferrer">
       <img src="{{ "svg/calendar.svg" | relURL }}" class="book-icon" alt="" />
       <span>{{ $date }}</span>
@@ -14,6 +15,7 @@
 {{ if and .File .Site.Params.BookRepo .Site.Params.BookEditPath }}
   <div>
     {{- $bookFilePath := (strings.TrimPrefix hugo.WorkingDir .Page.File.Filename | path.Join) -}}
+    <!-- Security fix: Added rel="noopener noreferrer" to prevent reverse tabnabbing via window.opener and protect user privacy by not sending Referer headers on external links -->
     <a class="flex align-center" href="{{ .Site.Params.BookRepo }}/{{ .Site.Params.BookEditPath }}{{ ($bookFilePath) }}" target="_blank" rel="noopener noreferrer">
       <img src="{{ "svg/edit.svg" | relURL }}" class="book-icon" alt="" />
       <span>{{ i18n "Edit this page" }}</span>
